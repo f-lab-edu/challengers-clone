@@ -14,13 +14,13 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@emotion/react": "^11.14.0",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
+    "styled-components": "^6.1.19",
     "typescript": "^5"
   }
 }
