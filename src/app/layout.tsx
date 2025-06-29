@@ -5,6 +5,7 @@ import GlobalNav from "@/components/navigation/GlobalNav";
 import BottomNav from "@/components/navigation/BottomNav";
 
 import StyledComponentsRegistry from "./_lib/registry";
+import Container from "@/components/Container";
 
 export const metadata: Metadata = {
   title: "challengers clone",
@@ -20,9 +21,11 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${styles.layout}`}>
         <StyledComponentsRegistry>
-          <GlobalNav />
-          {children}
-          <BottomNav />
+          <Container>
+            <GlobalNav />
+            {children}
+            <BottomNav />
+          </Container>
         </StyledComponentsRegistry>
       </body>
     </html>
