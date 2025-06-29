@@ -14,8 +14,8 @@ const GlobalNav = () => {
         <Menu key={menu.title}>
           <span>{menu.title}</span>
           <IconWrapper>
-            <span>{menu.firstIcon}</span>
-            <span>{menu.secondtIcon}</span>
+            {menu.firstIcon}
+            {menu.secondtIcon}
           </IconWrapper>
         </Menu>
       </Ul>
@@ -38,11 +38,17 @@ const Menu = styled.li`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  & span:first-child {
+    font-weight: 500;
+    font-size: 24px;
+  }
 `;
 
 const IconWrapper = styled.div`
   display: flex;
+  align-items: center;
   & :first-child {
-    margin-right: 8px;
+    margin-right: 16px;
   }
 `;

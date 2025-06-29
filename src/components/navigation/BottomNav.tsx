@@ -2,14 +2,17 @@
 
 import { BottomMenus } from "@/constants/constants";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styled from "styled-components";
 
 export default function BottomNav() {
+  const pathname = usePathname();
+
   return (
     <Nav>
       <Ul>
         {BottomMenus.map(({ icon, title, url }) => (
-          <Menu key={title} href={url}>
+          <Menu isactive={`${pathname === url}`} key={title} href={url}>
             <span>{icon}</span>
             <span>{title}</span>
           </Menu>
@@ -30,8 +33,11 @@ const Ul = styled.ul`
   justify-content: space-around;
 `;
 
-const Menu = styled(Link)`
+const Menu = styled(Link)<{ isactive: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  color: ${(props) => (props.isactive === "true" ? "black" : "gray")};
+  font-weight: ${(props) => (props.isactive === "true" ? "bold" : "")};
 `;
