@@ -9,5 +9,5 @@ export default function Main() {
 const Container = styled.div`
   width: 500px;
   height: 100%;
-  border: 1px solid black;
+  overflow-y: scroll;
 `;
