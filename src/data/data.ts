@@ -1,6 +1,6 @@
 import { HOME_CAROUSEL_ITEM } from "@/type/home";
 
-export const homeCarousel: HOME_CAROUSEL_ITEM[] = [
+export const HOME_CAROUSEL_ITEMS: HOME_CAROUSEL_ITEM[] = [
   {
     itemId: "AA11",
     subtitle: "위찌 NEW 신상 출시🔥",
@@ -17,6 +17,39 @@ export const homeCarousel: HOME_CAROUSEL_ITEM[] = [
     ctaText: "바로가기 >",
     imageSrc: "/images/home-banner/image2.jpg",
     imageAlt: "풀무원 카테킨 이미지",
+    href: "",
+  },
+];
+
+export const HOME_ACTION_ICONS = [
+  {
+    iconSrc: "/images/user-action/money.png",
+    name: "올영 선물",
+    href: "",
+  },
+  {
+    iconSrc: "/images/user-action/money.png",
+    name: "가격비교",
+    href: "",
+  },
+  {
+    iconSrc: "/images/user-action/money.png",
+    name: "뷰티래플",
+    href: "",
+  },
+  {
+    iconSrc: "/images/user-action/money.png",
+    name: "모이면공짜",
+    href: "",
+  },
+  {
+    iconSrc: "/images/user-action/money.png",
+    name: "성향테스트",
+    href: "",
+  },
+  {
+    iconSrc: "/images/user-action/money.png",
+    name: "요청박스",
     href: "",
   },
 ];

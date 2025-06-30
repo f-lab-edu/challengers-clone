@@ -7,3 +7,9 @@ export type HOME_CAROUSEL_ITEM = {
   imageAlt: string; // 이미지 접근성용 ALT
   href?: string; // CTA 클릭 시 이동할 경로
 };
+
+export type HOME_ACTION_ICONS = {
+  iconSrc: string;
+  name: string;
+  href: string;
+};
