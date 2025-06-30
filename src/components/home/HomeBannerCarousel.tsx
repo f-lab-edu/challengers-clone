@@ -11,10 +11,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type HomeBannerCarouselProps = {
-  data: HOME_CAROUSEL_ITEM[];
+  items: HOME_CAROUSEL_ITEM[];
 };
 
-export default function HomeBannerCarousel({ data }: HomeBannerCarouselProps) {
+export default function HomeBannerCarousel({ items }: HomeBannerCarouselProps) {
   const route = useRouter();
   const handleClickCta = (itemId: string) => {
     route.push(`/item/${itemId}`);
@@ -28,7 +28,7 @@ export default function HomeBannerCarousel({ data }: HomeBannerCarouselProps) {
       loop={true}
       autoplay={{ delay: 4000 }}
     >
-      {data.map((el) => (
+      {items.map((el) => (
         <SwiperSlideContainer key={el.itemId}>
           <SlideTextWrapper>
             <SubTitle>{el.subtitle}</SubTitle>
@@ -51,9 +51,11 @@ export default function HomeBannerCarousel({ data }: HomeBannerCarouselProps) {
 
 const SwiperWrapper = styled(Swiper)`
   width: 100%;
-  height: fit-content;
+  height: 180px;
   display: flex;
   position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
 `;
 
 const SwiperSlideContainer = styled(SwiperSlide)`
