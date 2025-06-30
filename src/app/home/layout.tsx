@@ -1,7 +1,7 @@
 import HomeActionIcons from "@/components/home/HomeActionIcons";
 import HomeBannerCarousel from "@/components/home/HomeBannerCarousel";
 import styles from "./layout.module.css";
-import { homeCarousel } from "@/data/data";
+import { HOME_ACTION_ICONS, HOME_CAROUSEL_ITEMS } from "@/data/data";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
@@ -15,8 +15,8 @@ export default function layout({ children }: HomeLayoutProps) {
 
   return (
     <div className={styles.layout}>
-      <HomeBannerCarousel data={homeCarousel} />
-      <HomeActionIcons />
+      <HomeBannerCarousel items={HOME_CAROUSEL_ITEMS} />
+      <HomeActionIcons items={HOME_ACTION_ICONS} />
       {children}
     </div>
   );
