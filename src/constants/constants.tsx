@@ -10,7 +10,7 @@ import { FaRegUser } from "react-icons/fa6";
 const DEFAULT_SIZE = 24;
 
 export const GlobalMenus = {
-  "/": {
+  "/home": {
     title: "Challengers",
     firstIcon: <IoSearch size={DEFAULT_SIZE} />,
     secondtIcon: <FiHeart size={DEFAULT_SIZE} />,
@@ -34,7 +34,7 @@ export const GlobalMenus = {
 
 export const BottomMenus = [
   {
-    url: "/",
+    url: "/home",
     title: "홈",
     icon: <GoHomeFill size={DEFAULT_SIZE} />,
   },
