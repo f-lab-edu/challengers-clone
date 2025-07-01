@@ -13,22 +13,22 @@ export const GlobalMenus = {
   "/home": {
     title: "Challengers",
     firstIcon: <IoSearch size={DEFAULT_SIZE} />,
-    secondtIcon: <FiHeart size={DEFAULT_SIZE} />,
+    secondIcon: <FiHeart size={DEFAULT_SIZE} />,
   },
   "/challenge": {
     title: "챌린지",
     firstIcon: <IoSearch size={DEFAULT_SIZE} />,
-    secondtIcon: <FiHeart size={DEFAULT_SIZE} />,
+    secondIcon: <FiHeart size={DEFAULT_SIZE} />,
   },
   "/certification": {
     title: "챌린지 인증",
     firstIcon: "",
-    secondtIcon: "",
+    secondIcon: "",
   },
   "/mypage": {
     title: "마이페이지",
     firstIcon: <FaRegBell size={DEFAULT_SIZE} />,
-    secondtIcon: <FiSettings size={DEFAULT_SIZE} />,
+    secondIcon: <FiSettings size={DEFAULT_SIZE} />,
   },
 };
 
