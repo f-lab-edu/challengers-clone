@@ -6,6 +6,7 @@ import BottomNav from "@/components/navigation/BottomNav";
 
 import StyledComponentsRegistry from "./_lib/registry";
 import Container from "@/components/Container";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "challengers clone",
@@ -20,13 +21,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${styles.layout}`}>
-        <StyledComponentsRegistry>
-          <Container>
-            <GlobalNav />
-            {children}
-            <BottomNav />
-          </Container>
-        </StyledComponentsRegistry>
+        <Provider>
+          <StyledComponentsRegistry>
+            <Container>
+              <GlobalNav />
+              {children}
+              <BottomNav />
+            </Container>
+          </StyledComponentsRegistry>
+        </Provider>
       </body>
     </html>
   );
