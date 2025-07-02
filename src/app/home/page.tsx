@@ -1,5 +1,16 @@
-import Main from "@/components/Main";
+import HomeActionIconsContainer from "@/components/home/action-icons/HomeActionIconsContainer";
+import HomeBannerCarouselContainer from "@/components/home/banner-carousel/HomeBannerCarouselContainer";
+import HomeGuideBanner from "@/components/home/HomeGuideBanner";
+import styles from "./page.module.css";
+import HomeCatgeoryItemListContainer from "@/components/home/category-item-list/HomeCatgeoryItemListContainer";
 
 export default function page() {
-  return <Main />;
+  return (
+    <div className={styles.layout}>
+      <HomeBannerCarouselContainer />
+      <HomeActionIconsContainer />
+      <HomeGuideBanner />
+      <HomeCatgeoryItemListContainer />
+    </div>
+  );
 }
