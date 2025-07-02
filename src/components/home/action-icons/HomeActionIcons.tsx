@@ -1,12 +1,12 @@
 "use client";
 
 import ScrollableArea from "@/components/ScrollableArea";
-import { HOME_ACTION_ICONS } from "@/type/home";
+import { HOME_ACTION_ICON } from "@/type/home";
 import Image from "next/image";
 import styled from "styled-components";
 
 type HomeActionIconsProps = {
-  items: HOME_ACTION_ICONS[] | undefined;
+  items: HOME_ACTION_ICON[] | undefined;
 };
 
 export default function HomeActionIcons({ items }: HomeActionIconsProps) {

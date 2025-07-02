@@ -1,4 +1,4 @@
-import { HOME_CAROUSEL_ITEM } from "@/type/home";
+import { HOME_ACTION_ICON, HOME_CAROUSEL_ITEM } from "@/type/home";
 
 export const HOME_CAROUSEL_ITEMS: HOME_CAROUSEL_ITEM[] = [
   {
@@ -21,7 +21,7 @@ export const HOME_CAROUSEL_ITEMS: HOME_CAROUSEL_ITEM[] = [
   },
 ];
 
-export const HOME_ACTION_ICONS = [
+export const HOME_ACTION_ICONS: HOME_ACTION_ICON[] = [
   {
     iconSrc: "/images/user-action/money.png",
     name: "올영 선물",

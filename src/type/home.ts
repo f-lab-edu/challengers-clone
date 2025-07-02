@@ -8,7 +8,7 @@ export type HOME_CAROUSEL_ITEM = {
   href?: string; // CTA 클릭 시 이동할 경로
 };
 
-export type HOME_ACTION_ICONS = {
+export type HOME_ACTION_ICON = {
   iconSrc: string;
   name: string;
   href: string;
