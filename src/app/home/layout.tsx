@@ -1,22 +1,16 @@
-import HomeActionIcons from "@/components/home/HomeActionIcons";
-import HomeBannerCarousel from "@/components/home/HomeBannerCarousel";
 import styles from "./layout.module.css";
-import { HOME_ACTION_ICONS, HOME_CAROUSEL_ITEMS } from "@/data/data";
+import HomeBannerCarouselContainer from "@/components/home/banner-carousel/HomeBannerCarouselContainer";
+import HomeActionIconsContainer from "@/components/home/action-icons/HomeActionIconsContainer";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
 };
 
 export default function layout({ children }: HomeLayoutProps) {
-  /**
-   * Todo
-   * API Call - 1. homeCarousel data, 2. HomeActionIcons
-   */
-
   return (
     <div className={styles.layout}>
-      <HomeBannerCarousel items={HOME_CAROUSEL_ITEMS} />
-      <HomeActionIcons items={HOME_ACTION_ICONS} />
+      <HomeBannerCarouselContainer />
+      <HomeActionIconsContainer />
       {children}
     </div>
   );
