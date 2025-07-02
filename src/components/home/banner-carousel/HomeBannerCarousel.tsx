@@ -13,7 +13,7 @@ type HomeBannerCarouselProps = {
   items: HOME_CAROUSEL_ITEM[] | undefined;
 };
 
-export default function BannerCarousel({ items }: HomeBannerCarouselProps) {
+export default function HomeBannerCarousel({ items }: HomeBannerCarouselProps) {
   const route = useRouter();
   const handleClickItem = (itemId: string) => {
     route.push(`/item/${itemId}`);
