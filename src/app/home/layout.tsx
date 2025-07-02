@@ -1,6 +1,7 @@
 import styles from "./layout.module.css";
 import HomeBannerCarouselContainer from "@/components/home/banner-carousel/HomeBannerCarouselContainer";
 import HomeActionIconsContainer from "@/components/home/action-icons/HomeActionIconsContainer";
+import HomeGuideBanner from "@/components/home/HomeGuideBanner";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ export default function layout({ children }: HomeLayoutProps) {
     <div className={styles.layout}>
       <HomeBannerCarouselContainer />
       <HomeActionIconsContainer />
+      <HomeGuideBanner />
       {children}
     </div>
   );
