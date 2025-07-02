@@ -1,5 +1,5 @@
 import HomeBannerCarousel from "@/components/home/banner-carousel/HomeBannerCarousel";
-import { HOME_CAROUSEL_ITEMS } from "@/data/data";
+import useGetApi from "@/hooks/useGetApi";
 import { HOME_CAROUSEL_ITEM } from "@/type/home";
 
 const fetchHomeBannerCarouselData = async (): Promise<HOME_CAROUSEL_ITEM[]> => {
@@ -13,15 +13,10 @@ const fetchHomeBannerCarouselData = async (): Promise<HOME_CAROUSEL_ITEM[]> => {
 };
 
 export default function HomeBannerCarouselContainer() {
-  const data = HOME_CAROUSEL_ITEMS;
-  console.log("Carousel Data: ", data);
-
-  // TODO
-  // API Call
-  // const { data } = useGetApi<HOME_CAROUSEL_ITEM[]>({
-  //   queryKey: ["/home/carousel"],
-  //   queryFn: fetchHomeBannerCarouselData,
-  // });
+  const { data } = useGetApi<HOME_CAROUSEL_ITEM[]>({
+    queryKey: ["/api/home/carousel"],
+    queryFn: fetchHomeBannerCarouselData,
+  });
 
   return <HomeBannerCarousel items={data} />;
 }
