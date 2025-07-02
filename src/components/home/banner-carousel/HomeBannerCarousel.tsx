@@ -1,6 +1,5 @@
 "use client";
 
-// ISR
 import { HOME_CAROUSEL_ITEM } from "@/type/home";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
@@ -11,14 +10,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type HomeBannerCarouselProps = {
-  items: HOME_CAROUSEL_ITEM[];
+  items: HOME_CAROUSEL_ITEM[] | undefined;
 };
 
-export default function HomeBannerCarousel({ items }: HomeBannerCarouselProps) {
+export default function BannerCarousel({ items }: HomeBannerCarouselProps) {
   const route = useRouter();
-  const handleClickCta = (itemId: string) => {
+  const handleClickItem = (itemId: string) => {
     route.push(`/item/${itemId}`);
   };
+
+  if (items == undefined) return <></>;
 
   return (
     <SwiperWrapper
@@ -29,11 +30,14 @@ export default function HomeBannerCarousel({ items }: HomeBannerCarouselProps) {
       autoplay={{ delay: 4000 }}
     >
       {items.map((el) => (
-        <SwiperSlideContainer key={el.itemId}>
+        <SwiperSlideContainer
+          key={el.itemId}
+          onClick={() => handleClickItem(el.itemId)}
+        >
           <SlideTextWrapper>
             <SubTitle>{el.subtitle}</SubTitle>
             <Title>{el.title}</Title>
-            <Cta onClick={() => handleClickCta(el.itemId)}>{el.ctaText}</Cta>
+            <CTA>{el.ctaText}</CTA>
           </SlideTextWrapper>
           <SlideImageWrapper>
             <SlideImage
@@ -95,4 +99,4 @@ const Title = styled.h2`
   white-space: pre-line;
 `;
 
-const Cta = styled.span``;
+const CTA = styled.span``;

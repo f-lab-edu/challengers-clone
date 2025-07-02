@@ -6,10 +6,12 @@ import Image from "next/image";
 import styled from "styled-components";
 
 type HomeActionIconsProps = {
-  items: HOME_ACTION_ICONS[];
+  items: HOME_ACTION_ICONS[] | undefined;
 };
 
 export default function HomeActionIcons({ items }: HomeActionIconsProps) {
+  if (items == undefined) return <></>;
+
   return (
     <Container>
       <ScrollableArea>
