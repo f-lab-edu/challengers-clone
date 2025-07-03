@@ -64,20 +64,21 @@ const SwiperWrapper = styled(Swiper)`
 
 const SwiperSlideContainer = styled(SwiperSlide)`
   display: flex;
+  align-items: center;
 `;
 
 const SlideTextWrapper = styled.div`
+  width: 65%;
   display: flex;
   flex-direction: column;
   padding: 12px;
-  flex-basis: 70%;
 `;
 
 const SlideImageWrapper = styled.div`
+  width: 35%;
   position: absolute;
   top: 0;
   right: 0;
-  flex-basis: 30%;
   z-index: -1;
   height: 100%;
 `;
@@ -85,6 +86,7 @@ const SlideImageWrapper = styled.div`
 const SlideImage = styled(Image)`
   display: flex;
   width: 100%;
+  object-fit: cover;
   height: 100%;
 `;
 
