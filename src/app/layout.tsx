@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import styles from "./page.module.css";
+import styles from "./layout.module.css";
 import GlobalNav from "@/components/navigation/GlobalNav";
 import BottomNav from "@/components/navigation/BottomNav";
 
 import StyledComponentsRegistry from "./_lib/registry";
-import Container from "@/components/Container";
 import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
@@ -23,11 +22,11 @@ export default function RootLayout({
       <body className={`${styles.layout}`}>
         <Provider>
           <StyledComponentsRegistry>
-            <Container>
+            <div className={styles.content}>
               <GlobalNav />
-              {children}
+              <div className={styles.children}>{children}</div>
               <BottomNav />
-            </Container>
+            </div>
           </StyledComponentsRegistry>
         </Provider>
       </body>
