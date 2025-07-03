@@ -65,7 +65,7 @@ export default function HomeCategoryItemList({
         {HOME_CATEGORIES.map(({ name, iconSrc }) => (
           <Item
             key={name}
-            isactive={activeCategory === name ? "true" : ""}
+            $isActive={activeCategory === name ? "true" : ""}
             onClick={() => handleClickCategory(name)}
           >
             <Image src={iconSrc} width={48} height={48} alt={`${name} icon`} />
@@ -90,13 +90,13 @@ const ItemWrapper = styled.ul`
   justify-content: space-around;
 `;
 
-const Item = styled.li<{ isactive: string }>`
+const Item = styled.li<{ $isActive: string }>`
   display: flex;
   flex-direction: column;
   padding: 12px;
   justify-content: center;
   align-items: center;
-  border-bottom: ${({ isactive }) =>
-    isactive === "true" ? "4px solid black" : ""};
+  border-bottom: ${({ $isActive }) =>
+    $isActive === "true" ? "4px solid black" : ""};
   cursor: pointer;
 `;
