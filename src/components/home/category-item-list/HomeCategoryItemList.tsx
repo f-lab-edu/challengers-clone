@@ -2,16 +2,10 @@
 
 import GridContent from "@/components/grid/GridContent";
 import ProductThumbnail from "@/components/product/ProductThumbnail";
-import useGetInfinite from "@/hooks/useGetInfinite";
-import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import { HOME_CATEGORY_ITEM } from "@/type/home";
+import { HOME_CATEGORY_ITEMS } from "@/data/data";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import styled from "styled-components";
-
-type HomeCategoryItemListProps = {
-  items: HOME_CATEGORY_ITEM[];
-};
 
 const HOME_CATEGORIES = [
   {
@@ -36,24 +30,10 @@ const HOME_CATEGORIES = [
   },
 ];
 
-export default function HomeCategoryItemList({
-  items,
-}: HomeCategoryItemListProps) {
+export default function HomeCategoryItemList() {
   const targetRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState(HOME_CATEGORIES[0].name);
-
-  const { data, hasNextPage, fetchNextPage } = useGetInfinite({
-    queryKey: ["/api/home/categories?category", activeCategory],
-    queryFn: () => console.log(""),
-  });
-
-  const handleIntersect = () => {
-    if (hasNextPage) {
-      fetchNextPage();
-    }
-  };
-
-  useIntersectionObserver({ targetRef, onIntersect: handleIntersect });
+  const data = HOME_CATEGORY_ITEMS;
 
   const handleClickCategory = (name: string) => {
     setActiveCategory(name);
@@ -74,7 +54,7 @@ export default function HomeCategoryItemList({
         ))}
       </ItemWrapper>
       <GridContent colsCount={2}>
-        {items.map((item) => (
+        {data?.map((item) => (
           <ProductThumbnail key={item.itemId} {...item} />
         ))}
       </GridContent>
@@ -88,6 +68,10 @@ const ItemWrapper = styled.ul`
   padding: 0 8px;
   display: flex;
   justify-content: space-around;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: white;
 `;
 
 const Item = styled.li<{ $isActive: string }>`

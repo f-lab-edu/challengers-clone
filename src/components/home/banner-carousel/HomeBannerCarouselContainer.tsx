@@ -1,22 +1,11 @@
 import HomeBannerCarousel from "@/components/home/banner-carousel/HomeBannerCarousel";
-import useGetApi from "@/hooks/useGetApi";
-import { HOME_CAROUSEL_ITEM } from "@/type/home";
+import { HOME_CAROUSEL_ITEMS } from "@/data/data";
+import { fetchHomeBannerCarouselData } from "@/remotes/home";
 
-const fetchHomeBannerCarouselData = async (): Promise<HOME_CAROUSEL_ITEM[]> => {
-  const data = await fetch("/api/home/carousel", {
-    next: {
-      revalidate: 60 * 60 * 24,
-    },
-  });
-
-  return data.json();
-};
-
-export default function HomeBannerCarouselContainer() {
-  const { data } = useGetApi<HOME_CAROUSEL_ITEM[]>({
-    queryKey: ["/api/home/carousel"],
-    queryFn: fetchHomeBannerCarouselData,
-  });
+export default async function HomeBannerCarouselContainer() {
+  console.log("HomeBannerCarouselContainer");
+  // const data = await fetchHomeBannerCarouselData();
+  const data = HOME_CAROUSEL_ITEMS;
 
   return <HomeBannerCarousel items={data} />;
 }
