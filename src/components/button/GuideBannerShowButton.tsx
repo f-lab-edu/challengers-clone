@@ -26,9 +26,9 @@ export default function GuideBannerShowButton({
 
   return (
     <Button
-      width={width}
-      height={height}
-      background={background}
+      $width={width}
+      $height={height}
+      $background={background}
       onClick={handleClickButton}
     >
       {buttonName}
@@ -37,13 +37,13 @@ export default function GuideBannerShowButton({
 }
 
 const Button = styled.button<{
-  width?: number;
-  height?: number;
-  background?: string;
+  $width?: number;
+  $height?: number;
+  $background?: string;
 }>`
-  width: ${({ width }) => `${width}px`};
-  height: ${({ height }) => `${height}px`};
-  background: ${({ background }) => `${background}`};
+  width: ${({ $width }) => `${$width}px`};
+  height: ${({ $height }) => `${$height}px`};
+  background: ${({ $background }) => `${$background}`};
   color: white;
   border-radius: 8px;
   font-size: 14px;
