@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
-type HomeCatgeoryItemListProps = {
+type HomeCategoryItemListProps = {
   items: HOME_CATEGORY_ITEM[];
 };
 
@@ -20,7 +20,7 @@ const HOME_CATEGORIES = [
   },
   {
     name: "오픈 예정",
-    iconSrc: "/images/home-categories/comming-soon.png",
+    iconSrc: "/images/home-categories/coming-soon.png",
   },
   {
     name: "뷰티",
@@ -36,9 +36,9 @@ const HOME_CATEGORIES = [
   },
 ];
 
-export default function HomeCatgeoryItemList({
+export default function HomeCategoryItemList({
   items,
-}: HomeCatgeoryItemListProps) {
+}: HomeCategoryItemListProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState(HOME_CATEGORIES[0].name);
 
