@@ -2,15 +2,18 @@ import HomeActionIconsContainer from "@/components/home/action-icons/HomeActionI
 import HomeBannerCarouselContainer from "@/components/home/banner-carousel/HomeBannerCarouselContainer";
 import HomeGuideBanner from "@/components/home/HomeGuideBanner";
 import styles from "./page.module.css";
-import HomeCatgeoryItemListContainer from "@/components/home/category-item-list/HomeCatgeoryItemListContainer";
+import HomeCategoryItemList from "@/components/home/category-item-list/HomeCategoryItemList";
+// import HomeCategoryItemListContainer from "@/components/home/category-item-list/HomeCategoryItemListContainer";
 
 export default function page() {
+  console.log("Home page");
   return (
     <div className={styles.layout}>
       <HomeBannerCarouselContainer />
       <HomeActionIconsContainer />
       <HomeGuideBanner />
-      <HomeCatgeoryItemListContainer />
+      {/* <HomeCategoryItemListContainer /> */}
+      <HomeCategoryItemList />
     </div>
   );
 }
