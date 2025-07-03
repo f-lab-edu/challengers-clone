@@ -3,19 +3,19 @@ import styled from "styled-components";
 const COLOR = {
   "olive-young-id": {
     color: "green",
-    background: "yellogreen",
+    $background: "yellowgreen",
   },
   "11st-id": {
     color: "green",
-    background: "yellogreen",
+    $background: "yellowgreen",
   },
   "g-market-id": {
     color: "green",
-    background: "yellogreen",
+    $background: "yellowgreen",
   },
   "musinsa-id": {
     color: "gray",
-    background: "lightgray",
+    $background: "lightgray",
   },
 };
 
@@ -28,13 +28,13 @@ export default function Brand({ brandName, brandId }: BrandProps) {
   return <BrandName {...COLOR[brandId]}>{brandName}</BrandName>;
 }
 
-const BrandName = styled.span<{ color: string; background: string }>`
+const BrandName = styled.span<{ color: string; $background: string }>`
   width: fit-content;
   padding: 2px 4px;
   border-radius: 4px;
   border: 1px solid ${({ color }) => color};
   color: ${({ color }) => color};
-  background: ${({ background }) => background};
+  background: ${({ $background }) => $background};
   font-size: 14px;
   font-weight: bold;
 `;
