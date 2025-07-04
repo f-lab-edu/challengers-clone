@@ -23,9 +23,11 @@ export const handlers = [
     const hasNextPage = offset + limit < HOME_CATEGORY_ITEMS.length;
 
     return HttpResponse.json({
-      data: sliced,
-      hasNextPage,
-      offset: offset + limit,
+      data: {
+        data: sliced,
+        hasNextPage,
+        nextOffset: offset + limit,
+      },
     });
   }),
 ];
