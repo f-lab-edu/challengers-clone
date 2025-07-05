@@ -29,4 +29,5 @@ export type HOME_CATEGORY_ITEM = {
   price: number; // 현재 가격
   originalPrice: number; // 원래 가격
   cashbackAmount: number; // 페이백 금액
+  priorityLoad?: boolean; // 우선 로드 여부
 };
