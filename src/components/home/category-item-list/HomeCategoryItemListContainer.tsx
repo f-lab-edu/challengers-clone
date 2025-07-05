@@ -1,5 +1,9 @@
+"use client";
+
 import HomeCategoryItemList from "@/components/home/category-item-list/HomeCategoryItemList";
-import { HOME_CATEGORY_ITEMS } from "@/data/data";
+import { fetchHomeCategoryItems } from "@/remotes/home";
+import { HOME_CATEGORY_ITEM } from "@/type/home";
+import { useEffect, useState } from "react";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -8,5 +12,21 @@ export default function HomeCategoryItemListContainer() {
    * 이 컴포넌트 삭제 금지
    */
   // const data = HOME_CATEGORY_ITEMS;
-  // return <HomeCategoryItemList items={data} />;
+
+  const [data, setData] = useState<HOME_CATEGORY_ITEM[]>([]);
+
+  const initData = async () => {
+    const res = await fetchHomeCategoryItems({
+      category: "all",
+      offset: 0,
+    });
+
+    setData(res.data.data || []);
+  };
+
+  useEffect(() => {
+    initData();
+  }, []);
+
+  return <HomeCategoryItemList items={data} />;
 }
