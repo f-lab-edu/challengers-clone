@@ -2,67 +2,107 @@
 
 import GridContent from "@/components/grid/GridContent";
 import ProductThumbnail from "@/components/product/ProductThumbnail";
-import { HOME_CATEGORY_ITEMS } from "@/data/data";
+import useGetInfinite from "@/hooks/useGetInfinite";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import { fetchHomeCategoryItems } from "@/remotes/home";
+import { HOME_CATEGORY_ITEM } from "@/type/home";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { HOME_CATEGORIES } from "@/constants/constants";
 
-const HOME_CATEGORIES = [
-  {
-    name: "전체",
-    iconSrc: "/images/home-categories/all.png",
-  },
-  {
-    name: "오픈 예정",
-    iconSrc: "/images/home-categories/coming-soon.png",
-  },
-  {
-    name: "뷰티",
-    iconSrc: "/images/guide-banner/cosmetics.jpg",
-  },
-  {
-    name: "푸드/헬스",
-    iconSrc: "/images/home-categories/f&h.png",
-  },
-  {
-    name: "라이프",
-    iconSrc: "/images/home-categories/life.png",
-  },
-];
+type HomeCategoryItemListProps = {
+  items: HOME_CATEGORY_ITEM[];
+};
 
-export default function HomeCategoryItemList() {
+export default function HomeCategoryItemList({
+  items,
+}: HomeCategoryItemListProps) {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState(HOME_CATEGORIES[0].name);
-  const data = HOME_CATEGORY_ITEMS;
+  const [activeCategory, setActiveCategory] = useState(
+    HOME_CATEGORIES[0].enName
+  );
+
+  const [categoryItems, setCategoryItems] =
+    useState<HOME_CATEGORY_ITEM[]>(items);
+
+  const { isLoading, hasNextPage, fetchNextPage } = useGetInfinite<
+    HOME_CATEGORY_ITEM[]
+  >({
+    queryKey: ["/api/home/categories?category", activeCategory],
+    fetchFn: (offset: number) =>
+      fetchHomeCategoryItems({
+        category: activeCategory,
+        pageParam: offset,
+      }).then((res) => res.data),
+  });
+
+  const handleIntersect = () => {
+    if (hasNextPage) {
+      fetchNextPage().then((res) => {
+        if (res.data) {
+          const newPage = res.data.pages[res.data.pages.length - 1].data;
+          setCategoryItems((prev) => [...prev, ...newPage]);
+        }
+      });
+    }
+  };
 
   const handleClickCategory = (name: string) => {
     setActiveCategory(name);
   };
 
+  useEffect(() => {
+    setCategoryItems(items);
+  }, [items]);
+
+  useIntersectionObserver({ targetRef, onIntersect: handleIntersect });
+
   return (
-    <section>
+    <Wrapper>
       <ItemWrapper>
-        {HOME_CATEGORIES.map(({ name, iconSrc }) => (
+        {HOME_CATEGORIES.map(({ name, iconSrc, enName }) => (
           <Item
             key={name}
-            $isActive={activeCategory === name ? "true" : ""}
-            onClick={() => handleClickCategory(name)}
+            $isActive={activeCategory === enName ? "true" : ""}
+            onClick={() => handleClickCategory(enName)}
           >
-            <Image src={iconSrc} width={48} height={48} alt={`${name} icon`} />
+            <Image
+              src={iconSrc}
+              width={48}
+              height={48}
+              alt={`${enName} icon`}
+            />
             <span>{name}</span>
           </Item>
         ))}
       </ItemWrapper>
       <GridContent colsCount={2}>
-        {data?.map((item) => (
+        {isLoading && (
+          <div
+            style={{
+              width: "100%",
+              height: "100vh",
+              border: "5px solid black",
+            }}
+          >
+            Loading...
+          </div>
+        )}
+        {categoryItems.map((item) => (
           <ProductThumbnail key={item.itemId} {...item} />
         ))}
       </GridContent>
-
       <div ref={targetRef} />
-    </section>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
 
 const ItemWrapper = styled.ul`
   padding: 0 8px;
