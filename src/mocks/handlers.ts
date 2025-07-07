@@ -16,17 +16,23 @@ export const handlers = [
 
   http.get(`/api/home/categories`, ({ request }) => {
     const url = new URL(request.url);
+
+    const category = url.searchParams.get("category") || "all";
     const offset = Number(url.searchParams.get("offset") || "0");
     const limit = Number(url.searchParams.get("limit") || "10");
 
-    const sliced = HOME_CATEGORY_ITEMS.slice(offset, offset + limit);
-    const hasNextPage = offset + limit < HOME_CATEGORY_ITEMS.length;
+    const filteredByCategory = HOME_CATEGORY_ITEMS.filter(
+      (item) => item.category === category
+    );
+
+    const sliced = filteredByCategory.slice(offset, offset + limit);
+    const hasNextPage = offset + limit < filteredByCategory.length;
 
     return HttpResponse.json({
       data: {
         data: sliced,
         hasNextPage,
-        nextOffset: offset + limit,
+        nextOffset: hasNextPage ? offset + limit : undefined,
       },
     });
   }),
