@@ -15,6 +15,7 @@ export type HOME_ACTION_ICON = {
 };
 
 export type HOME_CATEGORY_ITEM = {
+  category: string;
   itemId: string;
   imageSrc: string; // 상품 이미지
   imageAlt: string; // 상품 이미지 설명
