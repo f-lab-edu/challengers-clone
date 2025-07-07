@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { HOME_CATEGORIES } from "@/constants/constants";
+import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
 
 type HomeCategoryItemListProps = {
   category: string;
@@ -93,23 +94,18 @@ export default function HomeCategoryItemList({
           </Item>
         ))}
       </ItemWrapper>
-      <GridContent colsCount={2}>
-        {isLoading && (
-          <div
-            style={{
-              width: "100%",
-              height: "100vh",
-              border: "5px solid black",
-            }}
-          >
-            Loading...
-          </div>
-        )}
-        {categoryItems.map((item) => (
-          <ProductThumbnail key={item.itemId} {...item} />
-        ))}
-      </GridContent>
-      <div ref={targetRef} />
+      {isLoading ? (
+        <SkeletonCategoryItem colsCount={2} />
+      ) : (
+        <>
+          <GridContent colsCount={2}>
+            {categoryItems.map((item) => (
+              <ProductThumbnail key={item.itemId} {...item} />
+            ))}
+          </GridContent>
+          <div ref={targetRef} />
+        </>
+      )}
     </Wrapper>
   );
 }
