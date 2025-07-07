@@ -2,7 +2,7 @@
 
 import GridContent from "@/components/grid/GridContent";
 import ProductThumbnail from "@/components/product/ProductThumbnail";
-import useGetInfinite from "@/hooks/useGetInfinite";
+import useGetInfinite, { PaginatedResponse } from "@/hooks/useGetInfinite";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
@@ -12,49 +12,65 @@ import styled from "styled-components";
 import { HOME_CATEGORIES } from "@/constants/constants";
 
 type HomeCategoryItemListProps = {
-  items: HOME_CATEGORY_ITEM[];
+  category: string;
+  data: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
 };
 
 export default function HomeCategoryItemList({
-  items,
+  data,
+  category,
 }: HomeCategoryItemListProps) {
   const targetRef = useRef<HTMLDivElement>(null);
+  const [enabled, setEnabled] = useState(false);
   const [activeCategory, setActiveCategory] = useState(
     HOME_CATEGORIES[0].enName
   );
+  const initialPageParam = category === activeCategory ? data.nextOffset : 0;
 
-  const [categoryItems, setCategoryItems] =
-    useState<HOME_CATEGORY_ITEM[]>(items);
+  const [categoryItems, setCategoryItems] = useState<HOME_CATEGORY_ITEM[]>(
+    data.data
+  );
 
-  const { isLoading, hasNextPage, fetchNextPage } = useGetInfinite<
-    HOME_CATEGORY_ITEM[]
-  >({
+  const {
+    data: items,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+  } = useGetInfinite<HOME_CATEGORY_ITEM[]>({
     queryKey: ["/api/home/categories?category", activeCategory],
     fetchFn: (offset: number) =>
       fetchHomeCategoryItems({
         category: activeCategory,
         pageParam: offset,
       }).then((res) => res.data),
+    initialPageParam,
+    enabled,
   });
 
   const handleIntersect = () => {
-    if (hasNextPage) {
-      fetchNextPage().then((res) => {
-        if (res.data) {
-          const newPage = res.data.pages[res.data.pages.length - 1].data;
-          setCategoryItems((prev) => [...prev, ...newPage]);
-        }
-      });
+    if (data.hasNextPage || hasNextPage) {
+      fetchNextPage();
     }
   };
 
   const handleClickCategory = (name: string) => {
+    setEnabled(true);
     setActiveCategory(name);
+    setCategoryItems([]);
   };
 
+  console.log("useEffect out items: ", items);
   useEffect(() => {
-    setCategoryItems(items);
-  }, [items]);
+    const changedCategory = category !== activeCategory;
+
+    const updatedItems = [
+      ...categoryItems,
+      ...(items?.pages[items.pages.length - 1].data ||
+        (changedCategory ? [] : data.data)),
+    ];
+
+    setCategoryItems(updatedItems);
+  }, [items, data.data, activeCategory]);
 
   useIntersectionObserver({ targetRef, onIntersect: handleIntersect });
 
