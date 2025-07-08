@@ -12,7 +12,7 @@ export default function BottomNav() {
     <Nav>
       <Ul>
         {BottomMenus.map(({ icon, title, url }) => (
-          <Menu isactive={`${pathname === url}`} key={title} href={url}>
+          <Menu $isActive={`${pathname === url}`} key={title} href={url}>
             <span>{icon}</span>
             <span>{title}</span>
           </Menu>
@@ -33,11 +33,11 @@ const Ul = styled.ul`
   justify-content: space-around;
 `;
 
-const Menu = styled(Link)<{ isactive: string }>`
+const Menu = styled(Link)<{ $isActive: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: ${(props) => (props.isactive === "true" ? "black" : "gray")};
-  font-weight: ${(props) => (props.isactive === "true" ? "bold" : "")};
+  color: ${(props) => (props.$isActive === "true" ? "black" : "gray")};
+  font-weight: ${(props) => (props.$isActive === "true" ? "bold" : "")};
 `;

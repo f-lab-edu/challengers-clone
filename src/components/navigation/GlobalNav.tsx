@@ -8,6 +8,8 @@ const GlobalNav = () => {
   const pathname = usePathname() as keyof typeof GlobalMenus;
   const menu = GlobalMenus[pathname];
 
+  if (menu == undefined) return <></>;
+
   return (
     <Nav>
       <Ul>
@@ -15,7 +17,7 @@ const GlobalNav = () => {
           <span>{menu.title}</span>
           <IconWrapper>
             {menu.firstIcon}
-            {menu.secondtIcon}
+            {menu.secondIcon}
           </IconWrapper>
         </Menu>
       </Ul>
