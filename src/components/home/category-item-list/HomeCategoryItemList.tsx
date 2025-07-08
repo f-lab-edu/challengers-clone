@@ -2,15 +2,15 @@
 
 import GridContent from "@/components/grid/GridContent";
 import ProductThumbnail from "@/components/product/ProductThumbnail";
-import useGetInfinite, { PaginatedResponse } from "@/hooks/useGetInfinite";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import { fetchHomeCategoryItems } from "@/remotes/home";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
 import { HOME_CATEGORIES } from "@/constants/constants";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
+import useFetchCategoryItems from "@/hooks/useFetchCategoryItems";
+import { PaginatedResponse } from "@/hooks/useGetInfinite";
 
 type HomeCategoryItemListProps = {
   category: string;
@@ -22,30 +22,17 @@ export default function HomeCategoryItemList({
   category,
 }: HomeCategoryItemListProps) {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [enabled, setEnabled] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(
-    HOME_CATEGORIES[0].enName
-  );
-  const initialPageParam = category === activeCategory ? data.nextOffset : 0;
-
-  const [categoryItems, setCategoryItems] = useState<HOME_CATEGORY_ITEM[]>(
-    data.data
-  );
 
   const {
-    data: items,
+    activeCategory,
+    categoryItems,
     isLoading,
     hasNextPage,
     fetchNextPage,
-  } = useGetInfinite<HOME_CATEGORY_ITEM[]>({
-    queryKey: ["/api/home/categories?category", activeCategory],
-    fetchFn: (offset: number) =>
-      fetchHomeCategoryItems({
-        category: activeCategory,
-        pageParam: offset,
-      }).then((res) => res.data),
-    initialPageParam,
-    enabled,
+    handleClickCategory,
+  } = useFetchCategoryItems({
+    category,
+    initialData: data,
   });
 
   const handleIntersect = () => {
@@ -53,25 +40,6 @@ export default function HomeCategoryItemList({
       fetchNextPage();
     }
   };
-
-  const handleClickCategory = (name: string) => {
-    setEnabled(true);
-    setActiveCategory(name);
-    setCategoryItems([]);
-  };
-
-  console.log("useEffect out items: ", items);
-  useEffect(() => {
-    const changedCategory = category !== activeCategory;
-
-    const updatedItems = [
-      ...categoryItems,
-      ...(items?.pages[items.pages.length - 1].data ||
-        (changedCategory ? [] : data.data)),
-    ];
-
-    setCategoryItems(updatedItems);
-  }, [items, data.data, activeCategory]);
 
   useIntersectionObserver({ targetRef, onIntersect: handleIntersect });
 
