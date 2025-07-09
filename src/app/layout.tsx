@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import styles from "./page.module.css";
+import styles from "./layout.module.css";
 import GlobalNav from "@/components/navigation/GlobalNav";
 import BottomNav from "@/components/navigation/BottomNav";
 
 import StyledComponentsRegistry from "./_lib/registry";
-import Container from "@/components/Container";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "challengers clone",
@@ -20,13 +20,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${styles.layout}`}>
-        <StyledComponentsRegistry>
-          <Container>
-            <GlobalNav />
-            {children}
-            <BottomNav />
-          </Container>
-        </StyledComponentsRegistry>
+        <Provider>
+          <StyledComponentsRegistry>
+            <div className={styles.content}>
+              <GlobalNav />
+              <div className={styles.children}>{children}</div>
+              <BottomNav />
+            </div>
+          </StyledComponentsRegistry>
+        </Provider>
       </body>
     </html>
   );
