@@ -5,7 +5,6 @@ import ProductThumbnail from "@/components/product/ProductThumbnail";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
 import Image from "next/image";
-import { useRef } from "react";
 import styled from "styled-components";
 import { HOME_CATEGORIES } from "@/constants/constants";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
@@ -21,8 +20,6 @@ export default function HomeCategoryItemList({
   data,
   category,
 }: HomeCategoryItemListProps) {
-  const targetRef = useRef<HTMLDivElement>(null);
-
   const {
     activeCategory,
     categoryItems,
@@ -35,13 +32,10 @@ export default function HomeCategoryItemList({
     initialData: data,
   });
 
-  const handleIntersect = () => {
-    if (data.hasNextPage || hasNextPage) {
-      fetchNextPage();
-    }
-  };
-
-  useIntersectionObserver({ targetRef, onIntersect: handleIntersect });
+  const { targetRef } = useIntersectionObserver({
+    fetchNextPage,
+    hasNextPage: hasNextPage || data.hasNextPage,
+  });
 
   return (
     <Wrapper>
@@ -62,18 +56,18 @@ export default function HomeCategoryItemList({
           </Item>
         ))}
       </ItemWrapper>
-      {isLoading ? (
-        <SkeletonCategoryItem colsCount={2} />
-      ) : (
-        <>
-          <GridContent colsCount={2}>
-            {categoryItems.map((item) => (
-              <ProductThumbnail key={item.itemId} {...item} />
-            ))}
-          </GridContent>
+      <>
+        <GridContent colsCount={2}>
+          {categoryItems.map((item) => (
+            <ProductThumbnail key={item.itemId} {...item} />
+          ))}
+        </GridContent>
+        {isLoading ? (
+          <SkeletonCategoryItem colsCount={2} />
+        ) : (
           <div ref={targetRef} />
-        </>
-      )}
+        )}
+      </>
     </Wrapper>
   );
 }
