@@ -2,30 +2,42 @@
 
 "use client";
 
+import { variants } from "@/constants/transition";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
 
-type Props = {
+type PageTransitionProps = {
   children: React.ReactNode;
+  animationType: keyof typeof variants;
+  onAnimationComplete?: () => void;
+  $key?: string;
 };
 
-export default function PageTransition({ children }: Props) {
+export default function PageTransition({
+  animationType = "load",
+  children,
+  onAnimationComplete,
+  $key,
+}: PageTransitionProps) {
   const pathname = usePathname();
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         className={"motion-div"}
-        key={pathname}
-        initial={{ x: "100%", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: "-100%", opacity: 0 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
+        key={$key || pathname}
+        {...variants[animationType]}
         style={{
           display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
           width: "100%",
           height: "100%",
+          position: "relative",
+        }}
+        onAnimationComplete={() => {
+          onAnimationComplete?.();
         }}
       >
         <Wrapper>{children}</Wrapper>
@@ -37,8 +49,7 @@ export default function PageTransition({ children }: Props) {
 const Wrapper = styled.div`
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: 100;
-  padding: 15% 16px 7%;
   background-color: white;
 `;
