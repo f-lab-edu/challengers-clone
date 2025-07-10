@@ -20,12 +20,14 @@ export type HOME_CATEGORY_ITEM = {
   imageSrc: string; // 상품 이미지
   imageAlt: string; // 상품 이미지 설명
   isLiked: boolean; // 찜하기 여부
-  currentCount: number; // 현재 참여 인원
-  maxCount: number; // 최대 인원 수
   brand: string; // 브랜드명
   brandId: "musinsa-id" | "olive-young-id" | "11st-id" | "g-market-id"; // 브랜드 id
-  startTime: string; // 시작 시간 (ex. "6/27 오후 1시")
-  endTime: string; // 종료 시간 (ex. "4시")
+  periods: {
+    time: string; // 시작 시간 (ex. "6/27 오후 1시 ~ 4시" or "7/10 하루 동안")
+    currentCount: number; // 현재 참여 인원
+    maxCount: number; // 최대 인원 수
+    isSoldOut?: boolean; // 품절 여부
+  }[];
   title: string; // 상품명
   price: number; // 현재 가격
   originalPrice: number; // 원래 가격
