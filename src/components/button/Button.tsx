@@ -6,9 +6,10 @@ type ButtonStyleVariant = keyof typeof ButtonStyle;
 
 type ButtonProps = {
   buttonText: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   buttonType: ButtonTypeVariant;
   buttonStyle: ButtonStyleVariant;
+  rest?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 };
 
 export default function Button({
@@ -16,12 +17,14 @@ export default function Button({
   onClick,
   buttonType,
   buttonStyle,
+  ...rest
 }: ButtonProps) {
   return (
     <ButtonWrapper
       onClick={onClick}
       $buttonType={buttonType}
       $buttonStyle={buttonStyle}
+      {...rest}
     >
       {buttonText}
     </ButtonWrapper>
