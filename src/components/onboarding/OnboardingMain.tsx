@@ -7,8 +7,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import styled from "styled-components";
 import Button from "@/components/button/Button";
-import { OnboardingData } from "@/constants/constants";
 import Image from "next/image";
+import { OnboardingData } from "@/constants/onboarding";
 
 export default function OnboardingMain() {
   return (
