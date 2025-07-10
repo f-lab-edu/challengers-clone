@@ -9,14 +9,16 @@ import styled from "styled-components";
 import Button from "@/components/button/Button";
 import Image from "next/image";
 import { OnboardingData } from "@/constants/onboarding";
+import useOnBoarding from "@/hooks/useOnBoarding";
 
 export default function OnboardingMain() {
+  const { isLastIndex, redirectToHome, setCurrentIndex } = useOnBoarding();
+
   return (
     <Wrapper>
       <_Swiper
         slidesPerView={1}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
         pagination={{
           clickable: true,
         }}
@@ -36,12 +38,21 @@ export default function OnboardingMain() {
           </_SwiperSlide>
         ))}
       </_Swiper>
-      <Button
-        buttonText="나중에 할래요"
-        buttonType="text"
-        buttonStyle="base"
-        onClick={() => {}}
-      />
+      {isLastIndex ? (
+        <Button
+          buttonText="챌린저스 시작하기! 🚀"
+          buttonType="primary"
+          buttonStyle="fullWidth"
+          onClick={redirectToHome}
+        />
+      ) : (
+        <Button
+          buttonText="나중에 할래요"
+          buttonType="text"
+          buttonStyle="base"
+          onClick={redirectToHome}
+        />
+      )}
     </Wrapper>
   );
 }
@@ -60,13 +71,12 @@ const _Swiper = styled(Swiper)`
   height: 80%;
   position: relative;
 
-  &.swiper {
-    overflow: visible;
-  }
+  touch-action: pan-y;
+  user-select: auto;
 
   & .swiper-pagination {
     position: absolute;
-    top: -20px;
+    top: 0px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
