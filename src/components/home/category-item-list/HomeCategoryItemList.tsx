@@ -1,6 +1,6 @@
 "use client";
 
-import ProductThumbnail from "@/components/product/ProductThumbnail";
+import ProductThumbnail from "@/components/product/thumbnail/ProductThumbnail";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
 import Image from "next/image";
