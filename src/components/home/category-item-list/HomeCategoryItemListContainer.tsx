@@ -4,7 +4,8 @@ import HomeCategoryItemList from "@/components/home/category-item-list/HomeCateg
 import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -35,5 +36,11 @@ export default function HomeCategoryItemListContainer() {
     initData();
   }, []);
 
-  return <HomeCategoryItemList initialCategory={category} initialData={data} />;
+  return (
+    <ErrorBoundary fallback={<div>Error</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <HomeCategoryItemList initialCategory={category} initialData={data} />
+      </Suspense>
+    </ErrorBoundary>
+  );
 }
