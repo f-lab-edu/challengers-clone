@@ -1,7 +1,7 @@
 "use client";
 
 import HomeCategoryItemList from "@/components/home/category-item-list/HomeCategoryItemList";
-import { PaginatedResponse } from "@/hooks/useGetInfinite";
+import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
 import { useEffect, useState } from "react";

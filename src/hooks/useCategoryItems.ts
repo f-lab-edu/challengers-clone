@@ -1,21 +1,21 @@
-import useGetInfinite, { PaginatedResponse } from "@/hooks/useGetInfinite";
+import useInfiniteData, { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import type { HOME_CATEGORY_ITEM } from "@/type/home";
 import { useEffect, useRef, useState } from "react";
 
-type UseFetchCategoryItemsProps = {
+type UseCategoryItemsProps = {
   isCategoryChanged: boolean;
   activeCategory: string;
   setActiveCategory: (category: string) => void;
   skipFetchWithInitialData?: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
 };
 
-export default function useFetchCategoryItems({
+export default function useCategoryItems({
   isCategoryChanged,
   activeCategory,
   setActiveCategory,
   skipFetchWithInitialData,
-}: UseFetchCategoryItemsProps) {
+}: UseCategoryItemsProps) {
   const enabledRef = useRef(false);
   const initialPageParam = isCategoryChanged
     ? 0
@@ -30,7 +30,7 @@ export default function useFetchCategoryItems({
     isLoading,
     hasNextPage,
     fetchNextPage,
-  } = useGetInfinite<HOME_CATEGORY_ITEM[]>({
+  } = useInfiniteData<HOME_CATEGORY_ITEM[]>({
     queryKey: ["/api/home/categories?category", activeCategory],
     fetchFn: (offset: number) =>
       fetchHomeCategoryItems({

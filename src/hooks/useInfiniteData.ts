@@ -6,7 +6,7 @@ export type PaginatedResponse<T> = {
   nextOffset: number;
 };
 
-type UseGetInfiniteProps<T> = {
+type useInfiniteDataProps<T> = {
   queryKey: string[];
   fetchFn: (offset: number) => Promise<PaginatedResponse<T>>;
   initialPageParam?: number;
@@ -22,13 +22,13 @@ const fetchPaginatedData = async <T>(
   return response;
 };
 
-export default function useGetInfinite<T>({
+export default function useInfiniteData<T>({
   queryKey,
   fetchFn,
   enabled = true,
   initialPageParam = 0,
   staleTime = 1000 * 60,
-}: UseGetInfiniteProps<T>) {
+}: useInfiniteDataProps<T>) {
   const { data, error, isLoading, hasNextPage, fetchNextPage } =
     useInfiniteQuery<
       PaginatedResponse<T>,
