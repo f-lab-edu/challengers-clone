@@ -32,11 +32,14 @@ export default function useCategoryItems({
     fetchNextPage,
   } = useInfiniteData<HOME_CATEGORY_ITEM[]>({
     queryKey: ["/api/home/categories?category", activeCategory],
-    fetchFn: (offset: number) =>
-      fetchHomeCategoryItems({
+    fetchFn: async (offset: number) => {
+      const res = await fetchHomeCategoryItems({
         category: activeCategory,
         pageParam: offset,
-      }).then((res) => res.data),
+      });
+
+      return res.data;
+    },
     initialPageParam,
     enabled: enabledRef.current,
   });
