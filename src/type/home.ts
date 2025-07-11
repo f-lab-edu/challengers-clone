@@ -26,11 +26,12 @@ export type HOME_CATEGORY_ITEM = {
     time: string; // 시작 시간 (ex. "6/27 오후 1시 ~ 4시" or "7/10 하루 동안")
     currentCount: number; // 현재 참여 인원
     maxCount: number; // 최대 인원 수
-    isSoldOut?: boolean; // 품절 여부
+    isSoldOut: boolean; // 품절 여부
   }[];
   title: string; // 상품명
   price: number; // 현재 가격
   originalPrice: number; // 원래 가격
   cashbackAmount: number; // 페이백 금액
   priorityLoad?: boolean; // 우선 로드 여부
+  isAd?: boolean;
 };
