@@ -2,7 +2,7 @@ import { HOME_CATEGORIES } from "@/constants/constants";
 import useGetInfinite, { PaginatedResponse } from "@/hooks/useGetInfinite";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import type { HOME_CATEGORY_ITEM } from "@/type/home";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type UseFetchCategoryItemsProps = {
   category: string;
@@ -13,7 +13,7 @@ export default function useFetchCategoryItems({
   category,
   skipFetchWithInitialData,
 }: UseFetchCategoryItemsProps) {
-  const [enabled, setEnabled] = useState(false);
+  const enabledRef = useRef(false);
   const [activeCategory, setActiveCategory] = useState(
     HOME_CATEGORIES[0].enName
   );
@@ -37,11 +37,11 @@ export default function useFetchCategoryItems({
         pageParam: offset,
       }).then((res) => res.data),
     initialPageParam,
-    enabled,
+    enabled: enabledRef.current,
   });
 
   const handleClickCategory = (name: string) => {
-    setEnabled(true);
+    enabledRef.current = true;
     setActiveCategory(name);
     setCategoryItems([]);
   };
