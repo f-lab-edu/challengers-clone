@@ -43,7 +43,7 @@ export default function HomeCategoryItemList({
         {HOME_CATEGORIES.map(({ name, iconSrc, enName }) => (
           <Item
             key={name}
-            $isActive={activeCategory === enName ? "true" : ""}
+            $isActive={`${activeCategory === enName && true}`}
             onClick={() => handleClickCategory(enName)}
           >
             <Image
