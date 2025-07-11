@@ -7,7 +7,7 @@ export default function HomeGuideBanner() {
     iconAlt: "화장품",
     subTitle: "챌린저스 쇼핑이 처음인가요?",
     title: "화장품 싸게 사는법",
-    redirectToUrl: "/onboarding?menu=cosmetics",
+    redirectToUrl: "/onboarding/cosmetics",
   };
 
   return <GuideBanner {...props} />;
