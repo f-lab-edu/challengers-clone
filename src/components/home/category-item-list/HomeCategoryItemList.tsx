@@ -10,31 +10,35 @@ import { HOME_CATEGORIES } from "@/constants/constants";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
 import useFetchCategoryItems from "@/hooks/useFetchCategoryItems";
 import { PaginatedResponse } from "@/hooks/useGetInfinite";
+import { useState } from "react";
 
 type HomeCategoryItemListProps = {
-  category: string;
-  data: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
+  initialCategory: string;
+  initialData: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
 };
 
 export default function HomeCategoryItemList({
-  data,
-  category,
+  initialData,
+  initialCategory,
 }: HomeCategoryItemListProps) {
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
+
   const {
-    activeCategory,
     categoryItems,
     isLoading,
     hasNextPage,
     fetchNextPage,
     handleClickCategory,
   } = useFetchCategoryItems({
-    category,
-    skipFetchWithInitialData: data,
+    isCategoryChanged: initialCategory !== activeCategory,
+    activeCategory,
+    setActiveCategory,
+    skipFetchWithInitialData: initialData,
   });
 
   const { targetRef } = useIntersectionObserver({
     fetchNextPage,
-    hasNextPage: hasNextPage || data.hasNextPage,
+    hasNextPage: hasNextPage || initialData.hasNextPage,
   });
 
   return (

@@ -1,24 +1,25 @@
-import { HOME_CATEGORIES } from "@/constants/constants";
 import useGetInfinite, { PaginatedResponse } from "@/hooks/useGetInfinite";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import type { HOME_CATEGORY_ITEM } from "@/type/home";
 import { useEffect, useRef, useState } from "react";
 
 type UseFetchCategoryItemsProps = {
-  category: string;
+  isCategoryChanged: boolean;
+  activeCategory: string;
+  setActiveCategory: (category: string) => void;
   skipFetchWithInitialData?: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
 };
 
 export default function useFetchCategoryItems({
-  category,
+  isCategoryChanged,
+  activeCategory,
+  setActiveCategory,
   skipFetchWithInitialData,
 }: UseFetchCategoryItemsProps) {
   const enabledRef = useRef(false);
-  const [activeCategory, setActiveCategory] = useState(
-    HOME_CATEGORIES[0].enName
-  );
-  const initialPageParam =
-    category === activeCategory ? skipFetchWithInitialData?.nextOffset || 0 : 0;
+  const initialPageParam = isCategoryChanged
+    ? 0
+    : skipFetchWithInitialData?.nextOffset || 0;
 
   const [categoryItems, setCategoryItems] = useState<HOME_CATEGORY_ITEM[]>(
     skipFetchWithInitialData?.data || []
@@ -47,12 +48,10 @@ export default function useFetchCategoryItems({
   };
 
   useEffect(() => {
-    const changedCategory = category !== activeCategory;
-
     const updatedItems = [
       ...categoryItems,
       ...(items?.pages[items.pages.length - 1].data ||
-        (changedCategory ? [] : skipFetchWithInitialData?.data || [])),
+        (isCategoryChanged ? [] : skipFetchWithInitialData?.data || [])),
     ];
 
     setCategoryItems(updatedItems);

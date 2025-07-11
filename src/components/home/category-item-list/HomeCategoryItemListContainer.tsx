@@ -35,5 +35,5 @@ export default function HomeCategoryItemListContainer() {
     initData();
   }, []);
 
-  return <HomeCategoryItemList category={category} data={data} />;
+  return <HomeCategoryItemList initialCategory={category} initialData={data} />;
 }
