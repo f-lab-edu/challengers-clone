@@ -1,6 +1,5 @@
 "use client";
 
-import GridContent from "@/components/grid/GridContent";
 import ProductThumbnail from "@/components/product/ProductThumbnail";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
@@ -39,7 +38,7 @@ export default function HomeCategoryItemList({
 
   return (
     <Wrapper>
-      <ItemWrapper>
+      <CategoryWrapper>
         {HOME_CATEGORIES.map(({ name, iconSrc, enName }) => (
           <Item
             key={name}
@@ -55,13 +54,13 @@ export default function HomeCategoryItemList({
             <span>{name}</span>
           </Item>
         ))}
-      </ItemWrapper>
+      </CategoryWrapper>
       <>
-        <GridContent colsCount={2}>
+        <ItemWrapper>
           {categoryItems.map((item) => (
             <ProductThumbnail key={item.itemId} {...item} />
           ))}
-        </GridContent>
+        </ItemWrapper>
         {isLoading ? (
           <SkeletonCategoryItem colsCount={2} />
         ) : (
@@ -79,6 +78,12 @@ const Wrapper = styled.section`
 `;
 
 const ItemWrapper = styled.ul`
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+`;
+
+const CategoryWrapper = styled.ul`
   padding: 0 8px;
   display: flex;
   justify-content: space-around;
