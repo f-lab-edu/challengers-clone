@@ -8,8 +8,8 @@ import Image from "next/image";
 import styled from "styled-components";
 import { HOME_CATEGORIES } from "@/constants/constants";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
-import useFetchCategoryItems from "@/hooks/useFetchCategoryItems";
-import { PaginatedResponse } from "@/hooks/useGetInfinite";
+import useCategoryItems from "@/hooks/useCategoryItems";
+import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { useState } from "react";
 
 type HomeCategoryItemListProps = {
@@ -29,7 +29,7 @@ export default function HomeCategoryItemList({
     hasNextPage,
     fetchNextPage,
     handleClickCategory,
-  } = useFetchCategoryItems({
+  } = useCategoryItems({
     isCategoryChanged: initialCategory !== activeCategory,
     activeCategory,
     setActiveCategory,
@@ -40,6 +40,10 @@ export default function HomeCategoryItemList({
     fetchNextPage,
     hasNextPage: hasNextPage || initialData.hasNextPage,
   });
+
+  if (isLoading || categoryItems.length === 0) {
+    return <SkeletonCategoryItem colsCount={2} />;
+  }
 
   return (
     <Wrapper>
@@ -66,11 +70,7 @@ export default function HomeCategoryItemList({
             <ProductThumbnail key={item.itemId} {...item} />
           ))}
         </GridContent>
-        {isLoading ? (
-          <SkeletonCategoryItem colsCount={2} />
-        ) : (
-          <div ref={targetRef} />
-        )}
+        <div ref={targetRef} />
       </>
     </Wrapper>
   );
