@@ -29,7 +29,7 @@ export default function HomeCategoryItemList({
     handleClickCategory,
   } = useFetchCategoryItems({
     category,
-    initialData: data,
+    skipFetchWithInitialData: data,
   });
 
   const { targetRef } = useIntersectionObserver({

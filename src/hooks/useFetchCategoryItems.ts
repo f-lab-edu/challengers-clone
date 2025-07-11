@@ -6,22 +6,22 @@ import { useEffect, useState } from "react";
 
 type UseFetchCategoryItemsProps = {
   category: string;
-  initialData: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
+  skipFetchWithInitialData?: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
 };
 
 export default function useFetchCategoryItems({
   category,
-  initialData,
+  skipFetchWithInitialData,
 }: UseFetchCategoryItemsProps) {
   const [enabled, setEnabled] = useState(false);
   const [activeCategory, setActiveCategory] = useState(
     HOME_CATEGORIES[0].enName
   );
   const initialPageParam =
-    category === activeCategory ? initialData.nextOffset : 0;
+    category === activeCategory ? skipFetchWithInitialData?.nextOffset || 0 : 0;
 
   const [categoryItems, setCategoryItems] = useState<HOME_CATEGORY_ITEM[]>(
-    initialData.data
+    skipFetchWithInitialData?.data || []
   );
 
   const {
@@ -52,11 +52,11 @@ export default function useFetchCategoryItems({
     const updatedItems = [
       ...categoryItems,
       ...(items?.pages[items.pages.length - 1].data ||
-        (changedCategory ? [] : initialData.data)),
+        (changedCategory ? [] : skipFetchWithInitialData?.data || [])),
     ];
 
     setCategoryItems(updatedItems);
-  }, [items, initialData.data, activeCategory]);
+  }, [items, skipFetchWithInitialData?.data, activeCategory]);
 
   return {
     activeCategory,
