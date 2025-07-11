@@ -33,6 +33,14 @@ export default function useCategoryItems({
   } = useInfiniteData<HOME_CATEGORY_ITEM[]>({
     queryKey: ["/api/home/categories?category", activeCategory],
     fetchFn: async (offset: number) => {
+      if (!enabledRef.current) {
+        return Promise.resolve({
+          data: [],
+          hasNextPage: skipFetchWithInitialData?.hasNextPage || false,
+          nextOffset: skipFetchWithInitialData?.nextOffset || 0,
+        });
+      }
+
       const res = await fetchHomeCategoryItems({
         category: activeCategory,
         pageParam: offset,
@@ -41,7 +49,6 @@ export default function useCategoryItems({
       return res.data;
     },
     initialPageParam,
-    enabled: enabledRef.current,
   });
 
   const handleClickCategory = (name: string) => {
