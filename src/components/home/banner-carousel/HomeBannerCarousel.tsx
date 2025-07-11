@@ -1,6 +1,6 @@
 "use client";
 
-import { HOME_CAROUSEL_ITEM } from "@/type/home";
+import type { HOME_CAROUSEL_ITEM } from "@/type/home";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -10,11 +10,12 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type HomeBannerCarouselProps = {
-  items: HOME_CAROUSEL_ITEM[] | undefined;
+  items: HOME_CAROUSEL_ITEM[];
 };
 
 export default function HomeBannerCarousel({ items }: HomeBannerCarouselProps) {
   const route = useRouter();
+
   const handleClickItem = (itemId: string) => {
     route.push(`/item/${itemId}`);
   };

@@ -54,3 +54,33 @@ export const BottomMenus = [
     icon: <FaRegUser size={DEFAULT_SIZE} />,
   },
 ];
+
+export const HOME_CATEGORIES = [
+  {
+    name: "전체",
+    enName: "all",
+    iconSrc: "/images/home-categories/all.png",
+  },
+  {
+    name: "오픈 예정",
+    enName: "coming-soon",
+    iconSrc: "/images/home-categories/coming-soon.png",
+  },
+  {
+    name: "뷰티",
+    enName: "beauty",
+    iconSrc: "/images/guide-banner/cosmetics.jpg",
+  },
+  {
+    name: "푸드/헬스",
+    enName: "food-health",
+    iconSrc: "/images/home-categories/f&h.png",
+  },
+  {
+    name: "라이프",
+    enName: "life",
+    iconSrc: "/images/home-categories/life.png",
+  },
+];
+
+export const LIMIT = 10;

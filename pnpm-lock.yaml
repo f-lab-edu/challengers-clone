@@ -11,6 +11,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.81.5
         version: 5.81.5(react@19.1.0)
+      msw:
+        specifier: ^2.10.2
+        version: 2.10.2(@types/node@20.19.1)(typescript@5.8.3)
       framer-motion:
         specifier: ^12.23.0
         version: 12.23.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -45,9 +48,6 @@ importers:
       eslint-config-next:
         specifier: 15.3.4
         version: 15.3.4(eslint@9.29.0)(typescript@5.8.3)
-      msw:
-        specifier: ^2.10.2
-        version: 2.10.2(@types/node@20.19.1)(typescript@5.8.3)
       styled-components:
         specifier: ^6.1.19
         version: 6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0)

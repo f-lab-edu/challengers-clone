@@ -2,19 +2,25 @@
 
 import { initMock } from "@/mocks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type ProviderProps = {
   children: React.ReactNode;
 };
 
 export default function Provider({ children }: ProviderProps) {
+  const [isReady, setIsReady] = useState(false);
   const client = new QueryClient();
+
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-      initMock();
+      initMock().then(() => {
+        setIsReady(true);
+      });
     }
   }, []);
+
+  if (!isReady) return <div>Loading...</div>;
 
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }

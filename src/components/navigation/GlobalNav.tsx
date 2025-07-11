@@ -29,6 +29,9 @@ export default GlobalNav;
 
 const Nav = styled.nav`
   width: 100%;
+  position: relative;
+  height: 60px;
+  background: white;
 `;
 
 const Ul = styled.ul`
