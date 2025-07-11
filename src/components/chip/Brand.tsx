@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const COLOR = {
+export const BRAND_COLOR = {
   "olive-young-id": {
     color: "green",
     $background: "yellowgreen",
@@ -21,11 +21,11 @@ const COLOR = {
 
 type BrandProps = {
   brandName: string;
-  brandId: keyof typeof COLOR;
+  brandId: keyof typeof BRAND_COLOR;
 };
 
 export default function Brand({ brandName, brandId }: BrandProps) {
-  return <BrandName {...COLOR[brandId]}>{brandName}</BrandName>;
+  return <BrandName {...BRAND_COLOR[brandId]}>{brandName}</BrandName>;
 }
 
 const BrandName = styled.span<{ color: string; $background: string }>`
