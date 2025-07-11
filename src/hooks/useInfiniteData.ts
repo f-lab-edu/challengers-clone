@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 export type PaginatedResponse<T> = {
   data: T;
@@ -25,12 +25,11 @@ const fetchPaginatedData = async <T>(
 export default function useInfiniteData<T>({
   queryKey,
   fetchFn,
-  enabled = true,
   initialPageParam = 0,
   staleTime = 1000 * 60,
 }: useInfiniteDataProps<T>) {
   const { data, error, isLoading, hasNextPage, fetchNextPage } =
-    useInfiniteQuery<
+    useSuspenseInfiniteQuery<
       PaginatedResponse<T>,
       Error,
       PaginatedResponse<T>,
@@ -44,7 +43,6 @@ export default function useInfiniteData<T>({
         if (lastPage == undefined) return undefined;
         return lastPage.hasNextPage ? lastPage.nextOffset : undefined;
       },
-      enabled,
       staleTime,
     });
 
