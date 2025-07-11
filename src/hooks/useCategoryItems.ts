@@ -1,7 +1,8 @@
-import useInfiniteData, { PaginatedResponse } from "@/hooks/useInfiniteData";
+import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import type { HOME_CATEGORY_ITEM } from "@/type/home";
 import { useEffect, useRef, useState } from "react";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 type UseCategoryItemsProps = {
   isCategoryChanged: boolean;
@@ -25,14 +26,16 @@ export default function useCategoryItems({
     skipFetchWithInitialData?.data || []
   );
 
+  const staleTime = 1000 * 60;
+
   const {
     data: items,
     isLoading,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteData<HOME_CATEGORY_ITEM[]>({
+  } = useSuspenseInfiniteQuery<PaginatedResponse<HOME_CATEGORY_ITEM[]>>({
     queryKey: ["/api/home/categories?category", activeCategory],
-    fetchFn: async (offset: number) => {
+    queryFn: async ({ pageParam = 0 }) => {
       if (!enabledRef.current) {
         return Promise.resolve({
           data: [],
@@ -41,14 +44,19 @@ export default function useCategoryItems({
         });
       }
 
-      const res = await fetchHomeCategoryItems({
+      const result = await fetchHomeCategoryItems({
         category: activeCategory,
-        pageParam: offset,
+        pageParam: pageParam as number,
       });
 
-      return res.data;
+      return result.data;
     },
     initialPageParam,
+    getNextPageParam: (lastPage) => {
+      if (lastPage == undefined) return undefined;
+      return lastPage.hasNextPage ? lastPage.nextOffset : undefined;
+    },
+    staleTime,
   });
 
   const handleClickCategory = (name: string) => {
