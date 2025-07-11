@@ -15,6 +15,7 @@ export type HOME_ACTION_ICON = {
 };
 
 export type HOME_CATEGORY_ITEM = {
+  category: string;
   itemId: string;
   imageSrc: string; // 상품 이미지
   imageAlt: string; // 상품 이미지 설명
@@ -29,4 +30,5 @@ export type HOME_CATEGORY_ITEM = {
   price: number; // 현재 가격
   originalPrice: number; // 원래 가격
   cashbackAmount: number; // 페이백 금액
+  priorityLoad?: boolean; // 우선 로드 여부
 };

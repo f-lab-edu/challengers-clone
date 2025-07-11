@@ -10,7 +10,7 @@ type HomeActionIconsProps = {
 };
 
 export default function HomeActionIcons({ items }: HomeActionIconsProps) {
-  if (items == undefined) return <></>;
+  if (items == undefined) return null;
 
   return (
     <Container>
