@@ -68,10 +68,28 @@ export const HOME_CATEGORY_ITEMS: HOME_CATEGORY_ITEM[] = [
     brandId: "olive-young-id",
     periods: [
       {
-        time: "6/27 오후 1시 ~ 4시",
+        time: "7/10 하루 동안",
         currentCount: 32,
         maxCount: 33,
         isSoldOut: false,
+      },
+      {
+        time: "6/29 오후 1시 ~ 4시",
+        currentCount: 33,
+        maxCount: 33,
+        isSoldOut: true,
+      },
+      {
+        time: "6/28 오후 1시 ~ 4시",
+        currentCount: 33,
+        maxCount: 33,
+        isSoldOut: true,
+      },
+      {
+        time: "6/27 오후 1시 ~ 4시",
+        currentCount: 33,
+        maxCount: 33,
+        isSoldOut: true,
       },
     ],
     title: "푸응 팻버닝 프로 30캡슐 구매하기",
@@ -90,9 +108,9 @@ export const HOME_CATEGORY_ITEMS: HOME_CATEGORY_ITEM[] = [
     periods: [
       {
         time: "6/27 오후 5시 ~ 8시",
-        currentCount: 16,
+        currentCount: 40,
         maxCount: 40,
-        isSoldOut: false,
+        isSoldOut: true,
       },
     ],
     title: "[✨광노화 개선 선세럼] 베라모어 광채 에이징 선세럼",
