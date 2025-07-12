@@ -7,14 +7,12 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 type UseCategoryItemsProps = {
   isCategoryChanged: boolean;
   activeCategory: string;
-  setActiveCategory: (category: string) => void;
   skipFetchWithInitialData?: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
 };
 
 export default function useCategoryItems({
   isCategoryChanged,
   activeCategory,
-  setActiveCategory,
   skipFetchWithInitialData,
 }: UseCategoryItemsProps) {
   const enabledRef = useRef(false);
@@ -59,11 +57,16 @@ export default function useCategoryItems({
     staleTime,
   });
 
-  const handleClickCategory = (name: string) => {
+  const resetCategoryItems = () => {
     enabledRef.current = true;
-    setActiveCategory(name);
     setCategoryItems([]);
   };
+
+  useEffect(() => {
+    if (isCategoryChanged) {
+      resetCategoryItems();
+    }
+  }, [isCategoryChanged]);
 
   useEffect(() => {
     const updatedItems = [
@@ -81,6 +84,6 @@ export default function useCategoryItems({
     isLoading,
     hasNextPage,
     fetchNextPage,
-    handleClickCategory,
+    resetCategoryItems,
   };
 }
