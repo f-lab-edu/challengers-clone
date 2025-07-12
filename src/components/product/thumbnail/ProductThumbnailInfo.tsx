@@ -1,4 +1,5 @@
-import Brand, { BRAND_COLOR } from "@/components/chip/Brand";
+import Brand from "@/components/chip/Brand";
+import { PRODUCT_BRAND_COLOR } from "@/constants/product";
 import React from "react";
 import styled from "styled-components";
 
@@ -9,7 +10,7 @@ const ProductThumbnailInfo = ({
   children,
 }: {
   brand: string;
-  brandId: keyof typeof BRAND_COLOR;
+  brandId: keyof typeof PRODUCT_BRAND_COLOR;
   title: string;
   children?: React.ReactNode;
 }) => {

@@ -1,6 +1,25 @@
 import { FaRegUser } from "react-icons/fa6";
 import styled, { css } from "styled-components";
 
+export const PRODUCT_BRAND_COLOR = {
+  "olive-young-id": {
+    color: "green",
+    $background: "yellowgreen",
+  },
+  "11st-id": {
+    color: "green",
+    $background: "yellowgreen",
+  },
+  "g-market-id": {
+    color: "green",
+    $background: "yellowgreen",
+  },
+  "musinsa-id": {
+    color: "gray",
+    $background: "lightgray",
+  },
+};
+
 export const ParticipationStatus = styled.div<{ $isAbsolute: boolean }>`
   padding: 4px;
   border-radius: 2px;
