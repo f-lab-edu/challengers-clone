@@ -1,11 +1,14 @@
 "use client";
 
+import HomeCategory from "@/components/home/category-item-list/HomeCategory";
 import HomeCategoryItemList from "@/components/home/category-item-list/HomeCategoryItemList";
 import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
 import { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import styles from "./HomeCategoryItemListContainer.module.css";
+import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -38,9 +41,12 @@ export default function HomeCategoryItemListContainer() {
 
   return (
     <ErrorBoundary fallback={<div>Error</div>}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <HomeCategoryItemList initialCategory={category} initialData={data} />
-      </Suspense>
+      <div className={styles.layout}>
+        <HomeCategory />
+        <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
+          <HomeCategoryItemList initialCategory={category} initialData={data} />
+        </Suspense>
+      </div>
     </ErrorBoundary>
   );
 }
