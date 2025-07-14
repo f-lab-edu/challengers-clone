@@ -1,14 +1,33 @@
-import { HOME_CATEGORIES } from "@/constants/constants";
-import { useState } from "react";
+import { HOME_CATEGORY_ITEM, HomeCategory } from "@/type/home";
+import { useEffect, useState } from "react";
 
-type HomeCategory = (typeof HOME_CATEGORIES)[number]["enName"];
+type UseCategoryStateProps = {
+  initialCategory: HomeCategory;
+  initialData: HOME_CATEGORY_ITEM[];
+};
 
-export default function useCategoryState() {
-  const [activeCategory, setActiveCategory] = useState("all");
+export default function useCategoryState({
+  initialCategory,
+  initialData,
+}: UseCategoryStateProps) {
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
+  const [categoryItems, setCategoryItems] = useState(initialData);
+  const isCategoryChanged = activeCategory !== "all";
 
   const handleClickCategory = (category: HomeCategory) => {
     setActiveCategory(category);
+    setCategoryItems([]);
   };
 
-  return { activeCategory, handleClickCategory };
+  useEffect(() => {
+    setCategoryItems(initialData);
+  }, [initialData.length]);
+
+  return {
+    activeCategory,
+    handleClickCategory,
+    isCategoryChanged,
+    categoryItems,
+    setCategoryItems,
+  };
 }
