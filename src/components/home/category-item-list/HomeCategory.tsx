@@ -5,9 +5,17 @@ import useCategoryState from "@/hooks/useCategoryState";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
+import type { HomeCategory } from "@/type/home";
 
-export default function HomeCategory() {
-  const { activeCategory, setActiveCategory } = useCategoryState();
+type HomeCategoryProps = {
+  initialCategory: HomeCategory;
+};
+
+export default function HomeCategory({ initialCategory }: HomeCategoryProps) {
+  const { activeCategory, handleClickCategory } = useCategoryState({
+    initialCategory,
+    initialData: [],
+  });
 
   return (
     <ItemWrapper>
@@ -15,7 +23,7 @@ export default function HomeCategory() {
         <Item
           key={name}
           $isActive={`${activeCategory === enName && true}`}
-          onClick={() => setActiveCategory(enName)}
+          onClick={() => handleClickCategory(enName)}
         >
           <Image src={iconSrc} width={48} height={48} alt={`${enName} icon`} />
           <span>{name}</span>
