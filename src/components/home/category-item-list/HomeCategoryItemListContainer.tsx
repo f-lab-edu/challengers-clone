@@ -42,7 +42,7 @@ export default function HomeCategoryItemListContainer() {
   return (
     <ErrorBoundary fallback={<div>Error</div>}>
       <div className={styles.layout}>
-        <HomeCategory />
+        <HomeCategory initialCategory={category} />
         <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
           <HomeCategoryItemList initialCategory={category} initialData={data} />
         </Suspense>
