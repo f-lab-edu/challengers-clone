@@ -1,3 +1,5 @@
+import { HOME_CATEGORIES } from "@/constants/constants";
+
 export type HOME_CAROUSEL_ITEM = {
   itemId: string;
   subtitle: string; // 소제목
@@ -35,3 +37,5 @@ export type HOME_CATEGORY_ITEM = {
   priorityLoad?: boolean; // 우선 로드 여부
   isAd?: boolean;
 };
+
+export type HomeCategory = (typeof HOME_CATEGORIES)[number]["enName"];
