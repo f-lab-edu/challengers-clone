@@ -35,7 +35,7 @@ export default function HomeCategoryItemList({
     <Wrapper>
       <GridContent colsCount={2}>
         {categoryItems.map((item) => (
-          <ProductThumbnail key={item.itemId} {...item} />
+          <ProductThumbnail key={item.itemId} product={item} />
         ))}
       </GridContent>
       <div ref={targetRef} />

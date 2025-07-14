@@ -6,8 +6,12 @@ import ProductPrice from "@/components/product/thumbnail/ProductThumbnailPrice";
 import ProductBottom from "@/components/product/thumbnail/ProductThumbnailBottom";
 import ProductThumbnailLayout from "@/components/product/thumbnail/layout/ProductThumbnailLayout";
 
-export default function ProductThumbnail(props: HOME_CATEGORY_ITEM) {
-  return <ProductThumbnailLayout {...props} />;
+type ProductThumbnailProps = {
+  product: HOME_CATEGORY_ITEM;
+};
+
+export default function ProductThumbnail({ product }: ProductThumbnailProps) {
+  return <ProductThumbnailLayout {...product} />;
 }
 
 ProductThumbnail.Image = ProductImage;
