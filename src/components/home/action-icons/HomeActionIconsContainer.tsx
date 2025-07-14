@@ -15,13 +15,11 @@ export default function HomeActionIconsContainer() {
 
   const [data, setData] = useState<HOME_ACTION_ICON[]>([]);
 
-  const initData = async () => {
-    const res = await fetchHomeActionIcons();
-    setData(res.data || []);
-  };
-
   useEffect(() => {
-    initData();
+    (async () => {
+      const res = await fetchHomeActionIcons();
+      setData(res.data || []);
+    })();
   }, []);
   return <HomeActionIcons items={data} />;
 }

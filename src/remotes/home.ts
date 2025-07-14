@@ -1,7 +1,7 @@
 "use client";
 
 import { LIMIT } from "@/constants/constants";
-import { PaginatedResponse } from "@/hooks/useGetInfinite";
+import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { APIResponse } from "@/type/api";
 import type {
   HOME_ACTION_ICON,
