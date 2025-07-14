@@ -12,13 +12,13 @@ import { OnboardingData } from "@/constants/onboarding";
 import useOnBoarding from "@/hooks/useOnBoarding";
 
 export default function OnboardingMain() {
-  const { isLastIndex, redirectToHome, setCurrentIndex } = useOnBoarding();
+  const { isLastIndex, redirectToHome, manageIndex } = useOnBoarding();
 
   return (
     <Wrapper>
       <_Swiper
         slidesPerView={1}
-        onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
+        onSlideChange={(swiper) => manageIndex(swiper.activeIndex)}
         pagination={{
           clickable: true,
         }}

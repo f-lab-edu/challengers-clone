@@ -1,10 +1,10 @@
 "use client";
 
 import { MouseEventHandler, useState } from "react";
-import OnboardingTransition from "@/components/onboarding/OnboardingTransition";
 import OnboardingIntro from "@/components/onboarding/OnboardingIntro";
 import OnboardingMain from "./OnboardingMain";
 import { useRouter } from "next/navigation";
+import PageTransition from "@/components/page-transition/PageTransition";
 
 export default function Onboarding() {
   const [isOnboardingStart, setIsOnboardingStart] = useState(false);
@@ -26,15 +26,16 @@ export default function Onboarding() {
   };
 
   return (
-    <OnboardingTransition
-      isFading={isFading}
-      handleAnimationComplete={handleAnimationComplete}
+    <PageTransition
+      animationType={isFading ? "fadeOut" : "fadeIn"}
+      onAnimationComplete={handleAnimationComplete}
+      $key={`${isFading.toString()}`}
     >
       {isOnboardingStart ? (
         <OnboardingMain />
       ) : (
         <OnboardingIntro handleClickStepButton={handleClick} />
       )}
-    </OnboardingTransition>
+    </PageTransition>
   );
 }

@@ -9,13 +9,19 @@ export default function useOnBoarding() {
   const lastIndex = OnboardingData.length - 1;
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const manageIndex = (index: number) => {
+    if (index < 0) setCurrentIndex(0);
+    if (index > lastIndex) setCurrentIndex(lastIndex);
+    setCurrentIndex(index);
+  };
+
   const redirectToHome = () => {
     router.push("/home");
   };
 
   return {
     isLastIndex: currentIndex === lastIndex,
-    setCurrentIndex,
+    manageIndex,
     redirectToHome,
   };
 }
