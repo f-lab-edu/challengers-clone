@@ -1,13 +1,13 @@
 "use client";
 
-import GridContent from "@/components/grid/GridContent";
-import ProductThumbnail from "@/components/product/ProductThumbnail";
+import ProductThumbnail from "@/components/product/thumbnail/ProductThumbnail";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { HOME_CATEGORY_ITEM } from "@/type/home";
 import styled from "styled-components";
 import useCategoryItems from "@/hooks/useCategoryItems";
 import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import useCategoryState from "@/hooks/useCategoryState";
+import GridContent from "@/components/grid/GridContent";
 
 type HomeCategoryItemListProps = {
   initialCategory: string;
