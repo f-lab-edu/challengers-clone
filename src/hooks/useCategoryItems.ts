@@ -8,12 +8,14 @@ type UseCategoryItemsProps = {
   isCategoryChanged: boolean;
   activeCategory: string;
   skipFetchWithInitialData?: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
+  staleTime?: number;
 };
 
 export default function useCategoryItems({
   isCategoryChanged,
   activeCategory,
   skipFetchWithInitialData,
+  staleTime = 1000 * 60,
 }: UseCategoryItemsProps) {
   const enabledRef = useRef(false);
   const initialPageParam = isCategoryChanged
@@ -23,8 +25,6 @@ export default function useCategoryItems({
   const [categoryItems, setCategoryItems] = useState<HOME_CATEGORY_ITEM[]>(
     skipFetchWithInitialData?.data || []
   );
-
-  const staleTime = 1000 * 60;
 
   const {
     data: items,
