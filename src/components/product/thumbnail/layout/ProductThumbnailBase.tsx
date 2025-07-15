@@ -23,7 +23,7 @@ const ProductThumbnailBase = ({
   };
 
   return (
-    <Container>
+    <Container $needsFullWidth={needsFullWidth}>
       <Wrapper $needsFullWidth={needsFullWidth} onClick={handleClick}>
         {childrenArray}
       </Wrapper>
@@ -31,16 +31,24 @@ const ProductThumbnailBase = ({
     </Container>
   );
 };
-const Container = styled.div`
-  display: flex;
+const Container = styled.div<{ $needsFullWidth: boolean }>`
+  display: inline-flex;
   flex-direction: column;
   margin-bottom: 32px;
   overflow: hidden;
+  width: 48%;
+
+  ${({ $needsFullWidth }) =>
+    $needsFullWidth &&
+    css`
+      width: 100%;
+    `}
 `;
 
 const Wrapper = styled.li<{ $needsFullWidth: boolean }>`
   display: flex;
   flex-direction: column;
+
   ${({ $needsFullWidth }) =>
     $needsFullWidth &&
     css`

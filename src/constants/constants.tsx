@@ -81,6 +81,6 @@ export const HOME_CATEGORIES = [
     enName: "life",
     iconSrc: "/images/home-categories/life.png",
   },
-];
+] as const;
 
 export const LIMIT = 10;
