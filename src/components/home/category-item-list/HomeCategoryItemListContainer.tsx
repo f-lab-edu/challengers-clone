@@ -9,6 +9,7 @@ import { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import styles from "./HomeCategoryItemListContainer.module.css";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
+import { CategoryProvider } from "@/contexts/CategoryContext";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -42,10 +43,12 @@ export default function HomeCategoryItemListContainer() {
   return (
     <ErrorBoundary fallback={<div>Error</div>}>
       <div className={styles.layout}>
-        <HomeCategory initialCategory={category} />
-        <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
-          <HomeCategoryItemList initialCategory={category} initialData={data} />
-        </Suspense>
+        <CategoryProvider initialData={data}>
+          <HomeCategory />
+          <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
+            <HomeCategoryItemList initialData={data} />
+          </Suspense>
+        </CategoryProvider>
       </div>
     </ErrorBoundary>
   );
