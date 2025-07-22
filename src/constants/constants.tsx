@@ -84,3 +84,4 @@ export const HOME_CATEGORIES = [
 ] as const;
 
 export const LIMIT = 10;
+export const DEFAULT_CATEGORY = 'all'
