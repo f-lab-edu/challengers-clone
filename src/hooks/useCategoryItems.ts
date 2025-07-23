@@ -1,7 +1,9 @@
+'use client';
+
 import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import type { HOME_CATEGORY_ITEM } from "@/type/home";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 type UseCategoryItemsProps = {
   activeCategory: string;
@@ -18,17 +20,12 @@ export default function useCategoryItems({
   initialPageParam = 0,
   enabled = true,
 }: UseCategoryItemsProps) {
+  const queryKey = ["/api/home/categories?category", activeCategory];
+
   const { data, isLoading, hasNextPage, fetchNextPage } =
     useSuspenseInfiniteQuery<PaginatedResponse<HOME_CATEGORY_ITEM[]>>({
-      queryKey: ["/api/home/categories?category", activeCategory],
+      queryKey,
       queryFn: async ({ pageParam = 0 }) => {
-        if (!enabled) {
-          return Promise.resolve({
-            data: [],
-            hasNextPage: skipFetchWithInitialData?.hasNextPage || false,
-            nextOffset: skipFetchWithInitialData?.nextOffset || 0,
-          });
-        }
 
         const result = await fetchHomeCategoryItems({
           category: activeCategory,
@@ -38,11 +35,15 @@ export default function useCategoryItems({
         return result.data;
       },
       initialPageParam,
+      initialData: skipFetchWithInitialData
+        ? {
+          pages: [skipFetchWithInitialData],
+          pageParams: [initialPageParam]
+        } : undefined,
       getNextPageParam: (lastPage) => {
         if (lastPage == undefined) return undefined;
         return lastPage.hasNextPage ? lastPage.nextOffset : undefined;
-      },
-      staleTime,
+      }
     });
 
   return {
