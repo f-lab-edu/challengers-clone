@@ -12,6 +12,7 @@ import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
 import { CategoryProvider } from "@/contexts/CategoryContext";
 import { DEFAULT_CATEGORY } from "@/constants/constants";
 import SuspenseErrorBoundary from "@/components/error/SuspenseErrorBoundary";
+import ErrorBoundaryWithLogging from "@/components/error/ErrorBoundaryWithLogging";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -54,20 +55,31 @@ export default function HomeCategoryItemListContainer() {
     // </ErrorBoundary>
 
     // 1. Suspense + ErrorBoundary
-    <SuspenseErrorBoundary
-      loading={<SkeletonCategoryItem colsCount={2} />}
-      rejectedFallback={<>something is wrong</>}
-      onError={(error, info) => {
-        console.error("error: ", error, info)
-      }}
-    >
+    // <SuspenseErrorBoundary
+    //   loading={<SkeletonCategoryItem colsCount={2} />}
+    //   rejectedFallback={<>something is wrong</>}
+    //   onError={(error, info) => {
+    //     console.error("error: ", error, info)
+    //   }}
+    // >
+    //   <div className={styles.layout}>
+    //     <CategoryProvider initialData={data}>
+    //       <HomeCategory />
+    //       <HomeCategoryItemList initialData={data} />
+    //     </CategoryProvider>
+    //   </div>
+    // </SuspenseErrorBoundary >
+
+    // 2. logging ErrorBoundary
+    <ErrorBoundaryWithLogging fallback={<div>Error</div>}>
       <div className={styles.layout}>
         <CategoryProvider initialData={data}>
           <HomeCategory />
-          <HomeCategoryItemList initialData={data} />
+          <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
+            <HomeCategoryItemList initialData={data} />
+          </Suspense>
         </CategoryProvider>
       </div>
-    </SuspenseErrorBoundary >
-
+    </ErrorBoundaryWithLogging>
   );
 }
