@@ -13,6 +13,7 @@ import { CategoryProvider } from "@/contexts/CategoryContext";
 import { DEFAULT_CATEGORY } from "@/constants/constants";
 import SuspenseErrorBoundary from "@/components/error/SuspenseErrorBoundary";
 import ErrorBoundaryWithLogging from "@/components/error/ErrorBoundaryWithLogging";
+import HomeCategoryError from "@/components/error/HomeCategoryError";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -71,15 +72,31 @@ export default function HomeCategoryItemListContainer() {
     // </SuspenseErrorBoundary >
 
     // 2. logging ErrorBoundary
-    <ErrorBoundaryWithLogging fallback={<div>Error</div>}>
-      <div className={styles.layout}>
-        <CategoryProvider initialData={data}>
-          <HomeCategory />
-          <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
-            <HomeCategoryItemList initialData={data} />
-          </Suspense>
-        </CategoryProvider>
-      </div>
-    </ErrorBoundaryWithLogging>
+    // <ErrorBoundaryWithLogging fallback={<div>Error</div>}>
+    //   <div className={styles.layout}>
+    //     <CategoryProvider initialData={data}>
+    //       <HomeCategory />
+    //       <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
+    //         <HomeCategoryItemList initialData={data} />
+    //       </Suspense>
+    //     </CategoryProvider>
+    //   </div>
+    // </ErrorBoundaryWithLogging>
+
+    // 3. Reject, Loading 상태에 띄워질 UI를 미리 선언적으로 만들어 사용
+    <div className={styles.layout}>
+      <CategoryProvider initialData={data}>
+        <HomeCategory />
+        <SuspenseErrorBoundary
+          loading={HomeCategoryItemListContainer.Loading}
+          rejectedFallback={HomeCategoryItemListContainer.Reject}
+        >
+          <HomeCategoryItemList initialData={data} />
+        </SuspenseErrorBoundary>
+      </CategoryProvider>
+    </div>
   );
 }
+
+HomeCategoryItemListContainer.Reject = <HomeCategoryError />
+HomeCategoryItemListContainer.Loading = <SkeletonCategoryItem colsCount={2} />
