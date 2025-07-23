@@ -11,6 +11,7 @@ import styles from "./HomeCategoryItemListContainer.module.css";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
 import { CategoryProvider } from "@/contexts/CategoryContext";
 import { DEFAULT_CATEGORY } from "@/constants/constants";
+import SuspenseErrorBoundary from "@/components/error/SuspenseErrorBoundary";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -41,15 +42,32 @@ export default function HomeCategoryItemListContainer() {
   }, []);
 
   return (
-    <ErrorBoundary fallback={<div>Error</div>}>
+    // <ErrorBoundary fallback={<div>Error</div>}>
+    //   <div className={styles.layout}>
+    //     <CategoryProvider initialData={data}>
+    //       <HomeCategory />
+    //       <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
+    //         <HomeCategoryItemList initialData={data} />
+    //       </Suspense>
+    //     </CategoryProvider>
+    //   </div>
+    // </ErrorBoundary>
+
+    // 1. Suspense + ErrorBoundary
+    <SuspenseErrorBoundary
+      loading={<SkeletonCategoryItem colsCount={2} />}
+      rejectedFallback={<>something is wrong</>}
+      onError={(error, info) => {
+        console.error("error: ", error, info)
+      }}
+    >
       <div className={styles.layout}>
         <CategoryProvider initialData={data}>
           <HomeCategory />
-          <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
-            <HomeCategoryItemList initialData={data} />
-          </Suspense>
+          <HomeCategoryItemList initialData={data} />
         </CategoryProvider>
       </div>
-    </ErrorBoundary>
+    </SuspenseErrorBoundary >
+
   );
 }
