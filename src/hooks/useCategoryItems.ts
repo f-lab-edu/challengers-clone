@@ -3,14 +3,13 @@
 import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import type { HOME_CATEGORY_ITEM } from "@/type/home";
-import { useQueryClient, useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 type UseCategoryItemsProps = {
   activeCategory: string;
   skipFetchWithInitialData?: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
   staleTime?: number;
   initialPageParam?: number;
-  enabled?: boolean;
 };
 
 export default function useCategoryItems({
@@ -18,7 +17,6 @@ export default function useCategoryItems({
   skipFetchWithInitialData,
   staleTime = 1000 * 60,
   initialPageParam = 0,
-  enabled = true,
 }: UseCategoryItemsProps) {
   const queryKey = ["/api/home/categories?category", activeCategory];
 
@@ -26,12 +24,10 @@ export default function useCategoryItems({
     useSuspenseInfiniteQuery<PaginatedResponse<HOME_CATEGORY_ITEM[]>>({
       queryKey,
       queryFn: async ({ pageParam = 0 }) => {
-
         const result = await fetchHomeCategoryItems({
           category: activeCategory,
           pageParam: pageParam as number,
         });
-
         return result.data;
       },
       initialPageParam,

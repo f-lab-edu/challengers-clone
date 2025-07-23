@@ -21,7 +21,6 @@ export default function HomeCategoryItemList({
     activeCategory: category,
     skipFetchWithInitialData: initialData,
     initialPageParam: isCategoryChanged ? 0 : initialData.nextOffset || 0,
-    enabled: isCategoryChanged ? true : initialData.hasNextPage || false,
   });
 
   useEffect(() => {
