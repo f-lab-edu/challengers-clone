@@ -10,6 +10,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import styles from "./HomeCategoryItemListContainer.module.css";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
 import { CategoryProvider } from "@/contexts/CategoryContext";
+import { DEFAULT_CATEGORY } from "@/constants/constants";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -18,7 +19,6 @@ export default function HomeCategoryItemListContainer() {
    * 이 컴포넌트 삭제 금지
    */
   // const data = HOME_CATEGORY_ITEMS;
-  const category = "all";
   const [data, setData] = useState<PaginatedResponse<HOME_CATEGORY_ITEM[]>>({
     data: [],
     hasNextPage: false,
@@ -27,7 +27,7 @@ export default function HomeCategoryItemListContainer() {
 
   const initData = async () => {
     const res = await fetchHomeCategoryItems({
-      category,
+      category: DEFAULT_CATEGORY,
       pageParam: 0,
     });
 
