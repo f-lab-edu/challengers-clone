@@ -5,33 +5,27 @@ import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { HOME_CATEGORY_ITEM, HomeCategory } from "@/type/home";
 import useCategoryItems from "@/hooks/useCategoryItems";
 import { PaginatedResponse } from "@/hooks/useInfiniteData";
-import useCategoryState from "@/hooks/useCategoryState";
 import { useEffect } from "react";
+import { useCategoryContext } from "@/contexts/CategoryContext";
 
 type HomeCategoryItemListProps = {
-  initialCategory: HomeCategory;
   initialData: PaginatedResponse<HOME_CATEGORY_ITEM[]>;
 };
 
 export default function HomeCategoryItemList({
-  initialData,
-  initialCategory,
+  initialData
 }: HomeCategoryItemListProps) {
-  const { activeCategory, isCategoryChanged, categoryItems, setCategoryItems } =
-    useCategoryState({
-      initialCategory,
-      initialData: initialData.data,
-    });
+  const { category, categoryItems, isCategoryChanged, changeCategoryItems } = useCategoryContext();
 
   const { data, hasNextPage, fetchNextPage } = useCategoryItems({
-    activeCategory,
+    activeCategory: category,
     skipFetchWithInitialData: initialData,
     initialPageParam: isCategoryChanged ? 0 : initialData.nextOffset || 0,
-    enabled: isCategoryChanged,
+    enabled: isCategoryChanged ? true : initialData.hasNextPage || false,
   });
 
   useEffect(() => {
-    setCategoryItems((prev) => [...prev, ...(data.length ? data : [])]);
+    changeCategoryItems([...categoryItems, ...(data.length ? data : [])]);
   }, [data.length]);
 
   const { targetRef } = useIntersectionObserver({
