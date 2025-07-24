@@ -16,6 +16,8 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [keyboardIndex, setKeyboardIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const itemRef = useRef<HTMLLIElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
 
   const handleChangeInput: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -71,21 +73,55 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
     }
   }, []);
 
+  useEffect(() => {
+    if (itemRef.current && listRef.current) {
+      const item = itemRef.current;
+      const list = listRef.current;
+      // 선택된 아이템의 윗부분이 ul의 맨 위에서부터 얼마나 떨어져 있는지
+      const itemTop = item.offsetTop;
+      // 선택된 아이템의 아랫부분 위치
+      const itemBottom = itemTop + item.offsetHeight;
+      // 현재 ul이 스크롤된 위치(스크롤바의 최상단 위치)
+      const listTop = list.scrollTop;
+      // ul의 보이는 영역의 맨 아래 위치
+      const listBottom = listTop + list.clientHeight;
+
+      // 아이템이 ul의 보이는 영역 위에 있을 때
+      if (itemTop < listTop) {
+        // 아이템이 보이도록 ul의 스크롤을 아이템의 윗부분으로 맞춤
+        list.scrollTop = itemTop;
+      }
+      // 아이템이 ul의 보이는 영역 아래에 있을 때
+      else if (itemBottom > listBottom) {
+        // 아이템이 보이도록 ul의 스크롤을 아이템의 아랫부분이 ul의 맨 아래에 오도록 맞춤
+        list.scrollTop = itemBottom - list.clientHeight;
+      }
+    }
+
+  }, [keyboardIndex])
+
   return (
     <Wrapper ref={containerRef}>
       <Input name="auto-complete-input" value={value} onChange={handleChangeInput} placeholder={placeholder || "상품 검색"} onKeyDown={handleKeyDown} />
       {
         isOpen && items.length !== 0 ? (
-          <ItemContainer>
-            {items.map(({ id, name }, idx) => (
-              <ItemWrapper key={id} onClick={() => handleClickDropDown(id)}
-                $isActive={keyboardIndex === idx}
-              >
-                <span>{name}</span>
-              </ItemWrapper>
-            ))
-            }
-          </ItemContainer >
+          <ScrollMask>
+            <ItemContainer ref={listRef}>
+              {items.map(({ id, name }, idx) => (
+                <ItemWrapper key={id} onClick={() => handleClickDropDown(id)}
+                  $isActive={keyboardIndex === idx}
+                  ref={(el) => {
+                    if (keyboardIndex === idx) {
+                      itemRef.current = el;
+                    }
+                  }}
+                >
+                  <span>{name}</span>
+                </ItemWrapper>
+              ))
+              }
+            </ItemContainer >
+          </ScrollMask>
         ) : (<></>)
       }
     </Wrapper>
@@ -114,14 +150,19 @@ const Input = styled.input`
   font-size: 14px;
 `;
 
+const ScrollMask = styled.div`
+  display: flex;
+  overflow: hidden;
+`
+
 const ItemContainer = styled.ul`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
   width: 100%;
   min-height: 300px;
   max-height: 300px;
+  overflow-y: scroll;
 	outline: none;
 	position: absolute;
 	top: 52px;
