@@ -39,3 +39,18 @@ export type HOME_CATEGORY_ITEM = {
 };
 
 export type HomeCategory = (typeof HOME_CATEGORIES)[number]["enName"];
+export type GroupItem = {
+  group: string;
+  items: {
+    label: string;
+    value: string
+  }[]
+};
+
+type Category = '오픈 예정' | '뷰티' | '푸드/헬스' | '라이프';
+export type AutoCompleteItem = {
+  id: string;
+  name: string;
+  category: Category;
+  tags?: string[];
+}
