@@ -24,8 +24,8 @@ export default function HomeCategoryItemList({
   });
 
   useEffect(() => {
-    changeCategoryItems([...categoryItems, ...(data.length ? data : [])]);
-  }, [data.length]);
+    changeCategoryItems([...(data.length ? data : [])]);
+  }, [category, data.length]);
 
   const { targetRef } = useIntersectionObserver({
     fetchNextPage,
