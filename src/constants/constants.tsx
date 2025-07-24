@@ -158,6 +158,126 @@ export const AUTO_COMPLETE_ITEMS: AutoCompleteItem[] = [
     name: '세면타월 3종 세트',
     category: '라이프',
     tags: ['욕실용품', '수건', '선물']
+  },
+  {
+    id: 'item-12',
+    name: '비타민 샴푸',
+    category: '뷰티',
+    tags: ['두피케어', '탈모', '비타민']
+  },
+  {
+    id: 'item-13',
+    name: '비상용 구급 키트',
+    category: '라이프',
+    tags: ['응급처치', '구급상자', '여행용']
+  },
+  {
+    id: 'item-14',
+    name: '비건 화장품 세트',
+    category: '뷰티',
+    tags: ['비건', '친환경', '스킨케어']
+  },
+  {
+    id: 'item-15',
+    name: '비접촉 체온계',
+    category: '푸드/헬스',
+    tags: ['건강', '체온', '코로나']
+  },
+  {
+    id: 'item-16',
+    name: '비타민 젤리',
+    category: '푸드/헬스',
+    tags: ['간식', '영양', '젤리']
+  },
+  {
+    id: 'item-17',
+    name: '비누 디퓨저',
+    category: '라이프',
+    tags: ['향기', '디퓨저', '장식']
+  },
+  {
+    id: 'item-18',
+    name: '비치타월 대형',
+    category: '라이프',
+    tags: ['여름', '수건', '비치']
+  },
+  {
+    id: 'item-19',
+    name: '비건 에너지바',
+    category: '푸드/헬스',
+    tags: ['비건', '단백질', '헬스']
+  },
+  {
+    id: 'item-20',
+    name: '비타민 워터',
+    category: '푸드/헬스',
+    tags: ['음료', '건강', '수분보충']
+  },
+  {
+    id: 'item-21',
+    name: '비염 스프레이',
+    category: '푸드/헬스',
+    tags: ['코막힘', '알레르기', '건강']
+  },
+  {
+    id: 'item-22',
+    name: '비타민C 세럼',
+    category: '뷰티',
+    tags: ['항산화', '피부미백']
+  },
+  {
+    id: 'item-23',
+    name: '비타민B 컴플렉스',
+    category: '푸드/헬스',
+    tags: ['피로회복', '에너지']
+  },
+  {
+    id: 'item-24',
+    name: '비타민D 스프레이',
+    category: '푸드/헬스',
+    tags: ['면역력', '햇빛대체']
+  },
+  {
+    id: 'item-25',
+    name: '비타민C 마스크팩',
+    category: '뷰티',
+    tags: ['스킨케어', '광채']
+  },
+  {
+    id: 'item-26',
+    name: '비타민 오일',
+    category: '뷰티',
+    tags: ['보습', '윤기']
+  },
+  {
+    id: 'item-27',
+    name: '비타민 츄어블',
+    category: '푸드/헬스',
+    tags: ['간편섭취', '영양제']
+  },
+  {
+    id: 'item-28',
+    name: '비타민 구미',
+    category: '푸드/헬스',
+    tags: ['젤리형', '맛있는 비타민']
+  },
+  {
+    id: 'item-29',
+    name: '비타민 스틱',
+    category: '푸드/헬스',
+    tags: ['휴대용', '비타민']
+  },
+  {
+    id: 'item-30',
+    name: '비타민 수분크림',
+    category: '뷰티',
+    tags: ['보습', '영양']
+  },
+  {
+    id: 'item-31',
+    name: '비타민 파우더',
+    category: '푸드/헬스',
+    tags: ['물에 타먹는', '피로회복']
   }
 ];
 
