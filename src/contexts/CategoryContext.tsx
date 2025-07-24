@@ -40,7 +40,7 @@ export const CategoryProvider = ({ children, initialData }: UseCategoryContextPr
   }
 
   const changeCategoryItems = (items: HOME_CATEGORY_ITEM[] | []) => {
-    setCategoryItems(items);
+    setCategoryItems((prev) => [...prev, ...items]);
   }
 
   useEffect(() => {
