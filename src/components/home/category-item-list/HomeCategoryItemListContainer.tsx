@@ -43,6 +43,8 @@ export default function HomeCategoryItemListContainer() {
     initData();
   }, []);
 
+  if (data.data.length === 0) return <>Loading...</>
+
   return (
     // <ErrorBoundary fallback={<div>Error</div>}>
     //   <div className={styles.layout}>
