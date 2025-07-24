@@ -1,5 +1,6 @@
 'use client';
 
+import { useCategoryContext } from "@/contexts/CategoryContext";
 import { PaginatedResponse } from "@/hooks/useInfiniteData";
 import { fetchHomeCategoryItems } from "@/remotes/home";
 import type { HOME_CATEGORY_ITEM } from "@/type/home";
@@ -18,6 +19,7 @@ export default function useCategoryItems({
   staleTime = 1000 * 60,
   initialPageParam = 0,
 }: UseCategoryItemsProps) {
+  const { isCategoryChanged } = useCategoryContext();
   const queryKey = ["/api/home/categories?category", activeCategory];
 
   const { data, isLoading, hasNextPage, fetchNextPage } =
@@ -31,7 +33,7 @@ export default function useCategoryItems({
         return result.data;
       },
       initialPageParam,
-      initialData: skipFetchWithInitialData
+      initialData: !isCategoryChanged && skipFetchWithInitialData
         ? {
           pages: [skipFetchWithInitialData],
           pageParams: [initialPageParam]
@@ -39,7 +41,8 @@ export default function useCategoryItems({
       getNextPageParam: (lastPage) => {
         if (lastPage == undefined) return undefined;
         return lastPage.hasNextPage ? lastPage.nextOffset : undefined;
-      }
+      },
+      staleTime
     });
 
   return {
