@@ -9,6 +9,7 @@ import { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import styles from "./HomeCategoryItemListContainer.module.css";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
+import HomeAutoComplete from "../HomeAutoComplete";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -40,13 +41,14 @@ export default function HomeCategoryItemListContainer() {
   }, []);
 
   return (
-    <ErrorBoundary fallback={<div>Error</div>}>
-      <div className={styles.layout}>
-        <HomeCategory initialCategory={category} />
+    <div className={styles.layout}>
+      <HomeCategory initialCategory={category} />
+      <HomeAutoComplete />
+      <ErrorBoundary fallback={<div>Error</div>}>
         <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
           <HomeCategoryItemList initialCategory={category} initialData={data} />
         </Suspense>
-      </div>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </div>
   );
 }
