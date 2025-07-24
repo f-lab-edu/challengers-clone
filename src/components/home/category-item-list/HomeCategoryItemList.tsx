@@ -17,7 +17,7 @@ export default function HomeCategoryItemList({
 }: HomeCategoryItemListProps) {
   const { category, categoryItems, isCategoryChanged, changeCategoryItems } = useCategoryContext();
 
-  const { data, hasNextPage, fetchNextPage } = useCategoryItems({
+  const { data, isFetching, hasNextPage, fetchNextPage } = useCategoryItems({
     activeCategory: category,
     skipFetchWithInitialData: initialData,
     initialPageParam: isCategoryChanged ? 0 : initialData.nextOffset || 0,
@@ -31,6 +31,8 @@ export default function HomeCategoryItemList({
     fetchNextPage,
     hasNextPage: hasNextPage || initialData.hasNextPage,
   });
+
+  if (categoryItems.length == 0 && isFetching) return <>Loading...</>
 
   return (
     <section>

@@ -16,13 +16,13 @@ type UseCategoryItemsProps = {
 export default function useCategoryItems({
   activeCategory,
   skipFetchWithInitialData,
-  staleTime = 1000 * 60,
+  staleTime = Infinity,
   initialPageParam = 0,
 }: UseCategoryItemsProps) {
   const { isCategoryChanged } = useCategoryContext();
   const queryKey = ["/api/home/categories?category", activeCategory];
 
-  const { data, isLoading, hasNextPage, fetchNextPage } =
+  const { data, isLoading, isFetching, hasNextPage, fetchNextPage } =
     useSuspenseInfiniteQuery<PaginatedResponse<HOME_CATEGORY_ITEM[]>>({
       queryKey,
       queryFn: async ({ pageParam = 0 }) => {
@@ -48,9 +48,11 @@ export default function useCategoryItems({
   return {
     data:
       data && data.pages.length > 0
-        ? data.pages.flatMap((page) => page.data)
+        ? data.pages[data.pages.length - 1].data
+        // ? data.pages.flatMap((page) => page.data)
         : [],
     isLoading,
+    isFetching,
     hasNextPage,
     fetchNextPage,
   };
