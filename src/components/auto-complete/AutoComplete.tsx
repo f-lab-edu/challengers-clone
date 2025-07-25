@@ -1,5 +1,6 @@
 'use client'
 
+import useKeyboardListNavigation from "@/hooks/useKeyboardListNavigation";
 import useOutsideClick from "@/hooks/useOnClickOutside";
 import { AutoCompleteItem } from "@/type/home";
 import { useRouter } from "next/navigation";
@@ -15,11 +16,11 @@ type AutoCompleteProps = {
 export default function AutoComplete({ items, placeholder, onChange }: AutoCompleteProps) {
   const [value, setValue] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const [keyboardIndex, setKeyboardIndex] = useState(-1);
 
-  const itemRef = useRef<HTMLLIElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
+
+  const { targetRef } = useOutsideClick(() => setIsOpen(false));
+  const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation(items.length);
 
   const handleChangeInput: ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = e.target.value;
@@ -31,75 +32,28 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
     router.push(`/item/${id}`);
   }
 
-  const handleKeyDown = (e: KeyboardEvent | React.KeyboardEvent) => {
-    if (!['Enter', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
-
-    if (e.key === 'Enter') {
-      const selectedItem = items[keyboardIndex];
-      router.push(`item/${selectedItem.id}`);
-    }
-
-    setKeyboardIndex((prev) => {
-      if (e.key === 'ArrowDown') {
-        prev += 1;
-      } else if (e.key === 'ArrowUp') {
-        prev -= 1;
-      }
-
-      if (prev >= items.length) {
-        prev = 0;
-      } else if (prev < 0) {
-        prev = items.length - 1;
-      }
-
-      return prev;
-    })
-  }
-
-  const { targetRef } = useOutsideClick(() => setIsOpen(false));
-
-  useEffect(() => {
-    if (itemRef.current && listRef.current) {
-      const item = itemRef.current;
-      const list = listRef.current;
-      // 선택된 아이템의 윗부분이 ul의 맨 위에서부터 얼마나 떨어져 있는지
-      const itemTop = item.offsetTop;
-      // 선택된 아이템의 아랫부분 위치
-      const itemBottom = itemTop + item.offsetHeight;
-      // 현재 ul이 스크롤된 위치(스크롤바의 최상단 위치)
-      const listTop = list.scrollTop;
-      // ul의 보이는 영역의 맨 아래 위치
-      const listBottom = listTop + list.clientHeight;
-
-      // 아이템이 ul의 보이는 영역 위에 있을 때
-      if (itemTop < listTop) {
-        // 아이템이 보이도록 ul의 스크롤을 아이템의 윗부분으로 맞춤
-        list.scrollTop = itemTop;
-      }
-      // 아이템이 ul의 보이는 영역 아래에 있을 때
-      else if (itemBottom > listBottom) {
-        // 아이템이 보이도록 ul의 스크롤을 아이템의 아랫부분이 ul의 맨 아래에 오도록 맞춤
-        list.scrollTop = itemBottom - list.clientHeight;
-      }
-    }
-
-  }, [keyboardIndex])
-
   return (
     <Wrapper ref={targetRef}>
-      <Input name="auto-complete-input" value={value} onChange={handleChangeInput} placeholder={placeholder || "상품 검색"} onKeyDown={handleKeyDown} />
+      <Input
+        name="auto-complete-input"
+        value={value}
+        onChange={handleChangeInput}
+        placeholder={placeholder || "상품 검색"}
+        onKeyDown={(e) => handleKeyDown(e, itemRef.current?.id ?? '')}
+      />
       {
-        isOpen && items.length !== 0 ? (
+        isOpen && items.length !== 0 && (
           <ScrollMask>
             <ItemContainer ref={listRef}>
               {items.map(({ id, name }, idx) => (
                 <ItemWrapper key={id} onClick={() => handleClickDropDown(id)}
-                  $isActive={keyboardIndex === idx}
+                  $isActive={currentKeyboardIndex === idx}
                   ref={(el) => {
-                    if (keyboardIndex === idx) {
+                    if (currentKeyboardIndex === idx) {
                       itemRef.current = el;
                     }
                   }}
+                  id={id}
                 >
                   <span>{name}</span>
                 </ItemWrapper>
@@ -107,7 +61,7 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
               }
             </ItemContainer >
           </ScrollMask>
-        ) : (<></>)
+        )
       }
     </Wrapper>
   )
