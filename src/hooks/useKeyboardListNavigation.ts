@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import useNavigate from "./useNavigate";
 
 export default function useKeyboardListNavigation(itemCount: number) {
   const [currentKeyboardIndex, setCurrentKeyboardIndex] = useState(-1);
   const itemRef = useRef<HTMLLIElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
+  const { routeTo } = useNavigate();
+
   const handleKeyDown = (e: KeyboardEvent | React.KeyboardEvent, onEnterRouteTo: string) => {
     if (!['Enter', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
 
     if (e.key === 'Enter') {
-      router.push(`item/${onEnterRouteTo}`);
+      routeTo(`item/${onEnterRouteTo}`);
     }
 
     setCurrentKeyboardIndex((prev) => {
