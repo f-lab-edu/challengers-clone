@@ -1,4 +1,5 @@
-import { createContext, useCallback, useState } from "react";
+import useCloseOnESC from "@/hooks/useCloseOnESC";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 type ModalComponentProps = any;
 type ModalComponent = React.ComponentType<ModalComponentProps>;
@@ -41,6 +42,8 @@ export default function ModalProvider({ children }: ModalProviderProps) {
       return prev.slice(0, -1);
     })
   }, [])
+
+  useCloseOnESC({ enabled: true, onClose: close });
 
   return (
     <ModalInternalContext.Provider value={{ open, close }}>
