@@ -2,7 +2,7 @@ import AutoComplete from "../auto-complete/AutoComplete";
 import { useState, useCallback } from "react";
 import { AutoCompleteItem, GroupItem } from "@/type/home";
 import { AUTO_COMPLETE_ITEMS } from "@/constants/constants";
-import useDebounce from "@/hooks/useDebounce";
+import useDebouncedCallback from "@/hooks/useDebouncedCallback";
 
 export default function HomeAutoComplete() {
   const [items, setItems] = useState<AutoCompleteItem[]>([]);
@@ -12,7 +12,7 @@ export default function HomeAutoComplete() {
     setItems(_filtered);
   }, []);
 
-  const debouncedFilterItems = useDebounce(filterItems, 300);
+  const debouncedFilterItems = useDebouncedCallback(filterItems, 300);
 
   const handleChangeInput = (value: string) => {
     debouncedFilterItems(value);
