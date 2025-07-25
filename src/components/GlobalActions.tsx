@@ -3,18 +3,17 @@
 import { useModal } from "@/hooks/useModal";
 import BottomSheet from "./modal/BottomSheet";
 import { useEffect } from "react";
+import useGlobalActions from "@/hooks/useGlobalActions";
 
-type GlobalActionsProps = {
-  needsBottomSheet: boolean;
-  bottomSheetData: {};
-}
-
-export default function GlobalActions({ needsBottomSheet, bottomSheetData = {} }: GlobalActionsProps) {
+export default function GlobalActions() {
   const modal = useModal();
+  const { data } = useGlobalActions();
 
   useEffect(() => {
-    modal.open(BottomSheet, bottomSheetData)
-  }, [])
+    if (data?.length) {
+      modal.open(BottomSheet, { data })
+    }
+  }, [data])
 
   return null
 }
