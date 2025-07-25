@@ -15,10 +15,18 @@ export default function useAutoCompleteInput({ onChange }: UseAutoCompleteInputP
     setIsOpen(true);
   }
 
+  const getActiveDescendant = (currentKeyboardIndex: number, itemId: string) => {
+    if (isOpen && currentKeyboardIndex >= 0) {
+      return `autocomplete-option-${itemId}`
+    }
+    return undefined;
+  }
+
   return {
     value,
     isOpen,
     setIsOpen,
-    handleChangeInput
+    handleChangeInput,
+    getActiveDescendant
   }
 }

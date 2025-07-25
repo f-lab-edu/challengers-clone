@@ -15,13 +15,18 @@ type AutoCompleteProps = {
 
 export default function AutoComplete({ items, placeholder, onChange }: AutoCompleteProps) {
   const { routeTo } = useNavigate();
-  const { value, isOpen, setIsOpen, handleChangeInput } = useAutoCompleteInput({ onChange });
+  const { value, isOpen, setIsOpen, handleChangeInput, getActiveDescendant } = useAutoCompleteInput({ onChange });
   const { targetRef } = useOutsideClick({ onClickOutsideHandler: () => setIsOpen(false) });
   const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation(items.length);
 
   return (
     <Wrapper ref={targetRef}>
       <Input
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={isOpen}
+        aria-controls="autocomplete-listbox"
+        aria-activedescendant={getActiveDescendant(currentKeyboardIndex, itemRef.current?.id ?? '')}
         name="auto-complete-input"
         value={value}
         onChange={handleChangeInput}
@@ -31,16 +36,24 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
       {
         isOpen && items.length !== 0 && (
           <ScrollMask>
-            <ItemContainer ref={listRef}>
+            <ItemContainer ref={listRef}
+              role="listbox"
+              id="autocomplete-listbox"
+            >
               {items.map(({ id, name }, idx) => (
-                <ItemWrapper key={id} onClick={() => routeTo(`/item/${id}`)}
+                <ItemWrapper
+                  key={id}
+                  role="option"
+                  // id={`autocomplete-option-${id}`}
+                  id={id}
+                  aria-selected={currentKeyboardIndex === idx}
                   $isActive={currentKeyboardIndex === idx}
+                  onClick={() => routeTo(`/item/${id}`)}
                   ref={(el) => {
                     if (currentKeyboardIndex === idx) {
                       itemRef.current = el;
                     }
                   }}
-                  id={id}
                 >
                   <span>{name}</span>
                 </ItemWrapper>
