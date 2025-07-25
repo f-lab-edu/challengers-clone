@@ -27,7 +27,7 @@ export default function Provider({ children }: ProviderProps) {
   return (
     <QueryClientProvider client={client}>
       <ModalProvider>
-        <GlobalActions needsBottomSheet={true} bottomSheetData={{}} />
+        <GlobalActions />
         {children}
       </ModalProvider >
     </QueryClientProvider>
