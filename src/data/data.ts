@@ -624,3 +624,16 @@ export const HOME_CATEGORY_ITEMS: HOME_CATEGORY_ITEM[] = [
     imageAlt: "pore care cleanser",
   },
 ];
+
+export const GLOBAL_ACTIONS_ITEMS = [
+  {
+    id: 'ga-1',
+    imageSrc: '/images/item.jpg',
+    itemId: 'AA11'
+  },
+  {
+    id: 'ga-2',
+    imageSrc: '/images/item1.jpg',
+    itemId: 'AA22'
+  }
+]
