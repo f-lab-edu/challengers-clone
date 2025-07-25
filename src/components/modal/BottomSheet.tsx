@@ -1,6 +1,7 @@
 'use client';
 
 import Image from "next/image";
+import { MouseEventHandler } from "react";
 import styled from "styled-components";
 
 type BottomSheetProps = {
@@ -8,20 +9,28 @@ type BottomSheetProps = {
     id: string;
     imageSrc: string;
     itemId: string;
-  }[]
+  }[],
+  onClose: () => void
 }
 
-export default function BottomSheet({ data }: BottomSheetProps) {
+export default function BottomSheet({ data, onClose }: BottomSheetProps) {
+  // 다른 PR에서 외부 클릭 시 onClose callback 실행하는 훅 만들어 놓음
+  // TODO 추후 해당 훅 적용하여 변경할 것.
+  const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
 
   return (
-    <Dimmed>
+    <Dimmed onClick={handleClick}>
       <Wrapper>
         <ImageWrapper>
           <ItemImage src={data?.[0].imageSrc} width={200} height={10} alt={`${data?.[0].itemId} image`} />
         </ImageWrapper>
         <ButtonWrapper>
-          <Close>오늘 하루 보지 않기</Close>
-          <Close>닫기</Close>
+          <Close onClick={onClose}>오늘 하루 보지 않기</Close>
+          <Close onClick={onClose}>닫기</Close>
         </ButtonWrapper>
       </Wrapper>
     </Dimmed>

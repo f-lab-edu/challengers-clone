@@ -9,9 +9,13 @@ export default function GlobalActions() {
   const modal = useModal();
   const { data } = useGlobalActions();
 
+  const onClose = () => {
+    modal.close();
+  }
+
   useEffect(() => {
     if (data?.length) {
-      modal.open(BottomSheet, { data })
+      modal.open(BottomSheet, { data, onClose })
     }
   }, [data])
 
