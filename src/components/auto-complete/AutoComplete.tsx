@@ -16,7 +16,7 @@ type AutoCompleteProps = {
 export default function AutoComplete({ items, placeholder, onChange }: AutoCompleteProps) {
   const { routeTo } = useNavigate();
   const { value, isOpen, setIsOpen, handleChangeInput } = useAutoCompleteInput({ onChange });
-  const { targetRef } = useOutsideClick(() => setIsOpen(false));
+  const { targetRef } = useOutsideClick({ onClickOutsideHandler: () => setIsOpen(false) });
   const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation(items.length);
 
   return (

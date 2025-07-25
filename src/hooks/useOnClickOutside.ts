@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react";
 
-export default function useOnClickOutside(onClickOutsideHandler: (...args: any[]) => void) {
+type UseOnClickOutsideProps = {
+  onClickOutsideHandler: (...args: any[]) => void
+}
+
+export default function useOnClickOutside({ onClickOutsideHandler }: UseOnClickOutsideProps) {
   const targetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
