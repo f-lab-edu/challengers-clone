@@ -1,10 +1,10 @@
 'use client'
 
+import useAutoCompleteInput from "@/hooks/useAutoCompleteInput";
 import useKeyboardListNavigation from "@/hooks/useKeyboardListNavigation";
+import useNavigate from "@/hooks/useNavigate";
 import useOutsideClick from "@/hooks/useOnClickOutside";
 import { AutoCompleteItem } from "@/type/home";
-import { useRouter } from "next/navigation";
-import { ChangeEventHandler, KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import styled from "styled-components"
 
 type AutoCompleteProps = {
@@ -14,23 +14,10 @@ type AutoCompleteProps = {
 }
 
 export default function AutoComplete({ items, placeholder, onChange }: AutoCompleteProps) {
-  const [value, setValue] = useState<string>('');
-  const [isOpen, setIsOpen] = useState<boolean>(true);
-
-  const router = useRouter();
-
+  const { routeTo } = useNavigate();
+  const { value, isOpen, setIsOpen, handleChangeInput } = useAutoCompleteInput({ onChange });
   const { targetRef } = useOutsideClick(() => setIsOpen(false));
   const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation(items.length);
-
-  const handleChangeInput: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const value = e.target.value;
-    setValue(value)
-    onChange(value);
-  }
-
-  const handleClickDropDown = (id: string) => {
-    router.push(`/item/${id}`);
-  }
 
   return (
     <Wrapper ref={targetRef}>
@@ -46,7 +33,7 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
           <ScrollMask>
             <ItemContainer ref={listRef}>
               {items.map(({ id, name }, idx) => (
-                <ItemWrapper key={id} onClick={() => handleClickDropDown(id)}
+                <ItemWrapper key={id} onClick={() => routeTo(`/item/${id}`)}
                   $isActive={currentKeyboardIndex === idx}
                   ref={(el) => {
                     if (currentKeyboardIndex === idx) {
