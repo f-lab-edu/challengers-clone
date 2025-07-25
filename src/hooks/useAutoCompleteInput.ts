@@ -12,6 +12,7 @@ export default function useAutoCompleteInput({ onChange }: UseAutoCompleteInputP
     const value = e.target.value;
     setValue(value)
     onChange(value);
+    setIsOpen(true);
   }
 
   return {
