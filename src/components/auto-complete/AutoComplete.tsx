@@ -1,5 +1,6 @@
 'use client'
 
+import useOutsideClick from "@/hooks/useOnClickOutside";
 import { AutoCompleteItem } from "@/type/home";
 import { useRouter } from "next/navigation";
 import { ChangeEventHandler, KeyboardEventHandler, useEffect, useRef, useState } from "react";
@@ -15,7 +16,7 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
   const [value, setValue] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [keyboardIndex, setKeyboardIndex] = useState(-1);
-  const containerRef = useRef<HTMLDivElement>(null);
+
   const itemRef = useRef<HTMLLIElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
@@ -55,23 +56,7 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
     })
   }
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      } else {
-        setIsOpen(true);
-      }
-    }
-
-    if (isOpen) {
-      document.addEventListener('click', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside)
-    }
-  }, []);
+  const { targetRef } = useOutsideClick(() => setIsOpen(false));
 
   useEffect(() => {
     if (itemRef.current && listRef.current) {
@@ -101,7 +86,7 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
   }, [keyboardIndex])
 
   return (
-    <Wrapper ref={containerRef}>
+    <Wrapper ref={targetRef}>
       <Input name="auto-complete-input" value={value} onChange={handleChangeInput} placeholder={placeholder || "상품 검색"} onKeyDown={handleKeyDown} />
       {
         isOpen && items.length !== 0 ? (
