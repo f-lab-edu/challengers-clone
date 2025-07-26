@@ -14,6 +14,7 @@ type ModalStackItem = {
 type ModalContextType = {
   open: (Component: ModalComponent, props?: ModalComponentProps) => Promise<any>;
   close: (result?: any) => void;
+  resolveCurrent: (result?: any) => void;
 }
 
 export const ModalInternalContext = createContext<ModalContextType | undefined>(undefined);
@@ -43,10 +44,19 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     })
   }, [])
 
+  const resolveCurrent = useCallback((result?: any) => {
+    setStack((prev) => {
+      if (prev.length === 0) return prev;
+      const last = prev[prev.length - 1];
+      last.resolve(result);
+      return prev; // 모달을 닫지 않고 결과만 반환
+    })
+  }, [])
+
   useCloseOnESC({ enabled: true, onClose: close });
 
   return (
-    <ModalInternalContext.Provider value={{ open, close }}>
+    <ModalInternalContext.Provider value={{ open, close, resolveCurrent }}>
       {children}
       {
         stack.map(({ Component, props }, idx) => (
