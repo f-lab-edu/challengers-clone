@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Dimmed from "./Dimmed";
-import { useModal } from "@/hooks/useModal";
+import { useModalStack } from "@/hooks/useModalStack";
 
 type SelectModalProps = {
   title: string;
@@ -8,7 +8,7 @@ type SelectModalProps = {
 }
 
 export default function SelectModal({ title, data }: SelectModalProps) {
-  const { resolveCurrent } = useModal();
+  const { close, resolveCurrent } = useModalStack();
   const handleItemClick = (selectedItem: string) => {
     resolveCurrent(selectedItem);
   };

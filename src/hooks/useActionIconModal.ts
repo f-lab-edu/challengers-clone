@@ -1,9 +1,9 @@
 import SelectModal from "@/components/modal/SelectModal";
-import { useModal } from "./useModal";
+import { useModalStack } from "./useModalStack";
 import { HOME_ACTION_ICON_MODAL_ITEMS } from "@/data/data";
 
 export default function useActionIconModal() {
-  const modal = useModal();
+  const modal = useModalStack();
 
   const handleOpenModal = async (title: string) => {
     const selectedItem = await modal.open(SelectModal, {
