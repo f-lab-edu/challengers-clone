@@ -1,5 +1,6 @@
 import useCloseOnESC from "@/hooks/useCloseOnESC";
 import { createContext, useCallback, useEffect, useState } from "react";
+import FocusTrap from "@/components/modal/FocusTrap";
 
 type ModalComponentProps = any;
 type ModalComponent = React.ComponentType<ModalComponentProps>;
@@ -10,10 +11,11 @@ type ModalStackItem = {
   resolve: (value: any) => void;
   reject: (reason?: any) => void;
   enableESC?: boolean;
+  enableFocusTrap?: boolean;
 }
 
 type ModalContextType = {
-  open: (Component: ModalComponent, props?: ModalComponentProps, enableESC?: boolean) => Promise<any>;
+  open: (Component: ModalComponent, props?: ModalComponentProps, enableESC?: boolean, enableFocusTrap?: boolean) => Promise<any>;
   close: (result?: any) => void;
   resolveCurrent: (result?: any) => void;
 }
@@ -27,11 +29,11 @@ type ModalProviderProps = {
 export default function ModalProvider({ children }: ModalProviderProps) {
   const [stack, setStack] = useState<ModalStackItem[]>([]);
 
-  const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}, enableESC: boolean = true) => {
+  const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}, enableESC: boolean = true, enableFocusTrap: boolean = true) => {
     return new Promise((resolve, reject) => {
       setStack((prev) => [
         ...prev,
-        { Component, props, resolve, reject, enableESC }
+        { Component, props, resolve, reject, enableESC, enableFocusTrap }
       ])
     })
   }, [])
@@ -70,8 +72,10 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     <ModalInternalContext.Provider value={{ open, close, resolveCurrent }}>
       {children}
       {
-        stack.map(({ Component, props }, idx) => (
-          <Component key={idx} {...props} />
+        stack.map(({ Component, props, enableFocusTrap }, idx) => (
+          <FocusTrap key={idx} isActive={enableFocusTrap}>
+            <Component {...props} />
+          </FocusTrap>
         ))
       }
     </ModalInternalContext.Provider>
