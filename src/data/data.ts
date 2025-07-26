@@ -637,3 +637,18 @@ export const GLOBAL_ACTIONS_ITEMS = [
     itemId: 'AA22'
   }
 ]
+
+export const HOME_ACTION_ICON_MODAL_ITEMS = [
+  { label: '의류', value: 'clothes' },
+  { label: '신발', value: 'shoes' },
+  { label: '가방', value: 'bags' },
+  { label: '액세서리', value: 'accessories' },
+  { label: '화장품', value: 'cosmetics' },
+  { label: '전자제품', value: 'electronics' },
+  { label: '가구', value: 'furniture' },
+  { label: '도서', value: 'books' },
+  { label: '스포츠', value: 'sports' },
+  { label: '식품', value: 'food' },
+  { label: '생활용품', value: 'household' },
+  { label: '기타', value: 'others' }
+]
