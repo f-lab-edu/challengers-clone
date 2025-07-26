@@ -3,6 +3,7 @@ import { useModalStack } from "./useModalStack";
 import { HOME_ACTION_ICON_MODAL_ITEMS } from "@/data/data";
 import ConfirmModal from "@/components/modal/ConfirmModal";
 import InputModal from "@/components/modal/InputModal";
+import AlertModal from "@/components/modal/AlertModal";
 
 export default function useActionIconModal() {
   const modal = useModalStack();
@@ -22,14 +23,17 @@ export default function useActionIconModal() {
       })
 
       if (confirmed === true) {
-        const personalInfo = await modal.open(InputModal, {
+        const userName = await modal.open(InputModal, {
           title: '개인 정보 입력',
           onCancel: modal.close,
           onConfirm: (value: string) => modal.close(value)
         })
 
-        if (personalInfo) {
-
+        if (userName) {
+          modal.open(AlertModal, {
+            message: `안녕하세요 ${userName}님.\n해당 메뉴는 현재 준비 중입니다.`,
+            onConfirm: modal.close
+          })
         }
       }
     }
