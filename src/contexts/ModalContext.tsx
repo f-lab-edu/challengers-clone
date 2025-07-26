@@ -9,10 +9,11 @@ type ModalStackItem = {
   props: ModalComponentProps;
   resolve: (value: any) => void;
   reject: (reason?: any) => void;
+  enableESC?: boolean;
 }
 
 type ModalContextType = {
-  open: (Component: ModalComponent, props?: ModalComponentProps) => Promise<any>;
+  open: (Component: ModalComponent, props?: ModalComponentProps, enableESC?: boolean) => Promise<any>;
   close: (result?: any) => void;
   resolveCurrent: (result?: any) => void;
 }
@@ -26,11 +27,11 @@ type ModalProviderProps = {
 export default function ModalProvider({ children }: ModalProviderProps) {
   const [stack, setStack] = useState<ModalStackItem[]>([]);
 
-  const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}) => {
+  const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}, enableESC: boolean = true) => {
     return new Promise((resolve, reject) => {
       setStack((prev) => [
         ...prev,
-        { Component, props, resolve, reject }
+        { Component, props, resolve, reject, enableESC }
       ])
     })
   }, [])
@@ -53,7 +54,17 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     })
   }, [])
 
-  useCloseOnESC({ enabled: true, onClose: close });
+  // ESC 키 처리 - 현재 최상위 모달이 ESC를 허용하는지 확인
+  const handleESC = useCallback(() => {
+    if (stack.length > 0) {
+      const currentModal = stack[stack.length - 1];
+      if (currentModal.enableESC) {
+        close();
+      }
+    }
+  }, [stack, close]);
+
+  useCloseOnESC({ onClose: handleESC });
 
   return (
     <ModalInternalContext.Provider value={{ open, close, resolveCurrent }}>
