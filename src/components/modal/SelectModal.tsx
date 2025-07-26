@@ -5,12 +5,19 @@ import { useModalStack } from "@/hooks/useModalStack";
 type SelectModalProps = {
   title: string;
   data: any[];
+  onItemSelect?: (selectedItem: string) => void;
 }
 
-export default function SelectModal({ title, data }: SelectModalProps) {
+export default function SelectModal({ title, data, onItemSelect }: SelectModalProps) {
   const { close, resolveCurrent } = useModalStack();
   const handleItemClick = (selectedItem: string) => {
-    resolveCurrent(selectedItem);
+    // onItemSelect 콜백이 있으면 호출
+    if (onItemSelect) {
+      onItemSelect(selectedItem);
+    } else {
+      // 기존 방식: 결과 반환하고 모달은 닫히지 않음
+      resolveCurrent(selectedItem);
+    }
   };
 
   return (
