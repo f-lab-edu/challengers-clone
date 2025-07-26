@@ -1,21 +1,28 @@
 import useCloseOnESC from "@/hooks/useCloseOnESC";
 import { createContext, useCallback, useEffect, useState } from "react";
 import FocusTrap from "@/components/modal/FocusTrap";
+import PageTransition from "@/components/page-transition/PageTransition";
+import { animationVariants } from "@/constants/transition";
 
 type ModalComponentProps = any;
 type ModalComponent = React.ComponentType<ModalComponentProps>;
+type ModalComponentOptions = {
+  enableESC?: boolean;
+  enableFocusTrap?: boolean;
+  animationType?: animationType;
+}
+type animationType = keyof typeof animationVariants | undefined;
 
 type ModalStackItem = {
   Component: ModalComponent;
   props: ModalComponentProps;
   resolve: (value: any) => void;
   reject: (reason?: any) => void;
-  enableESC?: boolean;
-  enableFocusTrap?: boolean;
+  options: ModalComponentOptions
 }
 
 type ModalContextType = {
-  open: (Component: ModalComponent, props?: ModalComponentProps, enableESC?: boolean, enableFocusTrap?: boolean) => Promise<any>;
+  open: (Component: ModalComponent, props?: ModalComponentProps, options?: ModalComponentOptions) => Promise<any>;
   close: (result?: any) => void;
   resolveCurrent: (result?: any) => void;
 }
@@ -29,11 +36,11 @@ type ModalProviderProps = {
 export default function ModalProvider({ children }: ModalProviderProps) {
   const [stack, setStack] = useState<ModalStackItem[]>([]);
 
-  const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}, enableESC: boolean = true, enableFocusTrap: boolean = true) => {
+  const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}, options: ModalComponentOptions = {}) => {
     return new Promise((resolve, reject) => {
       setStack((prev) => [
         ...prev,
-        { Component, props, resolve, reject, enableESC, enableFocusTrap }
+        { Component, props, resolve, reject, options }
       ])
     })
   }, [])
@@ -60,7 +67,9 @@ export default function ModalProvider({ children }: ModalProviderProps) {
   const handleESC = useCallback(() => {
     if (stack.length > 0) {
       const currentModal = stack[stack.length - 1];
-      if (currentModal.enableESC) {
+      const enableESC = currentModal.options?.enableESC;
+
+      if (enableESC) {
         close();
       }
     }
@@ -72,10 +81,15 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     <ModalInternalContext.Provider value={{ open, close, resolveCurrent }}>
       {children}
       {
-        stack.map(({ Component, props, enableFocusTrap }, idx) => (
+        stack.map(({ Component, props, options: { enableFocusTrap, animationType } }, idx) => (
+          // <PageTransition
+          //   animationType="load"
+          //   key={idx}
+          // >
           <FocusTrap key={idx} isActive={enableFocusTrap}>
             <Component {...props} />
           </FocusTrap>
+          // </PageTransition>
         ))
       }
     </ModalInternalContext.Provider>
