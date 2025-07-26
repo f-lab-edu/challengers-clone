@@ -1,6 +1,7 @@
 "use client";
 
 import ScrollableArea from "@/components/ScrollableArea";
+import useActionIconModal from "@/hooks/useActionIconModal";
 import { HOME_ACTION_ICON } from "@/type/home";
 import Image from "next/image";
 import styled from "styled-components";
@@ -12,11 +13,17 @@ type HomeActionIconsProps = {
 export default function HomeActionIcons({ items }: HomeActionIconsProps) {
   if (items == undefined) return null;
 
+  const { handleOpenModal } = useActionIconModal();
+
+  const handleItemClick = (itemName: string) => {
+    handleOpenModal(itemName);
+  };
+
   return (
     <Container>
       <ScrollableArea>
         {items.map((item) => (
-          <Item key={item.name}>
+          <Item key={item.name} onClick={() => handleItemClick(item.name)}>
             <Image
               src={item.iconSrc}
               width={48}
@@ -42,6 +49,7 @@ const Item = styled.li`
   justify-content: center;
   align-items: center;
   padding: 0 8px 0 0;
+  cursor: pointer;
 `;
 
 const ItemName = styled.span`
