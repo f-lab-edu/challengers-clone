@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { MouseEventHandler } from "react";
 import styled from "styled-components";
+import Dimmed from "./Dimmed";
 
 type BottomSheetProps = {
   data: {
@@ -14,16 +15,8 @@ type BottomSheetProps = {
 }
 
 export default function BottomSheet({ data, onClose }: BottomSheetProps) {
-  // 다른 PR에서 외부 클릭 시 onClose callback 실행하는 훅 만들어 놓음
-  // TODO 추후 해당 훅 적용하여 변경할 것.
-  const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose()
-    }
-  }
-
   return (
-    <Dimmed onClick={handleClick}>
+    <Dimmed onClose={onClose} forBottomSheet={true}>
       <Wrapper>
         <ImageWrapper>
           <ItemImage src={data?.[0].imageSrc} width={200} height={10} alt={`${data?.[0].itemId} image`} />
@@ -36,21 +29,6 @@ export default function BottomSheet({ data, onClose }: BottomSheetProps) {
     </Dimmed>
   )
 }
-
-
-const Dimmed = styled.div`
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column-reverse;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 30;
-  display: flex;
-  flex-direction: column-reverse;
-`;
 
 const Wrapper = styled.data`
   display: flex;
