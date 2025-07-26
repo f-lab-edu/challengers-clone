@@ -40,8 +40,8 @@ const Wrapper = styled.div<{ $forBottomSheet: boolean }>`
         align-items: center;
       `};
     
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 30;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 30;
 `;
