@@ -7,9 +7,10 @@ import { animationVariants } from "@/constants/transition";
 type ModalComponentProps = any;
 type ModalComponent = React.ComponentType<ModalComponentProps>;
 type ModalComponentOptions = {
+  animationType?: animationType;
   enableESC?: boolean;
   enableFocusTrap?: boolean;
-  animationType?: animationType;
+  enableDimmed?: boolean;
 }
 type animationType = keyof typeof animationVariants | undefined;
 
@@ -37,10 +38,20 @@ export default function ModalProvider({ children }: ModalProviderProps) {
   const [stack, setStack] = useState<ModalStackItem[]>([]);
 
   const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}, options: ModalComponentOptions = {}) => {
+    // 기본값 설정
+    const defaultOptions: ModalComponentOptions = {
+      enableESC: true,
+      enableFocusTrap: true,
+      enableDimmed: true
+    };
+
+    // 사용자 옵션과 기본값 병합
+    const mergedOptions = { ...defaultOptions, ...options };
+
     return new Promise((resolve, reject) => {
       setStack((prev) => [
         ...prev,
-        { Component, props, resolve, reject, options }
+        { Component, props, resolve, reject, options: mergedOptions }
       ])
     })
   }, [])
@@ -81,17 +92,17 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     <ModalInternalContext.Provider value={{ open, close, resolveCurrent }}>
       {children}
       {
-        stack.map(({ Component, props, options: { enableFocusTrap, animationType } }, idx) => (
-          // <PageTransition
-          //   animationType="load"
-          //   key={idx}
-          // >
-          <FocusTrap key={idx} isActive={enableFocusTrap}>
-            <Component {...props} />
-          </FocusTrap>
-          // </PageTransition>
+        stack.map(({ Component, props, options: { enableFocusTrap, animationType, enableDimmed } }, idx) => (
+          <PageTransition
+            animationType={animationType || 'fadeIn'}
+            key={idx}
+          >
+            <FocusTrap key={idx} isActive={enableFocusTrap}>
+              <Component {...props} />
+            </FocusTrap>
+          </PageTransition>
         ))
       }
-    </ModalInternalContext.Provider>
+    </ModalInternalContext.Provider >
   )
 }
