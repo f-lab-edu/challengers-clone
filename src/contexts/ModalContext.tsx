@@ -3,6 +3,7 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import FocusTrap from "@/components/modal/FocusTrap";
 import PageTransition from "@/components/page-transition/PageTransition";
 import { animationVariants } from "@/constants/transition";
+import Dimmed from "@/components/modal/Dimmed";
 
 type ModalComponentProps = any;
 type ModalComponent = React.ComponentType<ModalComponentProps>;
@@ -93,14 +94,16 @@ export default function ModalProvider({ children }: ModalProviderProps) {
       {children}
       {
         stack.map(({ Component, props, options: { enableFocusTrap, animationType, enableDimmed } }, idx) => (
-          <PageTransition
-            animationType={animationType || 'fadeIn'}
-            key={idx}
-          >
-            <FocusTrap key={idx} isActive={enableFocusTrap}>
-              <Component {...props} />
-            </FocusTrap>
-          </PageTransition>
+          <Dimmed onClose={close}>
+            <PageTransition
+              animationType={animationType || 'fadeIn'}
+              key={idx}
+            >
+              <FocusTrap key={idx} isActive={enableFocusTrap}>
+                <Component {...props} />
+              </FocusTrap>
+            </PageTransition>
+          </Dimmed>
         ))
       }
     </ModalInternalContext.Provider >

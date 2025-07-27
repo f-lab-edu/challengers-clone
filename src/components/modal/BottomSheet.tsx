@@ -16,25 +16,24 @@ type BottomSheetProps = {
 
 export default function BottomSheet({ data, onClose }: BottomSheetProps) {
   return (
-    <Dimmed onClose={onClose} forBottomSheet={true}>
-      <Wrapper>
-        <ImageWrapper>
-          <ItemImage src={data?.[0].imageSrc} width={200} height={10} alt={`${data?.[0].itemId} image`} />
-        </ImageWrapper>
-        <ButtonWrapper>
-          <Close onClick={onClose}>오늘 하루 보지 않기</Close>
-          <Close onClick={onClose}>닫기</Close>
-        </ButtonWrapper>
-      </Wrapper>
-    </Dimmed>
+    <Wrapper>
+      <ImageWrapper>
+        <ItemImage src={data?.[0].imageSrc} width={200} height={10} alt={`${data?.[0].itemId} image`} priority />
+      </ImageWrapper>
+      <ButtonWrapper>
+        <Close onClick={onClose}>오늘 하루 보지 않기</Close>
+        <Close onClick={onClose}>닫기</Close>
+      </ButtonWrapper>
+    </Wrapper>
   )
 }
 
-const Wrapper = styled.data`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 40%;
+  height: 40vh;
+  align-self: end;
 `
 const ImageWrapper = styled.div`
   display: flex;
