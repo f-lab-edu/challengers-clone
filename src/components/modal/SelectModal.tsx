@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Dimmed from "./Dimmed";
 import { useModalStack } from "@/hooks/useModalStack";
 
 type SelectModalProps = {
@@ -21,22 +20,20 @@ export default function SelectModal({ title, data, onItemSelect }: SelectModalPr
   };
 
   return (
-    <Dimmed onClose={close}>
-      <Wrapper>
-        <TitleWrapper>
-          <Title>{title}</Title>
-        </TitleWrapper>
-        <ContentWrapper>
-          {
-            data.map((el) => (
-              <Item key={el.value} onClick={() => handleItemClick(el.value)}>
-                {el.label}
-              </Item>
-            ))
-          }
-        </ContentWrapper>
-      </Wrapper>
-    </Dimmed>
+    <Wrapper>
+      <TitleWrapper>
+        <Title>{title}</Title>
+      </TitleWrapper>
+      <ContentWrapper>
+        {
+          data.map((el) => (
+            <Item key={el.value} onClick={() => handleItemClick(el.value)}>
+              {el.label}
+            </Item>
+          ))
+        }
+      </ContentWrapper>
+    </Wrapper>
   )
 }
 

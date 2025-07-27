@@ -23,28 +23,26 @@ export default function InputModal({ title, onCancel, onConfirm }: InputModalPro
   };
 
   return (
-    <Dimmed onClose={onCancel}>
-      <Wrapper>
-        <TitleWrapper>
-          <Title>{title}</Title>
-        </TitleWrapper>
-        <InputWrapper>
-          <Input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="이름을 입력해주세요"
-            autoFocus
-          />
-        </InputWrapper>
-        <ButtonWrapper>
-          <CancelButton onClick={onCancel}>취소</CancelButton>
-          <ConfirmButton onClick={handleConfirm} disabled={!inputValue.trim()}>
-            확인
-          </ConfirmButton>
-        </ButtonWrapper>
-      </Wrapper>
-    </Dimmed>
+    <Wrapper>
+      <TitleWrapper>
+        <Title>{title}</Title>
+      </TitleWrapper>
+      <InputWrapper>
+        <Input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="이름을 입력해주세요"
+          autoFocus
+        />
+      </InputWrapper>
+      <ButtonWrapper>
+        <CancelButton onClick={onCancel}>취소</CancelButton>
+        <ConfirmButton onClick={handleConfirm} disabled={!inputValue.trim()}>
+          확인
+        </ConfirmButton>
+      </ButtonWrapper>
+    </Wrapper>
   )
 }
 

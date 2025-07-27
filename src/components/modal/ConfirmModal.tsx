@@ -10,20 +10,18 @@ type ConfirmModalProps = {
 
 export default function ConfirmModal({ title, message, onCancel, onConfirm }: ConfirmModalProps) {
   return (
-    <Dimmed onClose={onCancel}>
-      <Wrapper>
-        <TitleWrapper>
-          <Title>{title}</Title>
-        </TitleWrapper>
-        <MessageWrapper>
-          <Message>{message}</Message>
-        </MessageWrapper>
-        <ButtonWrapper>
-          <CancelButton onClick={onCancel}>취소</CancelButton>
-          <ConfirmButton onClick={onConfirm}>확인</ConfirmButton>
-        </ButtonWrapper>
-      </Wrapper>
-    </Dimmed>
+    <Wrapper>
+      <TitleWrapper>
+        <Title>{title}</Title>
+      </TitleWrapper>
+      <MessageWrapper>
+        <Message>{message}</Message>
+      </MessageWrapper>
+      <ButtonWrapper>
+        <CancelButton onClick={onCancel}>취소</CancelButton>
+        <ConfirmButton onClick={onConfirm}>확인</ConfirmButton>
+      </ButtonWrapper>
+    </Wrapper>
   )
 }
 

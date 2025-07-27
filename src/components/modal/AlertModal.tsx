@@ -9,19 +9,17 @@ type AlertModalProps = {
 
 export default function AlertModal({ title = "알림", message, onConfirm }: AlertModalProps) {
   return (
-    <Dimmed onClose={onConfirm}>
-      <Wrapper>
-        <TitleWrapper>
-          <Title>{title}</Title>
-        </TitleWrapper>
-        <MessageWrapper>
-          <Message>{message}</Message>
-        </MessageWrapper>
-        <ButtonWrapper>
-          <ConfirmButton onClick={onConfirm}>확인</ConfirmButton>
-        </ButtonWrapper>
-      </Wrapper>
-    </Dimmed>
+    <Wrapper>
+      <TitleWrapper>
+        <Title>{title}</Title>
+      </TitleWrapper>
+      <MessageWrapper>
+        <Message>{message}</Message>
+      </MessageWrapper>
+      <ButtonWrapper>
+        <ConfirmButton onClick={onConfirm}>확인</ConfirmButton>
+      </ButtonWrapper>
+    </Wrapper>
   )
 }
 
