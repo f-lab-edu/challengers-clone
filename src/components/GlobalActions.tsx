@@ -15,7 +15,7 @@ export default function GlobalActions() {
 
   useEffect(() => {
     if (data?.length) {
-      modal.open(BottomSheet, { data, onClose })
+      modal.open(BottomSheet, { data, onClose }, { animationType: 'fadeIn' })
     }
   }, [data])
 
