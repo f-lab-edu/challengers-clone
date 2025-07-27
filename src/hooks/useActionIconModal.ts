@@ -12,15 +12,15 @@ export default function useActionIconModal() {
     const confirmed = await modal.open(ConfirmModal, {
       title: '개인 정보 인증 필요',
       message: '해당 메뉴에 접근하기 위해 개인정보가 필요합니다.\n입력창으로 이동하시겠습니까?',
-      onCancel: modal.close,
-      onConfirm: () => modal.close(true)
+      onConfirm: () => modal.close(true),
+      onCancel: modal.close
     })
 
     if (confirmed === true) {
       const userName = await modal.open(InputModal, {
         title: '개인 정보 입력',
-        onCancel: modal.close,
-        onConfirm: (value: string) => modal.close(value)
+        onConfirm: (value: string) => modal.close(value),
+        onCancel: modal.close
       })
 
       if (userName) {
