@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
 interface FocusTrapProps {
   children: React.ReactNode;
@@ -71,8 +72,13 @@ export default function FocusTrap({ children, isActive = true }: FocusTrapProps)
   }, [isActive]);
 
   return (
-    <div ref={containerRef}>
+    <Wrapper ref={containerRef}>
       {children}
-    </div>
+    </Wrapper>
   );
-} 
+}
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+`
