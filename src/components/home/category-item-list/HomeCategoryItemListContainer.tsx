@@ -9,6 +9,7 @@ import { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import styles from "./HomeCategoryItemListContainer.module.css";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
+import HomeAutoComplete from "../HomeAutoComplete";
 import { CategoryProvider } from "@/contexts/CategoryContext";
 import { DEFAULT_CATEGORY } from "@/constants/constants";
 import SuspenseErrorBoundary from "@/components/error/SuspenseErrorBoundary";
@@ -89,6 +90,7 @@ export default function HomeCategoryItemListContainer() {
     <div className={styles.layout}>
       <CategoryProvider initialData={data}>
         <HomeCategory />
+        <HomeAutoComplete />
         <SuspenseErrorBoundary
           loading={HomeCategoryItemListContainer.Loading}
           rejectedFallback={HomeCategoryItemListContainer.Reject}
