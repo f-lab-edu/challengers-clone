@@ -22,27 +22,27 @@ export default function useModalRenderer({ close }: UseModalRendererProps) {
     const modalKey = `modal-${componentName}-${modalIdx}`;
 
     const modalContent = (
-      <FocusTrap key={`focus-${modalKey}`
-      } isActive={enableFocusTrap} >
+      <FocusTrap key={`focus-${modalKey}`} isActive={enableFocusTrap} >
         <Component {...props} />
       </FocusTrap>
     );
 
+    const withDimmed = enableDimmed ? (
+      <Dimmed key={`dimmed-${modalKey}`} onClose={close} >
+        {modalContent}
+      </Dimmed>
+    ) : modalContent;
+
     const withAnimation = animationType ? (
       <PageTransition
         animationType={animationType}
-        key={`animation-${modalKey}`
-        }
+        key={`animation-${modalKey}`}
       >
-        {modalContent}
+        {withDimmed}
       </PageTransition>
-    ) : modalContent;
+    ) : withDimmed;
 
-    return enableDimmed ? (
-      <Dimmed key={`dimmed-${modalKey}`} onClose={close} >
-        {withAnimation}
-      </Dimmed>
-    ) : withAnimation;
+    return withAnimation;
   }, [close]);
 
   return { renderModalWithWrappers };
