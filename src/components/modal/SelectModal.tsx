@@ -40,6 +40,7 @@ export default function SelectModal({ title, data, onItemSelect }: SelectModalPr
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-self: center;
   width: 80%;
   height: fit-content;
   position: absolute;
