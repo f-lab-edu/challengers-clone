@@ -9,6 +9,11 @@ import { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import styles from "./HomeCategoryItemListContainer.module.css";
 import SkeletonCategoryItem from "@/components/loading/SkeletonCategoryItem";
+import { CategoryProvider } from "@/contexts/CategoryContext";
+import { DEFAULT_CATEGORY } from "@/constants/constants";
+import SuspenseErrorBoundary from "@/components/error/SuspenseErrorBoundary";
+import ErrorBoundaryWithLogging from "@/components/error/ErrorBoundaryWithLogging";
+import HomeCategoryError from "@/components/error/HomeCategoryError";
 
 export default function HomeCategoryItemListContainer() {
   /**
@@ -17,7 +22,6 @@ export default function HomeCategoryItemListContainer() {
    * 이 컴포넌트 삭제 금지
    */
   // const data = HOME_CATEGORY_ITEMS;
-  const category = "all";
   const [data, setData] = useState<PaginatedResponse<HOME_CATEGORY_ITEM[]>>({
     data: [],
     hasNextPage: false,
@@ -26,7 +30,7 @@ export default function HomeCategoryItemListContainer() {
 
   const initData = async () => {
     const res = await fetchHomeCategoryItems({
-      category,
+      category: DEFAULT_CATEGORY,
       pageParam: 0,
     });
 
@@ -39,14 +43,62 @@ export default function HomeCategoryItemListContainer() {
     initData();
   }, []);
 
+  if (data.data.length === 0) return <>Loading...</>
+
   return (
-    <ErrorBoundary fallback={<div>Error</div>}>
-      <div className={styles.layout}>
-        <HomeCategory initialCategory={category} />
-        <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
-          <HomeCategoryItemList initialCategory={category} initialData={data} />
-        </Suspense>
-      </div>
-    </ErrorBoundary>
+    // <ErrorBoundary fallback={<div>Error</div>}>
+    //   <div className={styles.layout}>
+    //     <CategoryProvider initialData={data}>
+    //       <HomeCategory />
+    //       <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
+    //         <HomeCategoryItemList initialData={data} />
+    //       </Suspense>
+    //     </CategoryProvider>
+    //   </div>
+    // </ErrorBoundary>
+
+    // 1. Suspense + ErrorBoundary
+    // <SuspenseErrorBoundary
+    //   loading={<SkeletonCategoryItem colsCount={2} />}
+    //   rejectedFallback={<>something is wrong</>}
+    //   onError={(error, info) => {
+    //     console.error("error: ", error, info)
+    //   }}
+    // >
+    //   <div className={styles.layout}>
+    //     <CategoryProvider initialData={data}>
+    //       <HomeCategory />
+    //       <HomeCategoryItemList initialData={data} />
+    //     </CategoryProvider>
+    //   </div>
+    // </SuspenseErrorBoundary >
+
+    // 2. logging ErrorBoundary
+    // <ErrorBoundaryWithLogging fallback={<div>Error</div>}>
+    //   <div className={styles.layout}>
+    //     <CategoryProvider initialData={data}>
+    //       <HomeCategory />
+    //       <Suspense fallback={<SkeletonCategoryItem colsCount={2} />}>
+    //         <HomeCategoryItemList initialData={data} />
+    //       </Suspense>
+    //     </CategoryProvider>
+    //   </div>
+    // </ErrorBoundaryWithLogging>
+
+    // 3. Reject, Loading 상태에 띄워질 UI를 미리 선언적으로 만들어 사용
+    <div className={styles.layout}>
+      <CategoryProvider initialData={data}>
+        <HomeCategory />
+        <SuspenseErrorBoundary
+          loading={HomeCategoryItemListContainer.Loading}
+          rejectedFallback={HomeCategoryItemListContainer.Reject}
+        >
+          <HomeCategoryItemList initialData={data} />
+        </SuspenseErrorBoundary>
+      </CategoryProvider>
+    </div>
   );
 }
+
+HomeCategoryItemListContainer.Reject = <HomeCategoryError />
+HomeCategoryItemListContainer.Loading = <SkeletonCategoryItem colsCount={2} />
