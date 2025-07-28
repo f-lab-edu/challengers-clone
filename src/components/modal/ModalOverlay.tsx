@@ -29,9 +29,7 @@ const Wrapper = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
