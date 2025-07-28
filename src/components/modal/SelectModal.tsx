@@ -26,8 +26,8 @@ export default function SelectModal({ title, data, onItemSelect }: SelectModalPr
       </TitleWrapper>
       <ContentWrapper>
         {
-          data.map((el) => (
-            <Item key={el.value} onClick={() => handleItemClick(el.value)}>
+          data.map((el, idx) => (
+            <Item key={el.value} onClick={() => handleItemClick(el.value)} tabIndex={idx}>
               {el.label}
             </Item>
           ))
