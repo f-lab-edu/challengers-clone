@@ -1,27 +1,8 @@
-import useCloseOnESC from "@/hooks/useCloseOnESC";
-import { createContext, useCallback, useEffect, useState } from "react";
-import FocusTrap from "@/components/modal/FocusTrap";
-import PageTransition from "@/components/page-transition/PageTransition";
-import { animationVariants } from "@/constants/transition";
-import Dimmed from "@/components/modal/Dimmed";
-
-type ModalComponentProps = any;
-type ModalComponent = React.ComponentType<ModalComponentProps>;
-type ModalComponentOptions = {
-  animationType?: animationType;
-  enableESC?: boolean;
-  enableFocusTrap?: boolean;
-  enableDimmed?: boolean;
-}
-type animationType = keyof typeof animationVariants | undefined;
-
-type ModalStackItem = {
-  Component: ModalComponent;
-  props: ModalComponentProps;
-  resolve: (value: any) => void;
-  reject: (reason?: any) => void;
-  options: ModalComponentOptions
-}
+import useModalRenderer from "@/hooks/useModalRenderer";
+import useModalESC from "@/hooks/useModalESC";
+import { useModalStack } from "@/hooks/useModalStack";
+import { createContext } from "react";
+import { ModalComponent, ModalComponentProps, ModalComponentOptions } from "@/type/modal";
 
 type ModalContextType = {
   open: (Component: ModalComponent, props?: ModalComponentProps, options?: ModalComponentOptions) => Promise<any>;
@@ -36,75 +17,21 @@ type ModalProviderProps = {
 }
 
 export default function ModalProvider({ children }: ModalProviderProps) {
-  const [stack, setStack] = useState<ModalStackItem[]>([]);
+  const { stack, open, close, resolveCurrent } = useModalStack();
 
-  const open = useCallback((Component: ModalComponent, props: ModalComponentProps = {}, options: ModalComponentOptions = {}) => {
-    // 기본값 설정
-    const defaultOptions: ModalComponentOptions = {
-      enableESC: true,
-      enableFocusTrap: true,
-      enableDimmed: true
-    };
+  // ESC 키 처리
+  useModalESC({ stack, close });
 
-    // 사용자 옵션과 기본값 병합
-    const mergedOptions = { ...defaultOptions, ...options };
-
-    return new Promise((resolve, reject) => {
-      setStack((prev) => [
-        ...prev,
-        { Component, props, resolve, reject, options: mergedOptions }
-      ])
-    })
-  }, [])
-
-  const close = useCallback((result?: any) => {
-    setStack((prev) => {
-      if (prev.length === 0) return prev;
-      const last = prev[prev.length - 1];
-      last.resolve(result);
-      return prev.slice(0, -1);
-    })
-  }, [])
-
-  const resolveCurrent = useCallback((result?: any) => {
-    setStack((prev) => {
-      if (prev.length === 0) return prev;
-      const last = prev[prev.length - 1];
-      last.resolve(result);
-      return prev; // 모달을 닫지 않고 결과만 반환
-    })
-  }, [])
-
-  // ESC 키 처리 - 현재 최상위 모달이 ESC를 허용하는지 확인
-  const handleESC = useCallback(() => {
-    if (stack.length > 0) {
-      const currentModal = stack[stack.length - 1];
-      const enableESC = currentModal.options?.enableESC;
-
-      if (enableESC) {
-        close();
-      }
-    }
-  }, [stack, close]);
-
-  useCloseOnESC({ onClose: handleESC });
+  // 모달 렌더링 훅 사용
+  const { renderModalWithWrappers } = useModalRenderer({ close });
 
   return (
     <ModalInternalContext.Provider value={{ open, close, resolveCurrent }}>
       {children}
       {
-        stack.map(({ Component, props, options: { enableFocusTrap, animationType, enableDimmed } }, idx) => (
-          <Dimmed onClose={close}>
-            <PageTransition
-              animationType={animationType || 'fadeIn'}
-              key={idx}
-            >
-              <FocusTrap key={idx} isActive={enableFocusTrap}>
-                <Component {...props} />
-              </FocusTrap>
-            </PageTransition>
-          </Dimmed>
-        ))
+        stack.map(({ Component, props, options }, idx) =>
+          renderModalWithWrappers(Component, props, options, idx)
+        )
       }
     </ModalInternalContext.Provider >
   )
