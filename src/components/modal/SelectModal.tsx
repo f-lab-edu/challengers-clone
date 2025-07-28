@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useModalStack } from "@/hooks/useModalStack";
+import { useModalContext } from "@/hooks/useModalContext";
 
 type SelectModalProps = {
   title: string;
@@ -8,7 +8,7 @@ type SelectModalProps = {
 }
 
 export default function SelectModal({ title, data, onItemSelect }: SelectModalProps) {
-  const { close, resolveCurrent } = useModalStack();
+  const { resolveCurrent } = useModalContext();
   const handleItemClick = (selectedItem: string) => {
     // onItemSelect 콜백이 있으면 호출
     if (onItemSelect) {

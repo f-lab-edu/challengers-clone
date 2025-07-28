@@ -1,12 +1,12 @@
 import SelectModal from "@/components/modal/SelectModal";
-import { useModalStack } from "./useModalStack";
+import { useModalContext } from "./useModalContext";
 import { HOME_ACTION_ICON_MODAL_ITEMS } from "@/data/data";
 import ConfirmModal from "@/components/modal/ConfirmModal";
 import InputModal from "@/components/modal/InputModal";
 import AlertModal from "@/components/modal/AlertModal";
 
 export default function useActionIconModal() {
-  const modal = useModalStack();
+  const modal = useModalContext();
 
   const handleItemSelect = async () => {
     const confirmed = await modal.open(ConfirmModal, {
