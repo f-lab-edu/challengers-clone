@@ -1,29 +1,23 @@
 "use client";
 
 import { HOME_CATEGORIES } from "@/constants/constants";
-import useCategoryState from "@/hooks/useCategoryState";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 import type { HomeCategory } from "@/type/home";
+import { useCategoryContext } from "@/contexts/CategoryContext";
 
-type HomeCategoryProps = {
-  initialCategory: HomeCategory;
-};
 
-export default function HomeCategory({ initialCategory }: HomeCategoryProps) {
-  const { activeCategory, handleClickCategory } = useCategoryState({
-    initialCategory,
-    initialData: [],
-  });
+export default function HomeCategory() {
+  const { category, selectCategoryAndResetItems } = useCategoryContext();
 
   return (
     <ItemWrapper>
       {HOME_CATEGORIES.map(({ name, iconSrc, enName }) => (
         <Item
           key={name}
-          $isActive={`${activeCategory === enName && true}`}
-          onClick={() => handleClickCategory(enName)}
+          $isActive={`${category === enName && true}`}
+          onClick={() => selectCategoryAndResetItems(enName)}
         >
           <Image src={iconSrc} width={48} height={48} alt={`${enName} icon`} />
           <span>{name}</span>

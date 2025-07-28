@@ -294,3 +294,4 @@ export const DROP_DOWN_ITEMS = [
     }]
   }
 ]
+export const DEFAULT_CATEGORY = 'all'
