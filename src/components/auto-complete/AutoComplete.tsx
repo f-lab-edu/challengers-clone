@@ -17,7 +17,7 @@ type AutoCompleteProps = {
 export default function AutoComplete({ items, placeholder, onChange, onItemClick }: AutoCompleteProps) {
   const { value, isOpen, setIsOpen, handleChangeInput, getActiveDescendant } = useAutoCompleteInput({ onChange });
   const { targetRef } = useOutsideClick({ onClickOutsideHandler: () => setIsOpen(false) });
-  const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation(items.length);
+  const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation({ items, onEnterCallback: onItemClick });
 
   return (
     <Wrapper ref={targetRef}>
@@ -26,12 +26,13 @@ export default function AutoComplete({ items, placeholder, onChange, onItemClick
         aria-autocomplete="list"
         aria-expanded={isOpen}
         aria-controls="autocomplete-listbox"
+        // screen reader 에서 선택된 아이템을 알 수 있도록 설정
         aria-activedescendant={getActiveDescendant(currentKeyboardIndex, itemRef.current?.id ?? '')}
         name="auto-complete-input"
         value={value}
         onChange={handleChangeInput}
         placeholder={placeholder || "상품 검색"}
-        onKeyDown={(e) => handleKeyDown(e, itemRef.current?.id ?? '')}
+        onKeyDown={handleKeyDown}
       />
       {
         isOpen && items.length !== 0 && (
