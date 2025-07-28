@@ -11,10 +11,10 @@ type AutoCompleteProps = {
   items: AutoCompleteItem[]
   placeholder?: string;
   onChange: (value: string) => void;
+  onItemClick: (item: AutoCompleteItem) => void;
 }
 
-export default function AutoComplete({ items, placeholder, onChange }: AutoCompleteProps) {
-  const { routeTo } = useNavigate();
+export default function AutoComplete({ items, placeholder, onChange, onItemClick }: AutoCompleteProps) {
   const { value, isOpen, setIsOpen, handleChangeInput, getActiveDescendant } = useAutoCompleteInput({ onChange });
   const { targetRef } = useOutsideClick({ onClickOutsideHandler: () => setIsOpen(false) });
   const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation(items.length);
@@ -40,15 +40,14 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
               role="listbox"
               id="autocomplete-listbox"
             >
-              {items.map(({ id, name }, idx) => (
+              {items.map(({ id, name, ...rest }, idx) => (
                 <ItemWrapper
                   key={id}
                   role="option"
-                  // id={`autocomplete-option-${id}`}
                   id={id}
                   aria-selected={currentKeyboardIndex === idx}
                   $isActive={currentKeyboardIndex === idx}
-                  onClick={() => routeTo(`/item/${id}`)}
+                  onClick={() => onItemClick({ id, name, ...rest })}
                   ref={(el) => {
                     if (currentKeyboardIndex === idx) {
                       itemRef.current = el;
