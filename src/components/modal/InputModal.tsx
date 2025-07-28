@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Dimmed from "./Dimmed";
 import { useState } from "react";
 
 type InputModalProps = {

@@ -1,9 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import { MouseEventHandler } from "react";
 import styled from "styled-components";
-import Dimmed from "./Dimmed";
 
 type BottomSheetProps = {
   data: {

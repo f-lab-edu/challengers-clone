@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Dimmed from "./Dimmed";
 
 type AlertModalProps = {
   title?: string;

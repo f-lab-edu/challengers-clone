@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import FocusTrap from "@/components/modal/FocusTrap";
 import PageTransition from "@/components/page-transition/PageTransition";
-import Dimmed from "@/components/modal/Dimmed";
+import ModalOverlay from "@/components/modal/ModalOverlay";
 import { ModalComponent, ModalComponentProps, ModalComponentOptions } from "@/type/modal";
 
 type UseModalRendererProps = {
@@ -28,9 +28,9 @@ export default function useModalRenderer({ close }: UseModalRendererProps) {
     );
 
     const withDimmed = enableDimmed ? (
-      <Dimmed key={`dimmed-${modalKey}`} onClose={close} >
+      <ModalOverlay key={`dimmed-${modalKey}`} onClose={close} >
         {modalContent}
-      </Dimmed>
+      </ModalOverlay>
     ) : modalContent;
 
     const withAnimation = animationType ? (
