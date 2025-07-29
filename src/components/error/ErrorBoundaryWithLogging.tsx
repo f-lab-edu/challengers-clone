@@ -1,8 +1,6 @@
 import { ErrorBoundary, ErrorBoundaryProps } from "react-error-boundary"
 
-type ErrorBoundaryWithLoggingProps = ErrorBoundaryProps & {
-  children: React.ReactNode;
-};
+type ErrorBoundaryWithLoggingProps = ErrorBoundaryProps & React.PropsWithChildren;
 
 export default function ErrorBoundaryWithLogging({ children, ...props }: ErrorBoundaryWithLoggingProps) {
   const handleError = (e: Error) => {
