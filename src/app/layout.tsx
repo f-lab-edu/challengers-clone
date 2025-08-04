@@ -20,15 +20,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${styles.layout}`}>
-        <Provider>
-          <StyledComponentsRegistry>
-            <div className={styles.content}>
+        <div className={styles.content}>
+          <Provider>
+            <StyledComponentsRegistry>
               <GlobalNav />
               <div className={styles.children}>{children}</div>
               <BottomNav />
-            </div>
-          </StyledComponentsRegistry>
-        </Provider>
+            </StyledComponentsRegistry>
+          </Provider>
+        </div>
       </body>
     </html>
   );

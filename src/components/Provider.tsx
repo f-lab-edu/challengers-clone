@@ -1,8 +1,10 @@
 "use client";
 
+import ModalProvider from "@/contexts/ModalContext";
 import { initMock } from "@/mocks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import GlobalActions from "./GlobalActions";
 
 type ProviderProps = {
   children: React.ReactNode;
@@ -22,5 +24,12 @@ export default function Provider({ children }: ProviderProps) {
 
   if (!isReady) return <div>Loading...</div>;
 
-  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={client}>
+      <ModalProvider>
+        <GlobalActions />
+        {children}
+      </ModalProvider >
+    </QueryClientProvider>
+  );
 }

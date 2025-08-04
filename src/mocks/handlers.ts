@@ -1,4 +1,5 @@
 import {
+  GLOBAL_ACTIONS_ITEMS,
   HOME_ACTION_ICONS,
   HOME_CAROUSEL_ITEMS,
   HOME_CATEGORY_ITEMS,
@@ -36,4 +37,8 @@ export const handlers = [
       },
     });
   }),
+
+  http.get('/api/global-actions', () => {
+    return HttpResponse.json({ data: GLOBAL_ACTIONS_ITEMS })
+  })
 ];

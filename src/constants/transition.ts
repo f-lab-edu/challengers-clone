@@ -1,6 +1,6 @@
 import { easeInOut } from "framer-motion";
 
-export const variants = {
+export const animationVariants = {
   load: {
     initial: {
       x: "100%",
@@ -21,7 +21,7 @@ export const variants = {
   },
   fadeIn: {
     initial: {
-      opacity: 1,
+      opacity: 0,
     },
     animate: {
       opacity: 1,
