@@ -8,7 +8,9 @@ import AlertModal from "@/components/modal/AlertModal";
 export default function useActionIconModal() {
   const modal = useModalContext();
 
-  const handleItemSelect = async () => {
+  const handleItemSelect = async (selectedItem?: { label: string, value: string }) => {
+    console.log("selectedItem: ", selectedItem);
+
     const confirmed = await modal.open(ConfirmModal, {
       title: '개인 정보 인증 필요',
       message: '해당 메뉴에 접근하기 위해 개인정보가 필요합니다.\n입력창으로 이동하시겠습니까?',

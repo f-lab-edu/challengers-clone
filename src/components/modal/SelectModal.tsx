@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { useModalContext } from "@/hooks/useModalContext";
 
-type SelectModalProps = {
+type SelectModalProps<T> = {
   title: string;
-  data: any[];
-  onItemSelect?: (selectedItem: string) => void;
+  data: T[];
+  onItemSelect?: (selectedItem?: T) => void;
 }
 
-export default function SelectModal({ title, data, onItemSelect }: SelectModalProps) {
+export default function SelectModal<T extends { label: string, value: string }>({ title, data, onItemSelect }: SelectModalProps<T>) {
   const { resolveCurrent } = useModalContext();
-  const handleItemClick = (selectedItem: string) => {
+  const handleItemClick = (selectedItem: T) => {
     // onItemSelect 콜백이 있으면 호출
     if (onItemSelect) {
       onItemSelect(selectedItem);
@@ -27,7 +27,7 @@ export default function SelectModal({ title, data, onItemSelect }: SelectModalPr
       <ContentWrapper>
         {
           data.map((el) => (
-            <Item key={el.value} onClick={() => handleItemClick(el.value)} tabIndex={0}>
+            <Item key={el.value} onClick={() => handleItemClick(el)} tabIndex={0}>
               {el.label}
             </Item>
           ))
