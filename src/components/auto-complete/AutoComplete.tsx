@@ -11,13 +11,13 @@ type AutoCompleteProps = {
   items: AutoCompleteItem[]
   placeholder?: string;
   onChange: (value: string) => void;
+  onItemClick: (item: AutoCompleteItem) => void;
 }
 
-export default function AutoComplete({ items, placeholder, onChange }: AutoCompleteProps) {
-  const { routeTo } = useNavigate();
+export default function AutoComplete({ items, placeholder, onChange, onItemClick }: AutoCompleteProps) {
   const { value, isOpen, setIsOpen, handleChangeInput, getActiveDescendant } = useAutoCompleteInput({ onChange });
   const { targetRef } = useOutsideClick({ onClickOutsideHandler: () => setIsOpen(false) });
-  const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation(items.length);
+  const { itemRef, listRef, currentKeyboardIndex, handleKeyDown } = useKeyboardListNavigation({ items, onEnterCallback: onItemClick });
 
   return (
     <Wrapper ref={targetRef}>
@@ -26,12 +26,13 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
         aria-autocomplete="list"
         aria-expanded={isOpen}
         aria-controls="autocomplete-listbox"
+        // screen reader 에서 선택된 아이템을 알 수 있도록 설정
         aria-activedescendant={getActiveDescendant(currentKeyboardIndex, itemRef.current?.id ?? '')}
         name="auto-complete-input"
         value={value}
         onChange={handleChangeInput}
         placeholder={placeholder || "상품 검색"}
-        onKeyDown={(e) => handleKeyDown(e, itemRef.current?.id ?? '')}
+        onKeyDown={handleKeyDown}
       />
       {
         isOpen && items.length !== 0 && (
@@ -40,15 +41,14 @@ export default function AutoComplete({ items, placeholder, onChange }: AutoCompl
               role="listbox"
               id="autocomplete-listbox"
             >
-              {items.map(({ id, name }, idx) => (
+              {items.map(({ id, name, ...rest }, idx) => (
                 <ItemWrapper
                   key={id}
                   role="option"
-                  // id={`autocomplete-option-${id}`}
                   id={id}
                   aria-selected={currentKeyboardIndex === idx}
                   $isActive={currentKeyboardIndex === idx}
-                  onClick={() => routeTo(`/item/${id}`)}
+                  onClick={() => onItemClick({ id, name, ...rest })}
                   ref={(el) => {
                     if (currentKeyboardIndex === idx) {
                       itemRef.current = el;

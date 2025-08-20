@@ -1,18 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import useNavigate from "./useNavigate";
+import { AutoCompleteItem } from "@/type/home";
 
-export default function useKeyboardListNavigation(itemCount: number) {
+type UseKeyboardListNavigationProps = {
+  items: AutoCompleteItem[];
+  onEnterCallback?: (item: AutoCompleteItem) => void;
+}
+export default function useKeyboardListNavigation({ items, onEnterCallback }: UseKeyboardListNavigationProps) {
   const [currentKeyboardIndex, setCurrentKeyboardIndex] = useState(-1);
   const itemRef = useRef<HTMLLIElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const { routeTo } = useNavigate();
-
-  const handleKeyDown = (e: KeyboardEvent | React.KeyboardEvent, onEnterRouteTo: string) => {
+  const handleKeyDown = (e: KeyboardEvent | React.KeyboardEvent) => {
     if (!['Enter', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+    const itemCount = items.length;
 
-    if (e.key === 'Enter') {
-      routeTo(`item/${onEnterRouteTo}`);
+    if (e.key === 'Enter' && onEnterCallback) {
+      if (currentKeyboardIndex >= 0 && currentKeyboardIndex < itemCount) {
+        onEnterCallback(items[currentKeyboardIndex]);
+      }
+
+      return;
     }
 
     setCurrentKeyboardIndex((prev) => {
