@@ -1,14 +1,14 @@
 "use client";
 
-import { GlobalMenus } from "@/constants/constants";
+import { GLOBAL_MENU, GlobalMenus } from "@/constants/constants";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
 
 const GlobalNav = () => {
-  const pathname = usePathname() as keyof typeof GlobalMenus;
-  const menu = GlobalMenus[pathname];
+  const pathname = usePathname() as keyof GLOBAL_MENU;
+  const menu: GLOBAL_MENU[keyof GLOBAL_MENU] = GlobalMenus[pathname];
 
-  if (menu == undefined) return <></>;
+  if (menu == undefined) return null;
 
   return (
     <Nav>
@@ -16,8 +16,9 @@ const GlobalNav = () => {
         <Menu key={menu.title}>
           <span>{menu.title}</span>
           <IconWrapper>
-            {menu.firstIcon}
-            {menu.secondIcon}
+            <span onClick={menu.actions.first}>{menu.firstIcon}</span>
+            <span onClick={menu.actions.second}>{menu.secondIcon}</span>
+            <span onClick={menu.actions?.third}>{menu?.thirdIcon}</span>
           </IconWrapper>
         </Menu>
       </Ul>
@@ -53,7 +54,12 @@ const Menu = styled.li`
 const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  & :first-child {
+  & span {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  & :not(:last-child) {
     margin-right: 16px;
   }
 `;
