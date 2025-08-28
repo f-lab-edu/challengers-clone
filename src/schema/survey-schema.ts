@@ -1,13 +1,12 @@
 import { z } from "zod";
 
 export const questionSchema = z.object({
-  questions: z.array(
-    z.object({
-      title: z.string().min(1),
-      content: z.string().min(1),
-      type: z.enum(["text", "image"]),
-    })
-  ),
+  // questions: z.record(z.string(), z.string()),
+  userId: z.string(),
+  gender: z.string(),
+  birthday: z.string(),
+  recommend: z.string(),
+  recommendReason: z.string(),
 });
 
 export type QuestionSchema = z.infer<typeof questionSchema>;

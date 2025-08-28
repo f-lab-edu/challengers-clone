@@ -3,7 +3,7 @@ import ThumbsDownIcon from "@/icons/thumbs-down.svg";
 
 export type SurveyOption = { label: string; icon: string | null };
 export type SurveyItem = {
-  id: number;
+  id: string;
   type: string;
   label: string;
   options?: SurveyOption[];
@@ -12,14 +12,14 @@ export type SurveyItem = {
 };
 export const SURVEY_LIST = [
   {
-    id: 1,
+    id: "1",
     type: "text",
     label: "아이디를 입력하세요.",
     required: true,
-    name: "use-id",
+    name: "userId",
   },
   {
-    id: 2,
+    id: "2",
     type: "radio",
     label: "성별을 입력하세요.",
     options: [
@@ -36,14 +36,14 @@ export const SURVEY_LIST = [
     name: "gender",
   },
   {
-    id: 3,
+    id: "3",
     type: "date",
     label: "생일을 입력하세요.",
     required: true,
     name: "birthday",
   },
   {
-    id: 4,
+    id: "4",
     type: "radio",
     label: "챌린저스 앱을 추천할 의향이 있나요?",
     options: [
@@ -60,10 +60,10 @@ export const SURVEY_LIST = [
     name: "recommend",
   },
   {
-    id: 5,
+    id: "5",
     type: "textarea",
     label: "그렇게 생각하신 이유를 입력하세요.",
     required: true,
-    name: "recommend-reason",
+    name: "recommendReason",
   },
 ];
