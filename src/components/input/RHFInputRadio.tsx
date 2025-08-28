@@ -37,6 +37,7 @@ export default function RHFInputRadio({
               id={label}
               {...register(name)}
               {...props}
+              value={label}
             />
             <Label htmlFor={label}>
               {icon ? (
