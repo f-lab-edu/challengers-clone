@@ -1,9 +1,10 @@
 "use client";
 
+import { HTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
-type RHFInputTextProps = {
+type RHFInputTextProps = HTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
   required: boolean;
@@ -13,6 +14,7 @@ export default function RHFInputText({
   name,
   label,
   required,
+  ...props
 }: RHFInputTextProps) {
   const {
     register,
@@ -22,7 +24,13 @@ export default function RHFInputText({
   return (
     <InputWrapper>
       <Label htmlFor={name}>{label}</Label>
-      <Input type="text" required={required} id={name} {...register(name)} />
+      <Input
+        type="text"
+        required={required}
+        id={name}
+        {...register(name)}
+        {...props}
+      />
     </InputWrapper>
   );
 }

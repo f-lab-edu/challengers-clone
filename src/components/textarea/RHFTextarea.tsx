@@ -1,10 +1,11 @@
 "use client";
 
 import { SurveyOption } from "@/constants/survey";
+import { HTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
-type RHFTextareaProps = {
+type RHFTextareaProps = HTMLAttributes<HTMLTextAreaElement> & {
   name: string;
   label: string;
   required: boolean;
@@ -15,6 +16,7 @@ export default function RHFTextarea({
   name,
   label,
   required,
+  ...props
 }: RHFTextareaProps) {
   const {
     register,
@@ -24,7 +26,7 @@ export default function RHFTextarea({
   return (
     <TextareaWrapper>
       <Label htmlFor={name}>{label}</Label>
-      <Textarea {...register(name)} required={required} />
+      <Textarea {...register(name)} required={required} {...props} />
     </TextareaWrapper>
   );
 }

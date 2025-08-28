@@ -1,9 +1,10 @@
 "use client";
 
+import { HTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
-type RHFInputDateProps = {
+type RHFInputDateProps = HTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
   required: boolean;
@@ -13,6 +14,7 @@ export default function RHFInputDate({
   name,
   label,
   required,
+  ...props
 }: RHFInputDateProps) {
   const {
     register,
@@ -22,7 +24,13 @@ export default function RHFInputDate({
   return (
     <InputWrapper>
       <Label htmlFor={name}>{label}</Label>
-      <Input type="date" required={required} id={name} {...register(name)} />
+      <Input
+        type="date"
+        required={required}
+        id={name}
+        {...register(name)}
+        {...props}
+      />
     </InputWrapper>
   );
 }

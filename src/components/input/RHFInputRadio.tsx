@@ -2,10 +2,11 @@
 
 import { SurveyOption } from "@/constants/survey";
 import Image from "next/image";
+import { HTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
-type RHFInputRadioProps = {
+type RHFInputRadioProps = HTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
   required: boolean;
@@ -17,6 +18,7 @@ export default function RHFInputRadio({
   label,
   required,
   options,
+  ...props
 }: RHFInputRadioProps) {
   const {
     register,
@@ -34,6 +36,7 @@ export default function RHFInputRadio({
               required={required}
               id={label}
               {...register(name)}
+              {...props}
             />
             <Label htmlFor={label}>
               {icon ? (
