@@ -28,7 +28,7 @@ const SurveyHome = () => {
   return (
     <FormProvider {...form}>
       <Container>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Title>Challegers 이용에 관한 설문을 작성해주세요 🖌</Title>
           <SurveyList />
           <Button
