@@ -11,13 +11,12 @@ import styled, { css } from "styled-components";
 import ErrorMessage from "../common/ErrorMessage";
 import SwitchCases from "../common/SwitchCases";
 import RequiredDisplay from "../common/RequiredDisplay";
+import { SurveyItem } from "@/constants/survey";
 
-type RHFInputTextProps = InputHTMLAttributes<HTMLInputElement> & {
-  name: string;
-  label: string;
-  required: boolean;
-  errorMessage?: string;
-};
+type RHFInputTextProps = InputHTMLAttributes<HTMLInputElement> &
+  Omit<SurveyItem, "type"> & {
+    errorMessage?: string;
+  };
 
 // const PlainText = ({
 //   name,
@@ -96,6 +95,7 @@ type RHFInputTextProps = InputHTMLAttributes<HTMLInputElement> & {
 // };
 
 export default function RHFInputText({
+  id,
   name,
   label,
   required,
@@ -156,7 +156,9 @@ export default function RHFInputText({
       render={({ field }) => (
         <InputWrapper>
           <Div>
-            <Label htmlFor={name}>{label}</Label>
+            <Label htmlFor={name}>
+              {id}. {label}
+            </Label>
             {required && <RequiredDisplay />}
           </Div>
           <Div>

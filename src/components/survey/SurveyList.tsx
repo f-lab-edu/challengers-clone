@@ -42,6 +42,7 @@ const SurveyList = () => {
               cases={{
                 text: (
                   <RHFInputText
+                    id={id}
                     name={name}
                     label={label}
                     required={required}
@@ -50,17 +51,31 @@ const SurveyList = () => {
                 ),
                 radio: (
                   <RHFInputRadio
+                    id={id}
                     name={name}
                     label={label}
                     required={required}
                     options={rest?.options}
+                    errorMessage={errorMessage}
                   />
                 ),
                 date: (
-                  <RHFInputDate name={name} label={label} required={required} />
+                  <RHFInputDate
+                    id={id}
+                    name={name}
+                    label={label}
+                    required={required}
+                    errorMessage={errorMessage}
+                  />
                 ),
                 textarea: (
-                  <RHFTextarea name={name} label={label} required={required} />
+                  <RHFTextarea
+                    id={id}
+                    name={name}
+                    label={label}
+                    required={required}
+                    errorMessage={errorMessage}
+                  />
                 ),
               }}
             />

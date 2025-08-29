@@ -1,23 +1,25 @@
 "use client";
 
-import { SurveyOption } from "@/constants/survey";
+import ErrorMessage from "@/components/common/ErrorMessage";
+import RequiredDisplay from "@/components/common/RequiredDisplay";
+import { SurveyItem } from "@/constants/survey";
 import Image from "next/image";
-import { HTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
-type RHFInputRadioProps = HTMLAttributes<HTMLInputElement> & {
-  name: string;
-  label: string;
-  required: boolean;
-  options?: SurveyOption[];
-};
+type RHFInputRadioProps = InputHTMLAttributes<HTMLInputElement> &
+  Omit<SurveyItem, "type"> & {
+    errorMessage?: string;
+  };
 
 export default function RHFInputRadio({
+  id,
   name,
   label,
   required,
   options,
+  errorMessage,
   ...props
 }: RHFInputRadioProps) {
   const {
@@ -27,7 +29,18 @@ export default function RHFInputRadio({
 
   return (
     <InputWrapper>
-      <TitleLabel htmlFor={name}>{label}</TitleLabel>
+      <Div>
+        <TitleLabel htmlFor={name}>
+          {id}. {label}
+        </TitleLabel>
+        {required && <RequiredDisplay />}
+        {errorMessage && (
+          <ErrorMessage
+            errorMessage={errorMessage}
+            cssObject={{ top: "2px", right: "0", left: "auto" }}
+          />
+        )}
+      </Div>
       <OptionWrapper>
         {options?.map(({ label, icon, value }) => (
           <OptionItem key={label}>
@@ -82,4 +95,11 @@ const OptionItem = styled.li`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+const Div = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  position: relative;
 `;

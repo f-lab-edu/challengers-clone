@@ -1,21 +1,22 @@
 "use client";
 
-import { SurveyOption } from "@/constants/survey";
-import { HTMLAttributes } from "react";
+import { SurveyItem } from "@/constants/survey";
+import { TextareaHTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
+import ErrorMessage from "../common/ErrorMessage";
 
-type RHFTextareaProps = HTMLAttributes<HTMLTextAreaElement> & {
-  name: string;
-  label: string;
-  required: boolean;
-  options?: SurveyOption[];
-};
+type RHFTextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
+  Omit<SurveyItem, "type"> & {
+    errorMessage?: string;
+  };
 
 export default function RHFTextarea({
+  id,
   name,
   label,
   required,
+  errorMessage,
   ...props
 }: RHFTextareaProps) {
   const {
@@ -25,13 +26,24 @@ export default function RHFTextarea({
 
   return (
     <TextareaWrapper>
-      <Label htmlFor={name}>{label}</Label>
-      <Textarea {...register(name)} required={required} {...props} />
+      <Label htmlFor={name}>
+        {id}. {label}
+      </Label>
+      <Div>
+        <Textarea {...register(name)} required={required} {...props} />
+        {errorMessage && (
+          <ErrorMessage
+            errorMessage={errorMessage}
+            cssObject={{ top: "auto", bottom: "2px" }}
+          />
+        )}
+      </Div>
     </TextareaWrapper>
   );
 }
 
 const TextareaWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -40,6 +52,7 @@ const TextareaWrapper = styled.div`
 const Textarea = styled.textarea`
   border: none;
   border-bottom: 1px solid #bbb;
+  width: 100%;
   height: 100px;
   max-height: 200px;
   padding: 8px 12px;
@@ -60,4 +73,11 @@ const Textarea = styled.textarea`
 const Label = styled.label`
   font-size: 18px;
   font-weight: 500;
+`;
+
+const Div = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  position: relative;
 `;

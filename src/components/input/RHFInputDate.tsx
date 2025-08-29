@@ -3,27 +3,37 @@
 import { HTMLAttributes } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
+import ErrorMessage from "../common/ErrorMessage";
+import { SurveyItem } from "@/constants/survey";
 
-type RHFInputDateProps = HTMLAttributes<HTMLInputElement> & {
-  name: string;
-  label: string;
-  required: boolean;
-};
+type RHFInputDateProps = HTMLAttributes<HTMLInputElement> &
+  Omit<SurveyItem, "type"> & {
+    errorMessage?: string;
+  };
 
 export default function RHFInputDate({
+  id,
   name,
   label,
   required,
+  errorMessage,
   ...props
 }: RHFInputDateProps) {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { register } = useFormContext();
 
   return (
     <InputWrapper>
-      <Label htmlFor={name}>{label}</Label>
+      <Div>
+        <Label htmlFor={name}>
+          {id}. {label}
+        </Label>
+        {errorMessage && (
+          <ErrorMessage
+            errorMessage={errorMessage}
+            cssObject={{ right: "0", left: "auto" }}
+          />
+        )}
+      </Div>
       <Input
         type="date"
         required={required}
@@ -39,6 +49,13 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+`;
+
+const Div = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  position: relative;
 `;
 
 const Input = styled.input`
