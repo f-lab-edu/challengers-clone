@@ -9,15 +9,32 @@ import { useFormContext } from "react-hook-form";
 
 const SurveyList = () => {
   const {
+    watch,
     formState: { errors },
   } = useFormContext();
 
+  const getRenderFlag = (visibleIf: { [key: string]: string[] }) => {
+    let continueFlag = false;
+    if (visibleIf) {
+      for (const [key, condition] of Object.entries(visibleIf)) {
+        const value = watch(key);
+        if (condition.includes(value) === false) {
+          continueFlag = true;
+        }
+      }
+      if (continueFlag) return false;
+    }
+    return true;
+  };
+
+  console.log("errors", errors);
   return (
     <Container>
       {SURVEY_LIST.map(
         ({ id, type, label, name, required, ...rest }: SurveyItem) => {
           const errorMessage = errors[name]?.message as string;
-
+          const renderFlag = getRenderFlag(rest?.visibleIf || {});
+          if (renderFlag === false) return null;
           return (
             <SwitchCases
               key={id}
