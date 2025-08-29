@@ -14,14 +14,21 @@ export const SURVEY_LIST = [
   {
     id: "1",
     type: "text",
-    label: "아이디를 입력하세요.",
+    label: "이메일을 입력해주세요.",
     required: true,
-    name: "userId",
+    name: "email",
   },
   {
     id: "2",
+    type: "text",
+    label: "전화번호를 입력해주세요.",
+    required: true,
+    name: "phone",
+  },
+  {
+    id: "3",
     type: "radio",
-    label: "성별을 입력하세요.",
+    label: "성별을 선택해주세요.",
     options: [
       {
         label: "남",
@@ -36,16 +43,16 @@ export const SURVEY_LIST = [
     name: "gender",
   },
   {
-    id: "3",
+    id: "4",
     type: "date",
-    label: "생일을 입력하세요.",
+    label: "생일을 선택해주세요.",
     required: true,
     name: "birthday",
   },
   {
-    id: "4",
+    id: "5",
     type: "radio",
-    label: "챌린저스 앱을 추천할 의향이 있나요?",
+    label: "챌린저스 앱을 추천할 의향이 있으신가요?",
     options: [
       {
         label: "있음",
@@ -60,9 +67,9 @@ export const SURVEY_LIST = [
     name: "recommend",
   },
   {
-    id: "5",
+    id: "6",
     type: "textarea",
-    label: "그렇게 생각하신 이유를 입력하세요.",
+    label: "그렇게 생각하신 이유를 입력해주세요.",
     required: true,
     name: "recommendReason",
   },
