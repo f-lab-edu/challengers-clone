@@ -51,7 +51,7 @@ export const SURVEY_LIST = [
     id: "4",
     type: "date",
     label: "생일을 선택해주세요.",
-    required: true,
+    required: false,
     name: "birthday",
   },
   {
@@ -106,7 +106,7 @@ export const SURVEY_LIST = [
   {
     id: "6",
     type: "textarea",
-    label: "그렇게 생각하신 이유를 입력해주세요.",
+    label: "5번 항목에 대해 생각하신 이유를 입력해주세요.",
     required: false,
     name: "recommendReason",
   },
