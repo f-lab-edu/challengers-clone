@@ -10,6 +10,7 @@ import {
 import styled, { css } from "styled-components";
 import ErrorMessage from "../common/ErrorMessage";
 import SwitchCases from "../common/SwitchCases";
+import RequiredDisplay from "../common/RequiredDisplay";
 
 type RHFInputTextProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
@@ -156,7 +157,7 @@ export default function RHFInputText({
         <InputWrapper>
           <Div>
             <Label htmlFor={name}>{label}</Label>
-            {required && <Star>*</Star>}
+            {required && <RequiredDisplay />}
           </Div>
           <Div>
             <Input
@@ -248,9 +249,4 @@ const Div = styled.div`
   width: 100%;
   gap: 8px;
   position: relative;
-`;
-
-const Star = styled.span`
-  color: red;
-  margin-top: 4px;
 `;
