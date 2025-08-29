@@ -11,15 +11,21 @@ const SurveyHome = () => {
     defaultValues: {
       email: "",
       phone: "",
-      gender: 0,
+      gender: -1,
       birthday: "",
-      satisfaction: 0,
-      recommend: 0,
+      satisfaction: -1,
+      recommend: -1,
       recommendReason: "",
     },
     resolver: zodResolver(questionSchema),
   });
-  const { handleSubmit } = form;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = form;
+
+  const buttonDisabled =
+    errors.birthday?.message == "14세 미만은 설문 작성이 불가능합니다.";
 
   const onSubmit = (data: unknown) => {
     console.log("survey data", data);
@@ -36,6 +42,7 @@ const SurveyHome = () => {
             buttonType="primary"
             buttonStyle="fullWidth"
             type="submit"
+            disabled={buttonDisabled}
           />
         </Form>
       </Container>
