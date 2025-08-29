@@ -18,22 +18,33 @@ export const questionSchema = z
       .string()
       .optional()
       .superRefine((val, ctx) => {
+        if (val === "") {
+          return;
+        }
         const age = dayjs().diff(dayjs(val), "years");
         console.log("age", age);
         if (age < 14) {
           ctx.addIssue({
             code: "custom",
             message: "14세 미만은 설문 작성이 불가능합니다.",
-            path: ["birthday"],
           });
         }
       }),
-    satisfaction: z.transform((val) => {
-      if (isNaN(Number(val)) === false) {
-        return Number(val);
-      }
-      return 0;
-    }),
+    satisfaction: z
+      .transform((val) => {
+        if (isNaN(Number(val)) === false) {
+          return Number(val);
+        }
+      })
+      .superRefine((val, ctx) => {
+        if (val == null || val == -1) {
+          ctx.addIssue({
+            code: "custom",
+            message: "(필수 항목입니다.)",
+          });
+          return;
+        }
+      }),
     recommend: z
       .transform((val) => {
         if (isNaN(Number(val)) === false) {
@@ -42,21 +53,27 @@ export const questionSchema = z
         return 0;
       })
       .optional(),
-    recommendReason: z.string(),
+    recommendReason: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.recommend === 0 && data.recommendReason.length < 10) {
-      ctx.addIssue({
-        code: "custom",
-        message: "추천 이유는 10자 이상이어야 합니다.",
-        path: ["recommendReason"],
-      });
-    } else if (data.recommend === 1 && data.recommendReason.length < 100) {
-      ctx.addIssue({
-        code: "custom",
-        message: "비추천 이유는 100자 이상이어야 합니다.",
-        path: ["recommendReason"],
-      });
+    if (data.satisfaction != null) {
+      if (data.satisfaction >= 3) {
+        if (data.recommendReason != null && data.recommendReason.length < 10) {
+          ctx.addIssue({
+            code: "custom",
+            message: "추천 이유를 10자 이상 입력해주세요.",
+            path: ["recommendReason"],
+          });
+        }
+      } else {
+        if (data.recommendReason != null && data.recommendReason.length < 100) {
+          ctx.addIssue({
+            code: "custom",
+            message: "불만족스러웠던 경험을 자세히 입력해주세요.(100자 이상)",
+            path: ["recommendReason"],
+          });
+        }
+      }
     }
   });
 
