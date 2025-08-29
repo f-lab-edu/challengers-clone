@@ -5,36 +5,50 @@ import styled from "styled-components";
 import RHFInputRadio from "../input/RHFInputRadio";
 import RHFTextarea from "../textarea/RHFTextarea";
 import RHFInputDate from "../input/RHFInputDate";
+import { useFormContext } from "react-hook-form";
 
 const SurveyList = () => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <Container>
       {SURVEY_LIST.map(
-        ({ id, type, label, name, required, ...rest }: SurveyItem) => (
-          <SwitchCases
-            key={id}
-            value={type}
-            cases={{
-              text: (
-                <RHFInputText name={name} label={label} required={required} />
-              ),
-              radio: (
-                <RHFInputRadio
-                  name={name}
-                  label={label}
-                  required={required}
-                  options={rest?.options}
-                />
-              ),
-              date: (
-                <RHFInputDate name={name} label={label} required={required} />
-              ),
-              textarea: (
-                <RHFTextarea name={name} label={label} required={required} />
-              ),
-            }}
-          />
-        )
+        ({ id, type, label, name, required, ...rest }: SurveyItem) => {
+          const errorMessage = errors[name]?.message as string;
+
+          return (
+            <SwitchCases
+              key={id}
+              value={type}
+              cases={{
+                text: (
+                  <RHFInputText
+                    name={name}
+                    label={label}
+                    required={required}
+                    errorMessage={errorMessage}
+                  />
+                ),
+                radio: (
+                  <RHFInputRadio
+                    name={name}
+                    label={label}
+                    required={required}
+                    options={rest?.options}
+                  />
+                ),
+                date: (
+                  <RHFInputDate name={name} label={label} required={required} />
+                ),
+                textarea: (
+                  <RHFTextarea name={name} label={label} required={required} />
+                ),
+              }}
+            />
+          );
+        }
       )}
     </Container>
   );
