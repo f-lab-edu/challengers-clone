@@ -1,15 +1,15 @@
 import { ButtonStyle, ButtonType } from "@/constants/button";
+import { ButtonHTMLAttributes } from "react";
 import styled from "styled-components";
 
 type ButtonTypeVariant = keyof typeof ButtonType;
 type ButtonStyleVariant = keyof typeof ButtonStyle;
 
-type ButtonProps = {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   buttonText: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   buttonType: ButtonTypeVariant;
   buttonStyle: ButtonStyleVariant;
-  rest?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 };
 
 export default function Button({
@@ -17,14 +17,14 @@ export default function Button({
   onClick,
   buttonType,
   buttonStyle,
-  ...rest
+  ...props
 }: ButtonProps) {
   return (
     <ButtonWrapper
       onClick={onClick}
       $buttonType={buttonType}
       $buttonStyle={buttonStyle}
-      {...rest}
+      {...props}
     >
       {buttonText}
     </ButtonWrapper>

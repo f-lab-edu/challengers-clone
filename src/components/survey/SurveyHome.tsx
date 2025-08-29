@@ -9,14 +9,19 @@ import Button from "../button/Button";
 const SurveyHome = () => {
   const form = useForm({
     defaultValues: {
-      questions: [{ title: "", content: "" }],
+      email: "",
+      phone: "",
+      gender: "",
+      birthday: "",
+      recommend: "",
+      recommendReason: "",
     },
     resolver: zodResolver(questionSchema),
   });
   const { handleSubmit } = form;
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: unknown) => {
+    console.log("survey data", data);
   };
 
   return (
@@ -29,7 +34,7 @@ const SurveyHome = () => {
             buttonText="제출하기"
             buttonType="primary"
             buttonStyle="fullWidth"
-            onClick={onSubmit}
+            type="submit"
           />
         </Form>
       </Container>
