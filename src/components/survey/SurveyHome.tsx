@@ -11,9 +11,10 @@ const SurveyHome = () => {
     defaultValues: {
       email: "",
       phone: "",
-      gender: "",
+      gender: 0,
       birthday: "",
-      recommend: "",
+      satisfaction: 0,
+      recommend: 0,
       recommendReason: "",
     },
     resolver: zodResolver(questionSchema),

@@ -29,7 +29,7 @@ export default function RHFInputRadio({
     <InputWrapper>
       <TitleLabel htmlFor={name}>{label}</TitleLabel>
       <OptionWrapper>
-        {options?.map(({ label, icon }) => (
+        {options?.map(({ label, icon, value }) => (
           <OptionItem key={label}>
             <Input
               type="radio"
@@ -37,7 +37,7 @@ export default function RHFInputRadio({
               id={label}
               {...register(name)}
               {...props}
-              value={label}
+              value={value}
             />
             <Label htmlFor={label}>
               {icon ? (
@@ -65,7 +65,9 @@ const Input = styled.input`
   outline: none;
 `;
 
-const Label = styled.label``;
+const Label = styled.label`
+  font-size: 14px;
+`;
 const TitleLabel = styled(Label)`
   font-size: 18px;
   font-weight: 500;
